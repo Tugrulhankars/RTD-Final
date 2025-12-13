@@ -1,0 +1,274 @@
+### StrategyRuleService API Test Dosyası
+### Bu dosyayı VS Code'da REST Client extension ile kullanabilirsin
+
+### Variables
+@baseUrl = https://localhost:7224
+
+### ========================================
+### 1. TEST ENDPOINT'LERİ
+### ========================================
+
+### Strategy Controller Test
+GET {{baseUrl}}/api/strategy/test
+
+### Rule Controller Test
+GET {{baseUrl}}/api/rule/test
+
+### ========================================
+### 2. STRATEJİ İŞLEMLERİ
+### ========================================
+
+### 2.1. THYAD Stratejisi Oluştur
+POST {{baseUrl}}/api/strategy
+Content-Type: application/json
+
+{
+  "strategyName": "THYAD Alım-Satım Stratejisi",
+  "description": "THYAD hissesi için otomatik alım-satım stratejisi",
+  "userId": 1,
+  "stockSymbol": "THYAD",
+  "transactionAmount": 15000,
+  "buyThresholdPercent": -3.0,
+  "profitTargetPercent": 4.0,
+  "stopLossPercent": 2.5
+}
+
+### 2.2. GARAN Stratejisi Oluştur
+POST {{baseUrl}}/api/strategy
+Content-Type: application/json
+
+{
+  "strategyName": "GARAN Momentum Stratejisi",
+  "description": "GARAN için momentum tabanlı strateji",
+  "userId": 1,
+  "stockSymbol": "GARAN",
+  "transactionAmount": 20000,
+  "buyThresholdPercent": -2.0,
+  "profitTargetPercent": 3.5,
+  "stopLossPercent": 1.8
+}
+
+### 2.3. Tüm Stratejileri Listele
+GET {{baseUrl}}/api/strategy
+
+### 2.4. Strateji Detayı (ID: 1)
+GET {{baseUrl}}/api/strategy/1
+
+### 2.5. Strateji Detayı (ID: 2)
+GET {{baseUrl}}/api/strategy/2
+
+### ========================================
+### 3. KURAL İŞLEMLERİ - THYAD STRATEJİSİ
+### ========================================
+
+### 3.1. THYAD - Alış Kuralı (Fiyat %3 düştüğünde al)
+POST {{baseUrl}}/api/rule
+Content-Type: application/json
+
+{
+  "strategyId": 1,
+  "ruleName": "THYAD Alış Kuralı",
+  "field": "PriceChangePercent",
+  "operator": "LessThanOrEqual",
+  "action": "BUY",
+  "orderIndex": 1,
+  "description": "THYAD fiyatı %3 düştüğünde al",
+  "compareValue": -3.0
+}
+
+### 3.2. THYAD - Kar Hedefi Kuralı (%4 kar hedefine ulaşıldığında sat)
+POST {{baseUrl}}/api/rule
+Content-Type: application/json
+
+{
+  "strategyId": 1,
+  "ruleName": "THYAD Kar Hedefi",
+  "field": "ProfitLossPercent",
+  "operator": "GreaterThanOrEqual",
+  "action": "SELL",
+  "orderIndex": 2,
+  "description": "THYAD %4 kar hedefine ulaşıldığında sat",
+  "compareValue": 4.0
+}
+
+### 3.3. THYAD - Stop Loss Kuralı (%2.5 zarar kesme)
+POST {{baseUrl}}/api/rule
+Content-Type: application/json
+
+{
+  "strategyId": 1,
+  "ruleName": "THYAD Stop Loss",
+  "field": "ProfitLossPercent",
+  "operator": "LessThanOrEqual",
+  "action": "SELL",
+  "orderIndex": 3,
+  "description": "THYAD %2.5 zarar kesme seviyesine ulaşıldığında sat",
+  "compareValue": -2.5
+}
+
+### 3.4. THYAD - Ek Alış Kuralı (Fiyat 95'ten düşükse ek al)
+POST {{baseUrl}}/api/rule
+Content-Type: application/json
+
+{
+  "strategyId": 1,
+  "ruleName": "THYAD Ek Alış",
+  "field": "CurrentPrice",
+  "operator": "LessThan",
+  "action": "BUY",
+  "orderIndex": 4,
+  "description": "THYAD fiyatı 95'ten düşükse ek al",
+  "compareValue": 95.0
+}
+
+### ========================================
+### 4. KURAL İŞLEMLERİ - GARAN STRATEJİSİ
+### ========================================
+
+### 4.1. GARAN - Alış Kuralı (Fiyat %2 düştüğünde al)
+POST {{baseUrl}}/api/rule
+Content-Type: application/json
+
+{
+  "strategyId": 2,
+  "ruleName": "GARAN Alış Kuralı",
+  "field": "PriceChangePercent",
+  "operator": "LessThanOrEqual",
+  "action": "BUY",
+  "orderIndex": 1,
+  "description": "GARAN fiyatı %2 düştüğünde al",
+  "compareValue": -2.0
+}
+
+### 4.2. GARAN - Kar Hedefi Kuralı (%3.5 kar hedefine ulaşıldığında sat)
+POST {{baseUrl}}/api/rule
+Content-Type: application/json
+
+{
+  "strategyId": 2,
+  "ruleName": "GARAN Kar Hedefi",
+  "field": "ProfitLossPercent",
+  "operator": "GreaterThanOrEqual",
+  "action": "SELL",
+  "orderIndex": 2,
+  "description": "GARAN %3.5 kar hedefine ulaşıldığında sat",
+  "compareValue": 3.5
+}
+
+### 4.3. GARAN - Stop Loss Kuralı (%1.8 zarar kesme)
+POST {{baseUrl}}/api/rule
+Content-Type: application/json
+
+{
+  "strategyId": 2,
+  "ruleName": "GARAN Stop Loss",
+  "field": "ProfitLossPercent",
+  "operator": "LessThanOrEqual",
+  "action": "SELL",
+  "orderIndex": 3,
+  "description": "GARAN %1.8 zarar kesme seviyesine ulaşıldığında sat",
+  "compareValue": -1.8
+}
+
+### 4.4. GARAN - Hacim Kuralı (Günlük hacim 1M'den fazlaysa bekle)
+POST {{baseUrl}}/api/rule
+Content-Type: application/json
+
+{
+  "strategyId": 2,
+  "ruleName": "GARAN Hacim Kontrolü",
+  "field": "DailyVolume",
+  "operator": "GreaterThan",
+  "action": "WAIT",
+  "orderIndex": 4,
+  "description": "GARAN günlük hacim 1M'den fazlaysa bekle",
+  "compareValue": 1000000
+}
+
+### ========================================
+### 5. STRATEJİ DETAYLARINI KONTROL ET
+### ========================================
+
+### THYAD Stratejisi Detayı (Tüm kurallarla birlikte)
+GET {{baseUrl}}/api/strategy/1
+
+### GARAN Stratejisi Detayı (Tüm kurallarla birlikte)
+GET {{baseUrl}}/api/strategy/2
+
+### ========================================
+### 6. ÖZEL KURAL ÖRNEKLERİ
+### ========================================
+
+### 6.1. Fiyat Eşitlik Kuralı
+POST {{baseUrl}}/api/rule
+Content-Type: application/json
+
+{
+  "strategyId": 1,
+  "ruleName": "Fiyat Eşitlik Kuralı",
+  "field": "CurrentPrice",
+  "operator": "Equal",
+  "action": "WAIT",
+  "orderIndex": 5,
+  "description": "Fiyat tam 100 TL'ye eşitse bekle",
+  "compareValue": 100.0
+}
+
+### 6.2. Açılış Fiyatı Kuralı
+POST {{baseUrl}}/api/rule
+Content-Type: application/json
+
+{
+  "strategyId": 2,
+  "ruleName": "Açılış Fiyatı Kuralı",
+  "field": "OpeningPrice",
+  "operator": "GreaterThan",
+  "action": "BUY",
+  "orderIndex": 5,
+  "description": "Açılış fiyatı 50'den yüksekse al",
+  "compareValue": 50.0
+}
+
+### 6.3. Strateji Kapatma Kuralı
+POST {{baseUrl}}/api/rule
+Content-Type: application/json
+
+{
+  "strategyId": 1,
+  "ruleName": "Strateji Kapatma",
+  "field": "TotalLoss",
+  "operator": "GreaterThanOrEqual",
+  "action": "CLOSE",
+  "orderIndex": 6,
+  "description": "Toplam zarar 5000 TL'yi geçerse stratejiyi kapat",
+  "compareValue": 5000.0
+}
+
+### ========================================
+### 7. TEST SENARYOLARI
+### ========================================
+
+### Senaryo 1: THYAD Stratejisi Tam Test
+# 1. Strateji oluştur (yukarıdaki 2.1)
+# 2. Kuralları ekle (yukarıdaki 3.1, 3.2, 3.3, 3.4)
+# 3. Strateji detayını kontrol et (5.1)
+
+### Senaryo 2: GARAN Stratejisi Tam Test
+# 1. Strateji oluştur (yukarıdaki 2.2)
+# 2. Kuralları ekle (yukarıdaki 4.1, 4.2, 4.3, 4.4)
+# 3. Strateji detayını kontrol et (5.2)
+
+### Senaryo 3: Özel Kurallar Test
+# 1. Mevcut stratejilere özel kurallar ekle (6.1, 6.2, 6.3)
+# 2. Strateji detaylarını kontrol et
+
+### ========================================
+### NOTLAR
+### ========================================
+
+# - Her strateji oluşturulduğunda otomatik olarak 3 temel kural eklenir
+# - Ek kurallar manuel olarak eklenebilir
+# - Worker Service arka planda stratejileri sürekli çalıştırır
+# - Tüm işlemler in-memory olarak saklanır (veritabanı yok)
+# - API'yi test etmek için önce API projesini başlat: cd Api && dotnet run
+# - API URL: https://localhost:7224

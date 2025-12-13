@@ -1,0 +1,66 @@
+[
+  {
+    "ContainingType": "Api.Controllers.StrategyController",
+    "Method": "CreateStraregy",
+    "RelativePath": "api/Strategy/createStrategy",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createStrategyCommand",
+        "Type": "Application.Features.Strategies.Commands.Create.CreateStrategyCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Api.Controllers.StrategyController",
+    "Method": "GetCompletedStrategies",
+    "RelativePath": "api/Strategy/getCompletedStrategies/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Api.Controllers.StrategyController",
+    "Method": "GetIncompleteStrategies",
+    "RelativePath": "api/Strategy/getIncompleteStrategies/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Api.Controllers.StrategyController",
+    "Method": "GetStrategiesByUserId",
+    "RelativePath": "api/Strategy/getStrategiesByUserId/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

@@ -1,0 +1,29 @@
+syntax="proto3";
+package account;
+
+option csharp_namespace="StrategyRuleService.Protos";
+
+service AccountService{
+	rpc GetAccountBalance(GetAccountBalanceRequest) returns(GetAccountBalanceResponse);
+	rpc UpdateAccountBalance(UpdateAccountBalanceRequest) returns(UpdateAccountBalanceResponse);
+}
+
+message GetAccountBalanceRequest{
+	int32 accountId=1;
+}
+
+message GetAccountBalanceResponse{
+	double balance=1;
+	bool success=2;
+	string message=3;
+}
+
+message UpdateAccountBalanceRequest{
+	int32 accountId=1;
+	double newBalance=2;
+}
+
+message UpdateAccountBalanceResponse{
+	bool success=1;
+	string message=2;
+}

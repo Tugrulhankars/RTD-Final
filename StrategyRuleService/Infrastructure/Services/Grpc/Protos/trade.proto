@@ -1,0 +1,31 @@
+syntax="proto3";
+
+package tradeService;
+
+option csharp_namespace="StrategyRuleService.Protos";
+
+
+service TradeService{
+	rpc CreateTrade(CreateTradeRequest) returns(CreateTradeResponse);
+}
+
+message CreateTradeRequest{
+	int32 account_id=1;
+	string symbol=2;
+	float quantity=3;
+	float price=4;
+	TradeType type=5;
+
+}
+
+message CreateTradeResponse{
+	string message=1;
+	int32 trade_id=2;
+}
+
+
+enum TradeType {
+  TRADE_TYPE_UNSPECIFIED = 0; 
+  BUY = 1;
+  SELL = 2;
+}

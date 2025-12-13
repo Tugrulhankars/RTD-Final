@@ -1,0 +1,15 @@
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\bin\Debug\net9.0\Domain.deps.json
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\bin\Debug\net9.0\Domain.dll
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\bin\Debug\net9.0\Domain.pdb
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\bin\Debug\net9.0\Core.dll
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\bin\Debug\net9.0\Core.pdb
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\obj\Debug\net9.0\Domain.csproj.AssemblyReference.cache
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\obj\Debug\net9.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\obj\Debug\net9.0\Domain.AssemblyInfoInputs.cache
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\obj\Debug\net9.0\Domain.AssemblyInfo.cs
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\obj\Debug\net9.0\Domain.csproj.CoreCompileInputs.cache
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\obj\Debug\net9.0\Domain.csproj.Up2Date
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\obj\Debug\net9.0\Domain.dll
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\obj\Debug\net9.0\refint\Domain.dll
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\obj\Debug\net9.0\Domain.pdb
+C:\C project\RTD-FinalProject\StrategyRuleService\Domain\obj\Debug\net9.0\ref\Domain.dll

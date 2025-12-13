@@ -1,0 +1,52 @@
+syntax="proto3";
+package portfolio;
+
+option csharp_namespace="PortfolioService.Protos";
+
+service PortfolioService {
+
+  rpc HasStockInPortfolio(HasStockInPortfolioRequest) returns(HasStockInPortfolioResponse);
+  rpc AddStockCertificateToPortfolio(AddStockCertificateToPortfolioRequest) returns(AddStockCertificateToPortfolioResponse);
+  rpc SellStock(SellStockRequest) returns(SellStockResponse);
+}
+
+message HasStockInPortfolioRequest{
+	int32 portfolioId=1;
+	string symbol=2;
+
+}
+
+message HasStockInPortfolioResponse{
+	bool result=1;
+} 
+
+
+message AddStockCertificateToPortfolioRequest {
+    int32 portfolioId = 1;       // Hangi portföye ekleniyor
+    int32 stockCertificateId=5;
+    string symbol = 2;           // Hisse sembolü
+    int32 lot = 3;               // Kaç lot ekleniyor
+    double pricePerShare = 4;    // Opsiyonel: satýn alýnan fiyat
+    
+}
+
+message AddStockCertificateToPortfolioResponse {
+    bool success = 1;            // Ýþlem baþarýlý mý?
+    string message = 2;          // Opsiyonel: hata veya bilgi mesajý
+}
+
+
+message SellStockRequest {
+    int32 portfolioId = 1;
+     int32 stockCertificateId=5;
+    string symbol = 2;
+    int32 lot = 3;
+    double pricePerShare = 4;    // Opsiyonel: satýþ fiyatý
+    
+}
+
+message SellStockResponse {
+    bool success = 1;
+    string message = 2;
+   
+}

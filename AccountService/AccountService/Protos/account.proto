@@ -1,0 +1,33 @@
+syntax="proto3";
+package account;
+
+option csharp_namespace="AccountService.Protos";
+
+import "google/protobuf/timestamp.proto";
+
+service AccountService{
+    // Hem artýþ hem azalýþ için amount kullan
+	rpc UpdateAccountBalance(UpdateBalanceRequest) returns(UpdateBalanceResponse);
+}
+
+message UpdateBalanceRequest{
+	int32 accountId = 1;
+	int32 userId = 2;
+	string firstName = 3;
+	string lastName = 4;
+	double amount = 5; // Pozitif -> arttýr, Negatif -> azalt
+	google.protobuf.Timestamp transactionTime = 6; // opsiyonel
+}
+
+message UpdateBalanceResponse{
+	bool isSuccess = 1;
+	string message = 2;
+	enum ErrorCode {
+		NONE = 0;
+		INSUFFICIENT_BALANCE = 1;
+		ACCOUNT_NOT_FOUND = 2;
+		UNKNOWN_ERROR = 3;
+	}
+	ErrorCode error = 3;
+	double newBalance = 4; // opsiyonel ama kullanýcýyý bilgilendirmek için faydalý
+}

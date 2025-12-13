@@ -1,0 +1,2 @@
+obj\Debug\net9.0\Services\Grpc\Protos/Trade.cs \
+obj\Debug\net9.0\Services\Grpc\Protos/TradeGrpc.cs: Services/Grpc/Protos/trade.proto

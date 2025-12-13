@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "PortfolioService.Controllers.PortfolioController",
+    "Method": "GetPortfolioByUser",
+    "RelativePath": "api/Portfolio/getPortfolioByUser",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

@@ -1,0 +1,19 @@
+syntax="proto3";
+package portfolio;
+
+option csharp_namespace="StrategyRuleService.Protos";
+
+
+service PortfolioService{
+	rpc HasStockInPortfolio(HasStockInPortfolioRequest) returns(HasStockInPortfolioResponse);
+}
+
+message HasStockInPortfolioRequest{
+	int32 portfolioId=1;
+	string symbol=2;
+}
+
+
+message HasStockInPortfolioResponse{
+	bool result=1;
+}

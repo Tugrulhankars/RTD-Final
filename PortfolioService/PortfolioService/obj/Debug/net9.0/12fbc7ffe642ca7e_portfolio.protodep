@@ -1,0 +1,2 @@
+obj\Debug\net9.0\Protos/Portfolio.cs \
+obj\Debug\net9.0\Protos/PortfolioGrpc.cs: Protos/portfolio.proto

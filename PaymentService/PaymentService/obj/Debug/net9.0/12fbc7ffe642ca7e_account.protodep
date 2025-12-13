@@ -1,0 +1,3 @@
+obj\Debug\net9.0\Protos/Account.cs \
+obj\Debug\net9.0\Protos/AccountGrpc.cs: C:/Users/karsl/.nuget/packages/grpc.tools/2.62.0/build/native/include/google/protobuf/timestamp.proto\
+ Protos/account.proto

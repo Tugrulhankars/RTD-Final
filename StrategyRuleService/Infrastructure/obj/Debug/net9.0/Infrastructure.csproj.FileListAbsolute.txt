@@ -1,0 +1,12 @@
+C:\C project\RTD-FinalProject\StrategyRuleService\Infrastructure\bin\Debug\net9.0\Infrastructure.deps.json
+C:\C project\RTD-FinalProject\StrategyRuleService\Infrastructure\bin\Debug\net9.0\Infrastructure.dll
+C:\C project\RTD-FinalProject\StrategyRuleService\Infrastructure\bin\Debug\net9.0\Infrastructure.pdb
+C:\C project\RTD-FinalProject\StrategyRuleService\Infrastructure\obj\Debug\net9.0\Infrastructure.csproj.AssemblyReference.cache
+C:\C project\RTD-FinalProject\StrategyRuleService\Infrastructure\obj\Debug\net9.0\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\C project\RTD-FinalProject\StrategyRuleService\Infrastructure\obj\Debug\net9.0\Infrastructure.AssemblyInfoInputs.cache
+C:\C project\RTD-FinalProject\StrategyRuleService\Infrastructure\obj\Debug\net9.0\Infrastructure.AssemblyInfo.cs
+C:\C project\RTD-FinalProject\StrategyRuleService\Infrastructure\obj\Debug\net9.0\Infrastructure.csproj.CoreCompileInputs.cache
+C:\C project\RTD-FinalProject\StrategyRuleService\Infrastructure\obj\Debug\net9.0\Infrastructure.dll
+C:\C project\RTD-FinalProject\StrategyRuleService\Infrastructure\obj\Debug\net9.0\refint\Infrastructure.dll
+C:\C project\RTD-FinalProject\StrategyRuleService\Infrastructure\obj\Debug\net9.0\Infrastructure.pdb
+C:\C project\RTD-FinalProject\StrategyRuleService\Infrastructure\obj\Debug\net9.0\ref\Infrastructure.dll

@@ -1,0 +1,82 @@
+using Application.Features.Strategies.Queries.GetStrategiesByUserId;
+using Application.Services;
+using Domain.Enums;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.Features.Strategies.Queries.GetCompletedStrategies;
+
+public class GetCompletedStrategiesQueryHandler : IRequestHandler<GetCompletedStrategiesQuery, GetCompletedStrategiesResponse>
+{
+    private readonly IStrategyRepository _strategyRepository;
+    private readonly IStrategyEventRepository _strategyEventRepository;
+
+    public GetCompletedStrategiesQueryHandler(
+        IStrategyRepository strategyRepository,
+        IStrategyEventRepository strategyEventRepository)
+    {
+        _strategyRepository = strategyRepository;
+        _strategyEventRepository = strategyEventRepository;
+    }
+
+    public async Task<GetCompletedStrategiesResponse> Handle(GetCompletedStrategiesQuery request, CancellationToken cancellationToken)
+    {
+        // Tamamlanmış stratejileri getir (Status = Completed veya FinishTime set edilmiş)
+        var strategies = await _strategyRepository.GetAllAsync(
+            predicate: s => s.UserId == request.UserId && 
+                          (s.Status == StrategyStatus.Completed || s.FinishTime != null),
+            orderBy: q => q.OrderByDescending(s => s.FinishTime ?? s.StartDate),
+            cancellationToken: cancellationToken);
+
+        var response = new GetCompletedStrategiesResponse();
+
+        foreach (var strategy in strategies)
+        {
+            // Her strateji için event'leri getir
+            var events = await _strategyEventRepository.GetAllAsync(
+                predicate: e => e.StrategyId == strategy.Id,
+                orderBy: q => q.OrderBy(e => e.Timestamp),
+                cancellationToken: cancellationToken);
+
+            var strategyDto = new StrategyDto
+            {
+                Id = strategy.Id,
+                UserId = strategy.UserId,
+                StrategyName = strategy.StrategyName,
+                Description = strategy.Description,
+                StockSymbol = strategy.StockSymbol,
+                Status = strategy.Status.ToString(),
+                StartDate = strategy.StartDate,
+                FinishTime = strategy.FinishTime,
+                BuyPrice = strategy.BuyPrice,
+                SellPrice = strategy.SellPrice,
+                ProfitLoss = strategy.ProfitLoss,
+                IsPositionOpen = strategy.IsPositionOpen,
+                TotalProfit = strategy.TotalProfit,
+                TotalLoss = strategy.TotalLoss,
+                TotalTransactions = strategy.TotalTransactions,
+                SuccessfulTransactions = strategy.SuccessfulTransactions,
+                Events = events.Select(e => new StrategyEventDto
+                {
+                    Id = e.Id,
+                    StrategyId = e.StrategyId,
+                    Step = e.Step,
+                    RuleName = e.RuleName,
+                    Action = e.Action,
+                    Reason = e.Reason,
+                    Price = e.Price,
+                    Timestamp = e.Timestamp
+                }).ToList()
+            };
+
+            response.CompletedStrategies.Add(strategyDto);
+        }
+
+        return response;
+    }
+}
+

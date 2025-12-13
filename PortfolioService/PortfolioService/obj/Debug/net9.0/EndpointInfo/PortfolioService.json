@@ -1,0 +1,32 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "PortfolioService",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Portfolio/getPortfolioByUser": {
+      "get": {
+        "tags": [
+          "Portfolio"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": { }
+}

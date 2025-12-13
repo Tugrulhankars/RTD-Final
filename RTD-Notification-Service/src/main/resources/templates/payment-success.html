@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ödeme Başarılı</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f3f4f6;">
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td align="center" style="padding: 40px 0;">
+            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <tr>
+                    <td align="center" style="padding: 30px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 8px 8px 0 0;">
+                        <img src="https://img.icons8.com/color/96/000000/checkmark.png" alt="Ödeme Başarılı" width="64" style="margin-bottom: 10px;">
+                        <h2 style="margin: 0; color: #ffffff;">Ödeme Başarıyla Tamamlandı</h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 30px;">
+                        <div style="background-color: #f0fdf4; padding: 20px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid #10b981;">
+                            <p style="margin: 0; color: #166534; font-size: 16px; font-weight: bold;">
+                                ✓ Ödemeniz başarıyla tamamlanmıştır.
+                            </p>
+                        </div>
+
+                        <div style="background-color: #f9fafb; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td style="padding: 8px 0; color: #6b7280; font-size: 14px;"><strong>İşlem ID:</strong></td>
+                                    <td style="padding: 8px 0; color: #111827; font-size: 14px; text-align: right; font-family: monospace;">{{paymentTransactionId}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; color: #6b7280; font-size: 14px;"><strong>Tutar:</strong></td>
+                                    <td style="padding: 8px 0; color: #111827; font-size: 18px; text-align: right; font-weight: bold;">{{amount}} {{currency}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; color: #6b7280; font-size: 14px;"><strong>Ödeme Yöntemi:</strong></td>
+                                    <td style="padding: 8px 0; color: #111827; font-size: 14px; text-align: right;">{{paymentMethod}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; color: #6b7280; font-size: 14px;"><strong>İşlem Tarihi:</strong></td>
+                                    <td style="padding: 8px 0; color: #111827; font-size: 14px; text-align: right;">{{paymentDate}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; color: #6b7280; font-size: 14px;"><strong>Hesap ID:</strong></td>
+                                    <td style="padding: 8px 0; color: #111827; font-size: 14px; text-align: right;">{{accountId}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; color: #6b7280; font-size: 14px;"><strong>Kullanıcı ID:</strong></td>
+                                    <td style="padding: 8px 0; color: #111827; font-size: 14px; text-align: right;">{{userId}}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div th:if="${message != null and message != ''}" style="background-color: #eff6ff; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid #3b82f6;">
+                            <p style="margin: 0; color: #1e40af; font-size: 14px;">
+                                <strong>Mesaj:</strong> {{message}}
+                            </p>
+                        </div>
+
+                        <div style="background-color: #f0fdf4; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid #10b981;">
+                            <p style="margin: 0; color: #166534; font-size: 14px;">
+                                <strong>✓ İşleminiz başarıyla tamamlanmıştır.</strong><br>
+                                Ödeme detaylarınızı hesabınızdan görüntüleyebilirsiniz. İşlem makbuzunuzu saklamayı unutmayın.
+                            </p>
+                        </div>
+
+                        <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
+                        <p style="font-size: 12px; color: #9ca3af; text-align: center;">© 2025 RTD Financial. Tüm hakları saklıdır.</p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+

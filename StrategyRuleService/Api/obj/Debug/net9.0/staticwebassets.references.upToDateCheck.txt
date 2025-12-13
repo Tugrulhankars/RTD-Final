@@ -1,0 +1,3 @@
+C:\C project\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.build.json
+C:\C project\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.build.json
+C:\C project\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.build.json

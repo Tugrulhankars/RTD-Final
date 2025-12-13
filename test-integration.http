@@ -1,0 +1,212 @@
+### StrategyRuleService ve MarketDataService Entegrasyon Testi
+
+### 1. MarketDataService Health Check
+GET http://localhost:5275/api/test/health
+
+### 2. MarketDataService Hisse Senedi Verisi Testi
+GET http://localhost:5275/api/test/quote/THYAD
+
+### 3. MarketDataService WebSocket Testi
+GET http://localhost:5275/api/test/websocket/THYAD
+
+### 4. StrategyRuleService Health Check
+GET http://localhost:5184/api/test/health
+
+### 5. StrategyRuleService MarketData Entegrasyon Testi (Detaylı)
+GET http://localhost:5184/api/test/market-data/THYAD
+
+### 6. StrategyRuleService Basit Strateji Testi
+POST http://localhost:5184/api/strategy
+Content-Type: application/json
+
+{
+  "strategyName": "THYAD Test Stratejisi",
+  "description": "THYAD için test stratejisi",
+  "userId": 1,
+  "stockSymbol": "THYAD",
+  "transactionAmount": 10000,
+  "buyThresholdPercent": -3.0,
+  "profitTargetPercent": 3.0,
+  "stopLossPercent": 2.0
+}
+
+### 7. StrategyRuleService Gelişmiş Strateji Testi
+POST http://localhost:5184/api/test/advanced-strategy
+Content-Type: application/json
+
+{
+  "stockSymbol": "THYAD",
+  "transactionAmount": 15000
+}
+
+### 8. Tüm Stratejileri Listele
+GET http://localhost:5184/api/test/strategies
+
+### 9. MarketDataService Finnhub API Testi (Direkt)
+GET http://localhost:5275/api/quotes/THYAD
+
+### 10. Strateji Şablonlarını Listele
+GET http://localhost:5184/api/test/templates
+
+### 11. Belirli Şablonu Getir
+GET http://localhost:5184/api/test/templates/Muhafazakar Strateji
+
+### 12. Şablondan Strateji Oluştur
+POST http://localhost:5184/api/test/templates/Muhafazakar Strateji/create-strategy
+Content-Type: application/json
+
+{
+  "stockSymbol": "THYAD",
+  "transactionAmount": 20000
+}
+
+### 13. Agresif Strateji Şablonu
+POST http://localhost:5184/api/test/templates/Agresif Strateji/create-strategy
+Content-Type: application/json
+
+{
+  "stockSymbol": "GARAN",
+  "transactionAmount": 15000
+}
+
+### 14. Scalping Strateji Şablonu
+POST http://localhost:5184/api/test/templates/Scalping Stratejisi/create-strategy
+Content-Type: application/json
+
+{
+  "stockSymbol": "AKBNK",
+  "transactionAmount": 5000
+}
+
+### 14.1. Hisse Senedi İçin Önerilen Stratejiler
+GET http://localhost:5184/api/test/templates/recommended-for-stock/THYAD
+
+### 14.2. Hisse Senedi İçin Tüm Stratejileri Oluştur
+POST http://localhost:5184/api/test/templates/create-all-for-stock
+Content-Type: application/json
+
+{
+  "stockSymbol": "THYAD",
+  "transactionAmount": 20000
+}
+
+### 14.3. Farklı Hisse Senedi İçin Stratejiler
+POST http://localhost:5184/api/test/templates/create-all-for-stock
+Content-Type: application/json
+
+{
+  "stockSymbol": "GARAN",
+  "transactionAmount": 15000
+}
+
+### 14.4. Kullanıcı Dostu Strateji Oluşturma
+POST http://localhost:5184/api/test/create-strategy-for-stock
+Content-Type: application/json
+
+{
+  "stockSymbol": "THYAD",
+  "transactionAmount": 25000,
+  "templateName": "Muhafazakar Strateji"
+}
+
+### 14.5. Farklı Hisse Senedi İçin Kullanıcı Dostu Strateji
+POST http://localhost:5184/api/test/create-strategy-for-stock
+Content-Type: application/json
+
+{
+  "stockSymbol": "GARAN",
+  "transactionAmount": 30000,
+  "templateName": "Agresif Strateji"
+}
+
+### 15. Kullanıcı Strateji ve Kural Yönetimi
+
+### 15.1. Boş Strateji Oluştur
+POST http://localhost:5184/api/strategy
+Content-Type: application/json
+
+{
+  "strategyName": "Kullanıcı Stratejisi",
+  "description": "Kullanıcının kendi kurallarını oluşturacağı strateji",
+  "userId": 1,
+  "stockSymbol": "THYAD",
+  "transactionAmount": 10000
+}
+
+### 15.2. Stratejiye Kural Ekle (Alış Kuralı)
+POST http://localhost:5184/api/rule/strategy/1
+Content-Type: application/json
+
+{
+  "ruleName": "Fiyat Düşüş Alış",
+  "description": "Fiyat %5 düştüğünde al",
+  "field": 21,
+  "operator": 3,
+  "compareValue": -5.0,
+  "action": 0,
+  "orderIndex": 1,
+  "conditionType": 0,
+  "maxExecutions": 1
+}
+
+### 15.3. Stratejiye Kural Ekle (Kar Hedefi)
+POST http://localhost:5184/api/rule/strategy/1
+Content-Type: application/json
+
+{
+  "ruleName": "Kar Hedefi Satış",
+  "description": "%3 kar hedefine ulaşıldığında sat",
+  "field": 25,
+  "operator": 2,
+  "compareValue": 3.0,
+  "action": 1,
+  "orderIndex": 2,
+  "conditionType": 0,
+  "maxExecutions": 1
+}
+
+### 15.4. Stratejiye Kural Ekle (Stop Loss)
+POST http://localhost:5184/api/rule/strategy/1
+Content-Type: application/json
+
+{
+  "ruleName": "Stop Loss Satış",
+  "description": "%2 zarar kesme seviyesine ulaşıldığında sat",
+  "field": 25,
+  "operator": 3,
+  "compareValue": -2.0,
+  "action": 1,
+  "orderIndex": 3,
+  "conditionType": 0,
+  "maxExecutions": 1
+}
+
+### 15.5. Stratejideki Kuralları Listele
+GET http://localhost:5184/api/rule/strategy/1
+
+### 15.6. Kural Sıralamasını Güncelle (Kar Hedefi'ni 1. sıraya al)
+PUT http://localhost:5184/api/rule/strategy/1/reorder
+Content-Type: application/json
+
+{
+  "rules": [
+    {"ruleId": 2, "newOrderIndex": 1},
+    {"ruleId": 1, "newOrderIndex": 2},
+    {"ruleId": 3, "newOrderIndex": 3}
+  ]
+}
+
+### 15.7. Tek Kural Sıralamasını Güncelle
+PUT http://localhost:5184/api/rule/strategy/1/rule/1/order
+Content-Type: application/json
+
+{
+  "newOrderIndex": 2
+}
+
+### 15.8. Güncellenmiş Kuralları Kontrol Et
+GET http://localhost:5184/api/rule/strategy/1
+
+### 16. WebSocket Bağlantı Testi (Manuel)
+# WebSocket URL: ws://localhost:5275/ws/marketdata/THYAD
+# Bu test için WebSocket client kullanılmalı
