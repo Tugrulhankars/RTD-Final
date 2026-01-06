@@ -1,0 +1,200 @@
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - rtd-network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka
+    ports:
+      - "19092:19092"  # Host port 19092 -> Container port 19092 (for CONNECTIONS_FROM_HOST)
+      # Port 9092 is only used inside Docker network, no need to expose to host
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # Listeners: Define what ports Kafka listens on inside the container
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONNECTIONS_FROM_HOST://0.0.0.0:19092
+      # Advertised Listeners: What addresses clients should use to connect
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,CONNECTIONS_FROM_HOST://localhost:19092
+      # Security protocol mapping
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONNECTIONS_FROM_HOST:PLAINTEXT
+      # Inter-broker communication uses PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    networks:
+      - rtd-network
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8088:8080"
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    networks:
+      - rtd-network
+
+  account-service:
+    build: ./AccountService/AccountService
+    ports:
+      - "5239:8080"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=host.docker.internal,1433;Database=RTD-AccountService;User Id=metropol;Password=20002002;TrustServerCertificate=True;Encrypt=false;Connection Timeout=30;
+      - Kafka__BootstrapServers=kafka:9092
+      - RabbitMQ__Uri=amqps://okzwdbrz:AmGKgw5DTXuIAjOraNCNzFiqI5_lhV-s@kebnekaise.lmq.cloudamqp.com/okzwdbrz
+      - Grpc__Port=5001
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - kafka
+    networks:
+      - rtd-network
+
+  payment-service:
+    build: ./PaymentService/PaymentService
+    ports:
+      - "5231:5231"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=host.docker.internal,1433;Database=PaymentServiceDb;User Id=metropol;Password=20002002;TrustServerCertificate=True;Encrypt=false;Connection Timeout=30;
+      - AccountService__BaseUrl=http://account-service:5239
+      - AccountService__GrpcAddress=https://account-service:5001
+      - Iyzico__ApiKey=sandbox-uZDtRv0c4qv0Fe217skl2DQA0b8DxoXJ
+      - Iyzico__SecretKey=sandbox-0Q3XY7nEdeBdpo42otgYiYJ5rEdtmhTY
+      - Iyzico__BaseUrl=https://sandbox-api.iyzipay.com
+      - Kafka__BootstrapServers=kafka:9092
+      - RabbitMQ__Uri=amqps://okzwdbrz:AmGKgw5DTXuIAjOraNCNzFiqI5_lhV-s@kebnekaise.lmq.cloudamqp.com/okzwdbrz
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    depends_on:
+      - kafka
+      - account-service
+    networks:
+      - rtd-network
+
+  marketdata-service:
+    build: ./MarketDataService/MarketDataService
+    ports:
+      - "5275:5275"
+    environment:
+      - ASPNETCORE_URLS=http://+:5275
+      - Finnhub__ApiKey=YOUR_FINNHUB_API_KEY_HERE
+      - Grpc__Port=5004
+      - Kafka__BootstrapServers=kafka:9092
+    depends_on:
+      - kafka
+    networks:
+      - rtd-network
+
+  portfolio-service:
+    build: ./PortfolioService/PortfolioService
+    ports:
+      - "5242:8080"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=host.docker.internal,1433;Database=RtdPortfolio-Service;User Id=metropol;Password=20002002;TrustServerCertificate=True;Encrypt=false;Connection Timeout=30;
+      - Kafka__BootstrapServers=kafka:9092
+      - Grpc__Port=5002
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - kafka
+    networks:
+      - rtd-network
+
+  trading-service:
+    build: ./tradingService
+    ports:
+      - "9084:8081"
+    environment:
+      - AMQP_URL=amqps://okzwdbrz:AmGKgw5DTXuIAjOraNCNzFiqI5_lhV-s@kebnekaise.lmq.cloudamqp.com/okzwdbrz
+      - POSTGRES_HOST=host.docker.internal
+      - POSTGRES_USER=metropol
+      - POSTGRES_PASSWORD=20002002
+      - POSTGRES_DB=trading_service
+    depends_on:
+      - kafka
+    networks:
+      - rtd-network
+
+  notification-service:
+    build: ./RTD-Notification-Service
+    ports:
+      - "9083:8083"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/RTD-NotificationService
+      - SPRING_DATASOURCE_USERNAME=metropol
+      - SPRING_DATASOURCE_PASSWORD=20002002
+      - SPRING_RABBITMQ_HOST=kebnekaise.lmq.cloudamqp.com
+      - SPRING_RABBITMQ_PORT=5671
+      - SPRING_RABBITMQ_USERNAME=okzwdbrz
+      - SPRING_RABBITMQ_PASSWORD=AmGKgw5DTXuIAjOraNCNzFiqI5_lhV-s
+      - SPRING_RABBITMQ_VIRTUAL_HOST=okzwdbrz
+      - SPRING_RABBITMQ_SSL_ENABLED=true
+      - SPRING_MAIL_USERNAME=karslitugrulhan@gmail.com
+      - SPRING_MAIL_PASSWORD=qyow dpnl loxl udcc
+    networks:
+      - rtd-network
+
+  authuser-service:
+    build: ./RTD-AuthUser-Service
+    ports:
+      - "9081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/rtd_authservice
+      - SPRING_DATASOURCE_USERNAME=metropol
+      - SPRING_DATASOURCE_PASSWORD=20002002
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      - kafka
+    networks:
+      - rtd-network
+
+  gateway:
+    build: ./RTD-Gateway/Gateway
+    ports:
+      - "9082:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - account-service
+      - payment-service
+      - portfolio-service
+      - marketdata-service
+      # - strategyrule-service  # Running locally, not in Docker
+      - trading-service
+      - authuser-service
+    networks:
+      - rtd-network
+
+  frontend:
+    build: ./RTDFrontend/rtd
+    ports:
+      - "3000:80"
+    depends_on:
+      - gateway
+    networks:
+      - rtd-network
+
+networks:
+  rtd-network:
+    driver: bridge
+
+

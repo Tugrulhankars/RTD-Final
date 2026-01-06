@@ -4,14 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Application.Features.Strategies.Queries.GetStrategiesByUserId;
-
 public class GetStrategiesByUserIdResponse
 {
     public List<StrategyDto> Strategies { get; set; } = new List<StrategyDto>();
 }
-
 public class StrategyDto
 {
     public int Id { get; set; }
@@ -30,9 +27,11 @@ public class StrategyDto
     public decimal TotalLoss { get; set; }
     public int TotalTransactions { get; set; }
     public int SuccessfulTransactions { get; set; }
+    public int? DurationHours { get; set; }
+    public DateTime? ExpiryDate { get; set; }
+    public bool IsActive { get; set; }
     public List<StrategyEventDto> Events { get; set; } = new List<StrategyEventDto>();
 }
-
 public class StrategyEventDto
 {
     public int Id { get; set; }
@@ -44,4 +43,3 @@ public class StrategyEventDto
     public decimal Price { get; set; }
     public DateTime Timestamp { get; set; }
 }
-

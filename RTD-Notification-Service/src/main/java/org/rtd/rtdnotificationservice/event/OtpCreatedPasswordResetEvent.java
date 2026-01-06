@@ -58,4 +58,3 @@ public class OtpCreatedPasswordResetEvent {
         this.passwordResetOtpExpireAt = passwordResetOtpExpireAt;
     }
 }
-

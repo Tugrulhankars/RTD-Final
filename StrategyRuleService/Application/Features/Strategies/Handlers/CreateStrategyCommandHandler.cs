@@ -8,16 +8,13 @@ using MediatR;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
 namespace Application.Features.Strategies.Handlers;
-
 public class CreateStrategyCommandHandler : IRequestHandler<CreateStrategyCommand, CreateStrategyResponse>
 {
     private readonly INRulesService _nRulesService;
     private readonly IStrategyRepository _strategyRepository;
     private readonly IStrategyEventRepository _strategyEventRepository;
     private readonly IMarketDataService? _marketDataService;
-
     public CreateStrategyCommandHandler(
         INRulesService nRulesService, 
         IStrategyRepository strategyRepository,
@@ -29,15 +26,14 @@ public class CreateStrategyCommandHandler : IRequestHandler<CreateStrategyComman
         _strategyEventRepository = strategyEventRepository;
         _marketDataService = marketDataService;
     }
-
     public async Task<CreateStrategyResponse> Handle(CreateStrategyCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            //ActivitySource activitySource = new ActivitySource("CreateStrategyCommandHandler");
-           // using var activity=activitySource.StartActivity("Handle CreateStrategyCommand");
-           
-            // Stratejiyi oluştur
+            if (request.DurationHours.HasValue && request.DurationHours.Value < 0.0167)
+            {
+                throw new ArgumentException("İzleme süresi minimum 1 dakika (0.0167 saat) olmalıdır.");
+            }
         var strategy = new Strategy
         {
             UserId = request.UserId,
@@ -46,17 +42,24 @@ public class CreateStrategyCommandHandler : IRequestHandler<CreateStrategyComman
             StockSymbol = request.StockSymbol,
             TransactionAmount = 0,
             TransactionPercentage = 100m,
-            BuyThresholdPercent = -5.0m,
-            ProfitTargetPercent = 5.0m,
-            StopLossPercent = 2.0m,
-            MaxTotalLoss = (decimal)(request.TotalPercentLoss ?? 5.0m),
-            Status = StrategyStatus.Active,
+            BuyThresholdPercent = request.EntryThresholdPercentage ?? -5.0m,
+            ProfitTargetPercent = request.TakeProfitPercentage ?? 5.0m,
+            StopLossPercent = request.StopLossPercentage ?? 2.0m,
+            EntryThresholdPercentage = request.EntryThresholdPercentage ?? -5.0m,
+            MaxTotalLoss = request.MaxLossLimitPercentage ?? (decimal)(request.TotalPercentLoss ?? 5.0m),
+            Status = StrategyStatus.Waiting,
             StartDate = DateTime.Now,
             IsPositionOpen = false,
-            RuleCount = 5 // TimeCheck, PortfolioCheck, Buy, Sell, Cancel
+            RuleCount = 5,
+            CurrentStep = 0,
+            DurationHours = request.DurationHours.HasValue ? (int?)Math.Round(request.DurationHours.Value * 60) : null,
+            ExpiryDate = request.DurationHours.HasValue 
+                ? DateTime.Now.AddHours(request.DurationHours.Value)
+                : (DateTime?)null,
+            IsActive = true,
+            AccountId = request.AccountId,
+            PortfolioId = request.PortfolioId
         };
-
-        // MarketDataService'den gerçek fiyat bilgilerini al
         decimal openingPrice = 0;
         decimal currentPrice = 0;
         decimal highPrice = 0;
@@ -64,14 +67,11 @@ public class CreateStrategyCommandHandler : IRequestHandler<CreateStrategyComman
         decimal previousClosePrice = 0;
         decimal change = 0;
         decimal percentChange = 0;
-        
         try
         {
             if (_marketDataService != null && !string.IsNullOrEmpty(request.StockSymbol))
             {
-                // Tüm market verilerini tek seferde al
                 var stockInfo = await _marketDataService.GetStockInfo(request.StockSymbol);
-                
                 if (stockInfo?.Quote != null)
                 {
                     openingPrice = stockInfo.Quote.OpenPrice;
@@ -84,7 +84,6 @@ public class CreateStrategyCommandHandler : IRequestHandler<CreateStrategyComman
                 }
                 else
                 {
-                    // Fallback: Eski metodlar
                     openingPrice = (decimal)await _marketDataService.GetStockOpeningPrice(request.StockSymbol);
                     currentPrice = (decimal)await _marketDataService.GetStockCurrentPrice(request.StockSymbol);
                 }
@@ -92,10 +91,7 @@ public class CreateStrategyCommandHandler : IRequestHandler<CreateStrategyComman
         }
         catch (Exception ex)
         {
-            // MarketDataService'den veri alınamazsa varsayılan değerler kullanılacak
-            // UpdateContextAsync içinde tekrar denenecek
         }
-        
         decimal transactionAmount = request.TransactionAmount ?? 0;
         if (transactionAmount <= 0)
         {
@@ -104,39 +100,32 @@ public class CreateStrategyCommandHandler : IRequestHandler<CreateStrategyComman
             else if (request.Lot > 0)
                 transactionAmount = request.Lot;
         }
-
         strategy.TransactionAmount = transactionAmount;
-
-        // Stratejiyi veritabanına kaydet
         var savedStrategy = await _strategyRepository.AddAsync(strategy, cancellationToken);
-
-        // Strateji context'i oluştur
         var strategyContext = new StockWorkflow
         {
             StrategyId = savedStrategy.Id,
             UserId = request.UserId,
-            Symbol = request.StockSymbol,
-            OpeningPrice = openingPrice, // MarketDataService'den alınan veya 0 (UpdateContextAsync'te tekrar alınacak)
-            CurrentPrice = currentPrice,  // MarketDataService'den alınan veya 0 (UpdateContextAsync'te tekrar alınacak)
+            Symbol = request.StockSymbol.ToUpper().Trim(),
+            OpeningPrice = openingPrice,
+            CurrentPrice = currentPrice,
             HighPrice = highPrice,
             LowPrice = lowPrice,
             PreviousClosePrice = previousClosePrice,
             Change = change,
             PercentChange = percentChange,
             InPortfolio = false,
-            TotalLossPercent = (decimal)(request.TotalPercentLoss ?? 5.0m),
+            TotalLossPercent = savedStrategy.MaxTotalLoss,
             StopLossPercent = savedStrategy.StopLossPercent,
             ProfitTargetPercent = savedStrategy.ProfitTargetPercent,
+            EntryThresholdPercent = savedStrategy.EntryThresholdPercentage,
             MaxTotalLoss = savedStrategy.MaxTotalLoss,
             Now = DateTime.Now,
             TransactionAmount = transactionAmount,
             AccountId = request.AccountId ?? 0,
             PortfolioId = request.PortfolioId ?? 0,
-            Step = 0 // Başlangıç adımı
+            Step = 0
         };
-        //activity.SetTag(request.UserId.ToString(),"Strateji Başladı" );
-
-        // Strateji oluşturuldu event'ini oluştur
         var strategyCreatedEvent = new Domain.Entities.StrategyEvent
         {
             StrategyId = savedStrategy.Id,
@@ -147,34 +136,21 @@ public class CreateStrategyCommandHandler : IRequestHandler<CreateStrategyComman
             Price = strategyContext.CurrentPrice,
             Timestamp = DateTime.Now
         };
-        
-        // Event'i veritabanına kaydet
         await _strategyEventRepository.AddAsync(strategyCreatedEvent, cancellationToken);
-
-        // NRules'a strateji ekle (Worker Service sürekli işleyecek)
-        // Unique key için StrategyId kullan (StrategyName tekrar edebilir)
         var strategyKey = $"Strategy_{savedStrategy.Id}";
         await _nRulesService.AddStrategyAsync(strategyKey, strategyContext);
-        
-        // İlk kuralı tetiklemek için ProcessRulesAsync çağır
-        await _nRulesService.ProcessRulesAsync();
-
-        //activity.AddEvent(new("Starteji kurallara eklendi"));
-
             return new CreateStrategyResponse
             {
-                Message = "Strateji oluşturuldu ve NRules'a eklendi",
+                Message = "Strateji oluşturuldu ve işleme alındı. Detay sayfasından ilerlemeyi takip edebilirsiniz.",
                 Success = true,
                 StrategyName = request.StrategyName,
                 StockSymbol = request.StockSymbol,
-                Status = "Active",
+                Status = "Waiting",
                 StrategyId = savedStrategy.Id
             };
         }
         catch (Exception ex)
         {
-            // Log hatayı
-            // Exception handling middleware'e iletmek için throw et
             throw new Exception($"Strateji oluşturulurken hata oluştu: {ex.Message}", ex);
         }
     }

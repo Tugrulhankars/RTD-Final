@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\C project\\RTD-FinalProject\\PaymentService\\PaymentService\\PaymentService.csproj": {}
+    "C:\\RTD-FinalProject\\PaymentService\\PaymentService\\PaymentService.csproj": {}
   },
   "projects": {
-    "C:\\C project\\RTD-FinalProject\\PaymentService\\PaymentService\\PaymentService.csproj": {
+    "C:\\RTD-FinalProject\\PaymentService\\PaymentService\\PaymentService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\C project\\RTD-FinalProject\\PaymentService\\PaymentService\\PaymentService.csproj",
+        "projectUniqueName": "C:\\RTD-FinalProject\\PaymentService\\PaymentService\\PaymentService.csproj",
         "projectName": "PaymentService",
-        "projectPath": "C:\\C project\\RTD-FinalProject\\PaymentService\\PaymentService\\PaymentService.csproj",
+        "projectPath": "C:\\RTD-FinalProject\\PaymentService\\PaymentService\\PaymentService.csproj",
         "packagesPath": "C:\\Users\\karsl\\.nuget\\packages\\",
-        "outputPath": "C:\\C project\\RTD-FinalProject\\PaymentService\\PaymentService\\obj\\",
+        "outputPath": "C:\\RTD-FinalProject\\PaymentService\\PaymentService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -51,6 +51,10 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "Confluent.Kafka": {
+              "target": "Package",
+              "version": "[2.5.3, )"
+            },
             "Google.Protobuf": {
               "target": "Package",
               "version": "[3.25.3, )"
@@ -96,6 +100,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+            },
+            "Polly": {
+              "target": "Package",
+              "version": "[8.4.2, )"
             },
             "RabbitMQ.Client": {
               "target": "Package",

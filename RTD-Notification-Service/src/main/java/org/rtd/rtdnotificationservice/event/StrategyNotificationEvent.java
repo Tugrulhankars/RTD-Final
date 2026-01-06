@@ -1,24 +1,55 @@
 package org.rtd.rtdnotificationservice.event;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StrategyNotificationEvent {
+    @JsonProperty("strategyId")
     private int strategyId;
+    
+    @JsonProperty("userId")
     private int userId;
-    private String userEmail; // Email adresi - UserId'den alınabilir veya event'te gönderilebilir
+    
+    @JsonProperty("userEmail")
+    private String userEmail;
+    
+    @JsonProperty("strategyName")
     private String strategyName;
+    
+    @JsonProperty("stockSymbol")
     private String stockSymbol;
-    private String status; // "Active", "Completed", "Inactive"
-    private String action; // "BUY", "SELL"
+    
+    @JsonProperty("status")
+    private String status;
+    
+    @JsonProperty("action")
+    private String action;
+    
+    @JsonProperty("buyPrice")
     private BigDecimal buyPrice;
+    
+    @JsonProperty("sellPrice")
     private BigDecimal sellPrice;
+    
+    @JsonProperty("profitLoss")
     private BigDecimal profitLoss;
+    
+    @JsonProperty("currentPrice")
     private BigDecimal currentPrice;
+    
+    @JsonProperty("timestamp")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime timestamp;
+    
+    @JsonProperty("executedRules")
     private List<RuleExecutionInfo> executedRules = new ArrayList<>();
+    
+    @JsonProperty("reason")
     private String reason;
 
     public StrategyNotificationEvent() {
@@ -156,4 +187,3 @@ public class StrategyNotificationEvent {
         this.reason = reason;
     }
 }
-

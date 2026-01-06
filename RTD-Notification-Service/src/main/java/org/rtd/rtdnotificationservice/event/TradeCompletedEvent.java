@@ -13,7 +13,7 @@ public class TradeCompletedEvent {
     private BigDecimal price;
     private BigDecimal total;
     private LocalDateTime executedAt;
-    private String userEmail; // Email adresi - AccountId'den alınabilir veya event'te gönderilebilir
+    private String userEmail;
 
     public TradeCompletedEvent() {
     }
@@ -94,4 +94,3 @@ public class TradeCompletedEvent {
         this.userEmail = userEmail;
     }
 }
-

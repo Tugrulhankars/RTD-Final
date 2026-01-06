@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"tradingService/internal/dto/request"
 	"tradingService/internal/service"
@@ -64,10 +65,6 @@ func (t TradeController) GetAllTrade(ctx *fiber.Ctx) error {
 
 }
 
-// DirectBuy
-// Kullanıcının doğrudan alım emri göndermesi için endpoint.
-// İş kuralları:
-// - AccountService üzerinden yeterli bakiye kontrolü yapılır.
 func (t TradeController) DirectBuy(ctx *fiber.Ctx) error {
 	var req request.DirectTradeRequest
 	if err := ctx.BodyParser(&req); err != nil {
@@ -86,10 +83,6 @@ func (t TradeController) DirectBuy(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusCreated).JSON(res)
 }
 
-// DirectSell
-// Kullanıcının doğrudan satış emri göndermesi için endpoint.
-// İş kuralları:
-// - PortfolioService üzerinden ilgili hisseden yeterli lot kontrolü yapılır.
 func (t TradeController) DirectSell(ctx *fiber.Ctx) error {
 	var req request.DirectTradeRequest
 	if err := ctx.BodyParser(&req); err != nil {
@@ -106,4 +99,32 @@ func (t TradeController) DirectSell(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.Status(fiber.StatusCreated).JSON(res)
+}
+
+func (t TradeController) GetTradeHistoryByAccountId(ctx *fiber.Ctx) error {
+	accountId := ctx.Params("accountId")
+	if accountId == "" {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "accountId parameter is required",
+		})
+	}
+
+	accountIdInt := 0
+	if _, err := fmt.Sscanf(accountId, "%d", &accountIdInt); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "invalid accountId",
+		})
+	}
+
+	res, err := t.tradeService.GetTradeHistoryByAccountId(ctx.Context(), accountIdInt)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
+		"data":    res,
+	})
 }

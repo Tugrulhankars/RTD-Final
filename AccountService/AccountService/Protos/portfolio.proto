@@ -3,12 +3,10 @@ package portfolio;
 
 option csharp_namespace="PortfolioService.Protos";
 
-
 service PortfolioService {
 
   rpc HasStockInPortfolio(HasStockInPortfolioRequest) returns(HasStockInPortfolioResponse);
 }
-
 
 message HasStockInPortfolioRequest{
 	int32 portfolioId=1;

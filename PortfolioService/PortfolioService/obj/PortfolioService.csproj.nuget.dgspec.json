@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\C project\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj": {}
+    "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj": {}
   },
   "projects": {
-    "C:\\C project\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj": {
+    "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\C project\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj",
+        "projectUniqueName": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj",
         "projectName": "PortfolioService",
-        "projectPath": "C:\\C project\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj",
+        "projectPath": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj",
         "packagesPath": "C:\\Users\\karsl\\.nuget\\packages\\",
-        "outputPath": "C:\\C project\\RTD-FinalProject\\PortfolioService\\PortfolioService\\obj\\",
+        "outputPath": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -66,10 +66,6 @@
             "Grpc.AspNetCore.Server": {
               "target": "Package",
               "version": "[2.71.0, )"
-            },
-            "Grpc.Core": {
-              "target": "Package",
-              "version": "[2.46.6, )"
             },
             "Grpc.Core.Api": {
               "target": "Package",

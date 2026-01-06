@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-
 namespace Application.Services
 {
     public interface INRulesService
@@ -8,5 +7,6 @@ namespace Application.Services
         Task ProcessRulesAsync();
         Task AddStrategyAsync(string strategyName, object context);
         Task RemoveStrategyAsync(string strategyName);
+        Task UpdateStrategyPreferencesAsync(int strategyId, Application.Features.Strategies.Dtos.UserPreference userPreference);
     }
 }

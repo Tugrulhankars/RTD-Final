@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using Microsoft.EntityFrameworkCore;
 using PortfolioService.Dtos.Request;
 using PortfolioService.Dtos.Response;
 using PortfolioService.Models;
@@ -13,7 +14,7 @@ public class PortfolioService : PortfolioServiceBase,IPortfolioService
 {
     private readonly IPortfolioRepository _portfolioRepository;
     private readonly IStockCertificateRepository _stockCertificateRepository; 
-    private readonly IKafkaService _kafkaService; // Yeni eklendi
+    private readonly IKafkaService _kafkaService;
 
     public PortfolioService(IPortfolioRepository portfolioRepository, IStockCertificateRepository stockCertificateRepository, IKafkaService kafkaService)
     {
@@ -33,15 +34,11 @@ public class PortfolioService : PortfolioServiceBase,IPortfolioService
        
     }
 
-    
-
     public async Task<List<GetAllPortfolioResponse>> GetAllPortfolioByUserAsync(int userId)
     {
-        // sadece ilgili user'ın portföylerini çek
         var portfolios = await _portfolioRepository
             .GetAllAsync(p => p.UserId == userId);
 
-        // entity -> response mapping
         var responses = portfolios.Select(p => new GetAllPortfolioResponse
         {
             Id = p.Id,
@@ -53,6 +50,23 @@ public class PortfolioService : PortfolioServiceBase,IPortfolioService
         return responses;
     }
 
+    public async Task<GetAllPortfolioResponse?> GetPortfolioByAccountIdAsync(int accountId)
+    {
+        var portfolio = await _portfolioRepository
+            .GetAsync(p => p.AccountId == accountId);
+
+        if (portfolio == null)
+        {
+            return null;
+        }
+
+        return new GetAllPortfolioResponse
+        {
+            Id = portfolio.Id,
+            AccountId = portfolio.AccountId,
+            UserId = portfolio.UserId,
+        };
+    }
 
     public async Task<bool> HasStockInPortfolioAsync(int userId, string symbol)
     {
@@ -79,31 +93,38 @@ public class PortfolioService : PortfolioServiceBase,IPortfolioService
 
     public async Task<List<GetAllPortfolioResponse>> GetPortfoliosWithActiveStockCertificates(int userId)
     {
-        // Kullanıcıya ait portföyleri al, StockCertificate.Any(sc => sc.IsSell) olanlar
         var portfolios = await _portfolioRepository
-            .GetAllAsync(p => p.UserId == userId && p.StockCertificates.Any(sc => sc.IsSell));
+            .GetAllAsync(
+                predicate: p => p.UserId == userId,
+                include: query => query.Include(p => p.StockCertificates)
+            );
 
-        // Map işlemi: her portföyün aktif StockCertificate’lerini GetAllPortfolioResponse listesine dönüştür
+        if (portfolios == null || !portfolios.Any())
+        {
+            return new List<GetAllPortfolioResponse>();
+        }
+
         var result = portfolios
-            .SelectMany(p => p.StockCertificates
-                .Where(sc => sc.IsSell) // sadece aktif hisseler
+            .Where(p => p.StockCertificates != null && p.StockCertificates.Any(sc => !sc.IsSell))
+            .SelectMany(p => p.StockCertificates!
+                .Where(sc => !sc.IsSell)
                 .Select(sc => new GetAllPortfolioResponse
                 {
                     Id = p.Id,
                     UserId = p.UserId,
                     AccountId = p.AccountId,
                     Symbol = sc.Symbol,
-                    Lot = sc.Lot
+                    Lot = sc.Lot,
+                    AveragePrice = sc.PricePerShare
                 }))
             .ToList();
 
         return result;
     }
 
-
-    public override async Task<SellStockResponse> SellStock(SellStockRequest request, ServerCallContext context)
+    public override async Task<Protos.SellStockResponse> SellStock(Protos.SellStockRequest request, ServerCallContext context)
     {
-        SellStockResponse response = new();
+        Protos.SellStockResponse response = new();
         try
         {
             await SellStockCertificateToPortfolio(request);
@@ -118,9 +139,11 @@ public class PortfolioService : PortfolioServiceBase,IPortfolioService
         return response;
     }
 
-    public async Task SellStockCertificateToPortfolio(SellStockRequest request)
+    public async Task SellStockCertificateToPortfolio(Protos.SellStockRequest request)
     {
-        var stockCertificate = await _stockCertificateRepository.GetAsync(sc => sc.Id == request.StockCertificateId && sc.PortfolioId == request.PortfolioId);
+        var stockCertificate = request.StockCertificateId > 0
+            ? await _stockCertificateRepository.GetAsync(sc => sc.Id == request.StockCertificateId && sc.PortfolioId == request.PortfolioId)
+            : await _stockCertificateRepository.GetAsync(sc => sc.PortfolioId == request.PortfolioId && sc.Symbol == request.Symbol && !sc.IsSell);
 
         if (stockCertificate == null)
         {
@@ -132,7 +155,7 @@ public class PortfolioService : PortfolioServiceBase,IPortfolioService
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Satılmak istenen lot miktarı mevcut lottan fazla olamaz."));
         }
 
-        stockCertificate.Lot -= request.Lot;
+        stockCertificate.Lot -= (int)request.Lot;
         if (stockCertificate.Lot == 0)
         {
             stockCertificate.IsSell = true;
@@ -169,7 +192,14 @@ public class PortfolioService : PortfolioServiceBase,IPortfolioService
 
         if (stockCertificate != null)
         {
-            stockCertificate.Lot += request.Lot;
+            var oldTotalCost = stockCertificate.PricePerShare * stockCertificate.Lot;
+            var newTotalCost = request.PricePerShare * request.Lot;
+            var newTotalLot = stockCertificate.Lot + request.Lot;
+            
+            var newAveragePrice = (oldTotalCost + newTotalCost) / newTotalLot;
+            
+            stockCertificate.Lot = newTotalLot;
+            stockCertificate.PricePerShare = newAveragePrice;
             await _stockCertificateRepository.UpdateAsync(stockCertificate);
         }
         else

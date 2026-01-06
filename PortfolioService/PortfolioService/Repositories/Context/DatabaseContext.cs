@@ -13,5 +13,4 @@ public class DatabaseContext:DbContext
     public DbSet<Portfolio> Portfolios { get; set; }
     public DbSet<StockCertificate> StockCertificates { get; set; }
 
-    
 }

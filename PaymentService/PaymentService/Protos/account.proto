@@ -6,7 +6,6 @@ option csharp_namespace="PaymentService.Protos";
 import "google/protobuf/timestamp.proto";
 
 service AccountService{
-    // Hem artır hem azalt için amount kullan
 	rpc UpdateAccountBalance(UpdateBalanceRequest) returns(UpdateBalanceResponse);
 }
 
@@ -15,9 +14,7 @@ message UpdateBalanceRequest{
 	int32 userId = 2;
 	string firstName = 3;
 	string lastName = 4;
-	double amount = 5; // Pozitif -> arttır, Negatif -> azalt
-	google.protobuf.Timestamp transactionTime = 6; // opsiyonel
-}
+	double amount = 5;	google.protobuf.Timestamp transactionTime = 6;}
 
 message UpdateBalanceResponse{
 	bool isSuccess = 1;
@@ -29,6 +26,4 @@ message UpdateBalanceResponse{
 		UNKNOWN_ERROR = 3;
 	}
 	ErrorCode error = 3;
-	double newBalance = 4; // opsiyonel ama kullanıcıyı bilgilendirmek için faydalı
-}
-
+	double newBalance = 4;}

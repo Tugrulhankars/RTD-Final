@@ -3,20 +3,16 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Text;
-
 namespace PaymentService.Services;
-
 public class RabbitMQPublisher : IRabbitMQPublisher
 {
     private readonly IConfiguration _configuration;
     private readonly ILogger<RabbitMQPublisher> _logger;
-
     public RabbitMQPublisher(IConfiguration configuration, ILogger<RabbitMQPublisher> logger)
     {
         _configuration = configuration;
         _logger = logger;
     }
-
     public async Task PublishAsync<T>(T message, string queueName) where T : class
     {
         try
@@ -26,33 +22,38 @@ public class RabbitMQPublisher : IRabbitMQPublisher
             {
                 Uri = new Uri(rabbitMqUri)
             };
-
-            using var connection = await factory.CreateConnectionAsync();
-            using var channel = await connection.CreateChannelAsync();
-
+            await using var connection = await factory.CreateConnectionAsync();
+            await using var channel = await connection.CreateChannelAsync();
             await channel.QueueDeclareAsync(
                 queue: queueName,
-                durable: true, // Mesajların kalıcı olması için
+                durable: true,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null
             );
-
-            var messageJson = JsonConvert.SerializeObject(message);
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = NullValueHandling.Ignore,
+                DateFormatHandling = DateFormatHandling.IsoDateFormat
+            };
+            var messageJson = JsonConvert.SerializeObject(message, settings);
             var body = Encoding.UTF8.GetBytes(messageJson);
-
-            _logger.LogInformation("RabbitMQ'ya payment event gönderiliyor: Queue={QueueName}, MessageType={MessageType}, MessageSize={MessageSize} bytes", 
-                queueName, typeof(T).Name, body.Length);
-            
-            _logger.LogDebug("RabbitMQ payment event içeriği: {MessageContent}", messageJson);
-
-            // RabbitMQ.Client 7.x API'si - AMQP protokolü üzerinden
+            var typeMapping = typeof(T).Name switch
+            {
+                "PaymentSuccessEvent" => "org.rtd.rtdpaymentservice.events.PaymentSuccessEvent",
+                "PaymentFailedEvent" => "org.rtd.rtdpaymentservice.events.PaymentFailedEvent",
+                _ => typeof(T).FullName ?? typeof(T).Name
+            };
+            _logger.LogWarning("RabbitMQ.Client 7.x properties desteği olmadığı için headers gönderilemiyor. TypeMapping={TypeMapping}. Java tarafı için RabbitMQ.Client 6.x kullanılması önerilir.", typeMapping);
+            _logger.LogInformation("RabbitMQ'ya payment event gönderiliyor: Queue={QueueName}, MessageType={MessageType}, TypeMapping={TypeMapping}, MessageSize={MessageSize} bytes", 
+                queueName, typeof(T).Name, typeMapping, body.Length);
+            _logger.LogInformation("RabbitMQ payment event JSON içeriği: {MessageContent}", messageJson);
             await channel.BasicPublishAsync(
                 exchange: "",
                 routingKey: queueName,
                 body: body
             );
-
             _logger.LogInformation("✓ RabbitMQ payment event'i başarıyla gönderildi: Queue={QueueName}, MessageType={MessageType}, MessageSize={MessageSize} bytes", 
                 queueName, typeof(T).Name, body.Length);
         }
@@ -60,8 +61,7 @@ public class RabbitMQPublisher : IRabbitMQPublisher
         {
             _logger.LogError(ex, "RabbitMQ payment event'i gönderilirken hata oluştu: Queue={QueueName}, MessageType={MessageType}", 
                 queueName, typeof(T).Name);
-            throw; // Exception handling middleware'e iletmek için
+            throw;
         }
     }
 }
-

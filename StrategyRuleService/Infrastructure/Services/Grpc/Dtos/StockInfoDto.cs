@@ -1,13 +1,10 @@
 namespace Infrastructure.Services.Grpc.Dtos;
-
-// MarketDataService'den gelen StockInfoDto ile uyumlu
 public class StockInfoDto
 {
     public StockQuoteDto Quote { get; set; }
     public CompanyProfileDto Profile { get; set; }
     public FinancialMetricsDto Metrics { get; set; }
 }
-
 public class StockQuoteDto
 {
     public string Ticker { get; set; }
@@ -20,7 +17,6 @@ public class StockQuoteDto
     public decimal PercentChange { get; set; }
     public long Timestamp { get; set; }
 }
-
 public class CompanyProfileDto
 {
     public string Ticker { get; set; }
@@ -30,7 +26,6 @@ public class CompanyProfileDto
     public string Ipo { get; set; }
     public string Currency { get; set; }
 }
-
 public class FinancialMetricsDto
 {
     public decimal? Pe { get; set; }
@@ -39,4 +34,3 @@ public class FinancialMetricsDto
     public decimal? NetMargin { get; set; }
     public decimal? DebtEquity { get; set; }
 }
-

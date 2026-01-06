@@ -129,45 +129,6 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Grpc.Core/2.46.6": {
-        "type": "package",
-        "dependencies": {
-          "Grpc.Core.Api": "2.46.6",
-          "System.Memory": "4.5.3"
-        },
-        "compile": {
-          "lib/netstandard2.0/Grpc.Core.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/Grpc.Core.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtimeTargets": {
-          "runtimes/linux-arm64/native/libgrpc_csharp_ext.arm64.so": {
-            "assetType": "native",
-            "rid": "linux-arm64"
-          },
-          "runtimes/linux-x64/native/libgrpc_csharp_ext.x64.so": {
-            "assetType": "native",
-            "rid": "linux-x64"
-          },
-          "runtimes/osx-x64/native/libgrpc_csharp_ext.x64.dylib": {
-            "assetType": "native",
-            "rid": "osx-x64"
-          },
-          "runtimes/win-x64/native/grpc_csharp_ext.x64.dll": {
-            "assetType": "native",
-            "rid": "win-x64"
-          },
-          "runtimes/win-x86/native/grpc_csharp_ext.x86.dll": {
-            "assetType": "native",
-            "rid": "win-x86"
-          }
-        }
-      },
       "Grpc.Core.Api/2.71.0": {
         "type": "package",
         "compile": {
@@ -2165,34 +2126,6 @@
         "lib/net9.0/Grpc.AspNetCore.Server.ClientFactory.pdb",
         "lib/net9.0/Grpc.AspNetCore.Server.ClientFactory.xml",
         "packageIcon.png"
-      ]
-    },
-    "Grpc.Core/2.46.6": {
-      "sha512": "ZoRg3KmOJ2urTF4+u3H0b1Yv10xzz2Y/flFWS2tnRmj8dbKLeiJaSRqu4LOBD3ova90evqLkVZ85kUkC4JT4lw==",
-      "type": "package",
-      "path": "grpc.core/2.46.6",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "build/net45/Grpc.Core.targets",
-        "buildTransitive/net45/Grpc.Core.targets",
-        "grpc.core.2.46.6.nupkg.sha512",
-        "grpc.core.nuspec",
-        "lib/net45/Grpc.Core.dll",
-        "lib/net45/Grpc.Core.pdb",
-        "lib/net45/Grpc.Core.xml",
-        "lib/netstandard1.5/Grpc.Core.dll",
-        "lib/netstandard1.5/Grpc.Core.pdb",
-        "lib/netstandard1.5/Grpc.Core.xml",
-        "lib/netstandard2.0/Grpc.Core.dll",
-        "lib/netstandard2.0/Grpc.Core.pdb",
-        "lib/netstandard2.0/Grpc.Core.xml",
-        "packageIcon.png",
-        "runtimes/linux-arm64/native/libgrpc_csharp_ext.arm64.so",
-        "runtimes/linux-x64/native/libgrpc_csharp_ext.x64.so",
-        "runtimes/osx-x64/native/libgrpc_csharp_ext.x64.dylib",
-        "runtimes/win-x64/native/grpc_csharp_ext.x64.dll",
-        "runtimes/win-x86/native/grpc_csharp_ext.x86.dll"
       ]
     },
     "Grpc.Core.Api/2.71.0": {
@@ -5857,7 +5790,6 @@
       "Google.Protobuf >= 3.32.1",
       "Grpc.AspNetCore >= 2.71.0",
       "Grpc.AspNetCore.Server >= 2.71.0",
-      "Grpc.Core >= 2.46.6",
       "Grpc.Core.Api >= 2.71.0",
       "Grpc.Tools >= 2.72.0",
       "Microsoft.EntityFrameworkCore >= 9.0.9",
@@ -5880,11 +5812,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\C project\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj",
+      "projectUniqueName": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj",
       "projectName": "PortfolioService",
-      "projectPath": "C:\\C project\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj",
+      "projectPath": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj",
       "packagesPath": "C:\\Users\\karsl\\.nuget\\packages\\",
-      "outputPath": "C:\\C project\\RTD-FinalProject\\PortfolioService\\PortfolioService\\obj\\",
+      "outputPath": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -5939,10 +5871,6 @@
           "Grpc.AspNetCore.Server": {
             "target": "Package",
             "version": "[2.71.0, )"
-          },
-          "Grpc.Core": {
-            "target": "Package",
-            "version": "[2.46.6, )"
           },
           "Grpc.Core.Api": {
             "target": "Package",

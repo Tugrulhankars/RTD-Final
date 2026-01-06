@@ -11,5 +11,5 @@ public class UpdateBalanceRequest
     public int UserId { get; set; }
     
     [Required]
-    public double Amount { get; set; }
+    public decimal Amount { get; set; }
 }

@@ -1,19 +1,41 @@
 package org.rtd.rtdnotificationservice.event;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class PaymentFailedEvent {
+    @JsonProperty("userId")
     private int userId;
+    
+    @JsonProperty("amount")
     private BigDecimal amount;
+    
+    @JsonProperty("currency")
     private String currency = "TRY";
+    
+    @JsonProperty("paymentTransactionId")
     private String paymentTransactionId;
+    
+    @JsonProperty("paymentMethod")
     private String paymentMethod;
+    
+    @JsonProperty("paymentDate")
     private LocalDateTime paymentDate;
+    
+    @JsonProperty("email")
     private String email;
+    
+    @JsonProperty("status")
     private String status = "FAILED";
+    
+    @JsonProperty("failureReason")
     private String failureReason;
+    
+    @JsonProperty("errorCode")
     private String errorCode;
+    
+    @JsonProperty("errorMessage")
     private String errorMessage;
 
     public PaymentFailedEvent() {
@@ -123,4 +145,3 @@ public class PaymentFailedEvent {
         this.errorMessage = errorMessage;
     }
 }
-

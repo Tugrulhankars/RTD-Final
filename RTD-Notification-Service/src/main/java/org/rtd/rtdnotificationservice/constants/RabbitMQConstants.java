@@ -18,4 +18,9 @@ public  class RabbitMQConstants {
     public static final String notificationPaymentFailedKey="notification.payment.failed.key";
     public static final String notificationPaymentSuccessQueue="notification.payment.success.queue";
     public static final String notificationPaymentSuccessKey="notification.payment.success.key";
+    
+    public static final String notificationPaymentFailedDlq="notification.payment.failed.dlq";
+    public static final String notificationPaymentSuccessDlq="notification.payment.success.dlq";
+    public static final String notificationPaymentFailedDlqKey="notification.payment.failed.dlq.key";
+    public static final String notificationPaymentSuccessDlqKey="notification.payment.success.dlq.key";
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "190hf0IO7o0=",
+  "dgSpecHash": "j2GsA5gGGbY=",
   "success": true,
-  "projectFilePath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj",
+  "projectFilePath": "C:\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\karsl\\.nuget\\packages\\mediatr\\13.0.0\\mediatr.13.0.0.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",

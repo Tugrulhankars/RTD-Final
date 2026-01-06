@@ -3,16 +3,13 @@ using Application.Services;
 using Domain.Enums;
 using MediatR;
 using Microsoft.Extensions.Logging;
-
 namespace Application.Features.Strategies.Handlers;
-
 public class StopStrategyCommandHandler : IRequestHandler<StopStrategyCommand, StopStrategyResponse>
 {
     private readonly IStrategyRepository _strategyRepository;
     private readonly IStrategyEventRepository _strategyEventRepository;
     private readonly INRulesService _nRulesService;
     private readonly ILogger<StopStrategyCommandHandler> _logger;
-
     public StopStrategyCommandHandler(
         IStrategyRepository strategyRepository,
         IStrategyEventRepository strategyEventRepository,
@@ -24,16 +21,13 @@ public class StopStrategyCommandHandler : IRequestHandler<StopStrategyCommand, S
         _nRulesService = nRulesService;
         _logger = logger;
     }
-
     public async Task<StopStrategyResponse> Handle(StopStrategyCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            // Stratejiyi bul
             var strategy = await _strategyRepository.GetAsync(
                 s => s.Id == request.StrategyId && s.UserId == request.UserId,
                 cancellationToken: cancellationToken);
-
             if (strategy == null)
             {
                 _logger.LogWarning("Strateji bulunamadı: StrategyId={StrategyId}, UserId={UserId}", 
@@ -45,8 +39,6 @@ public class StopStrategyCommandHandler : IRequestHandler<StopStrategyCommand, S
                     StrategyId = request.StrategyId
                 };
             }
-
-            // Strateji zaten durdurulmuş mu kontrol et
             if (strategy.Status == StrategyStatus.Inactive || strategy.Status == StrategyStatus.Completed)
             {
                 _logger.LogInformation("Strateji zaten durdurulmuş: StrategyId={StrategyId}, Status={Status}", 
@@ -58,17 +50,11 @@ public class StopStrategyCommandHandler : IRequestHandler<StopStrategyCommand, S
                     StrategyId = request.StrategyId
                 };
             }
-
-            // Stratejiyi durdur
             strategy.Status = StrategyStatus.Inactive;
             strategy.FinishTime = DateTime.Now;
             await _strategyRepository.UpdateAsync(strategy, cancellationToken);
-
-            // NRules'tan stratejiyi kaldır (StrategyId ile unique key kullan)
             var strategyKey = $"Strategy_{strategy.Id}";
             await _nRulesService.RemoveStrategyAsync(strategyKey);
-
-            // Event kaydet
             var stopEvent = new Domain.Entities.StrategyEvent
             {
                 StrategyId = strategy.Id,
@@ -80,12 +66,8 @@ public class StopStrategyCommandHandler : IRequestHandler<StopStrategyCommand, S
                 Timestamp = DateTime.Now
             };
             await _strategyEventRepository.AddAsync(stopEvent, cancellationToken);
-
-            // Notification gönderilmiyor - sadece başarılı alış/satış için notification gönderiliyor
-
             _logger.LogInformation("Strateji başarıyla durduruldu: StrategyId={StrategyId}, StrategyName={StrategyName}", 
                 strategy.Id, strategy.StrategyName);
-
             return new StopStrategyResponse
             {
                 Success = true,
@@ -97,8 +79,7 @@ public class StopStrategyCommandHandler : IRequestHandler<StopStrategyCommand, S
         {
             _logger.LogError(ex, "Strateji durdurulurken hata oluştu: StrategyId={StrategyId}", 
                 request.StrategyId);
-            throw; // Exception handling middleware'e ilet
+            throw;
         }
     }
 }
-

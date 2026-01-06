@@ -7,14 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Application.Features.Strategies.Queries.GetCompletedStrategies;
-
 public class GetCompletedStrategiesQueryHandler : IRequestHandler<GetCompletedStrategiesQuery, GetCompletedStrategiesResponse>
 {
     private readonly IStrategyRepository _strategyRepository;
     private readonly IStrategyEventRepository _strategyEventRepository;
-
     public GetCompletedStrategiesQueryHandler(
         IStrategyRepository strategyRepository,
         IStrategyEventRepository strategyEventRepository)
@@ -22,26 +19,20 @@ public class GetCompletedStrategiesQueryHandler : IRequestHandler<GetCompletedSt
         _strategyRepository = strategyRepository;
         _strategyEventRepository = strategyEventRepository;
     }
-
     public async Task<GetCompletedStrategiesResponse> Handle(GetCompletedStrategiesQuery request, CancellationToken cancellationToken)
     {
-        // Tamamlanmış stratejileri getir (Status = Completed veya FinishTime set edilmiş)
         var strategies = await _strategyRepository.GetAllAsync(
             predicate: s => s.UserId == request.UserId && 
                           (s.Status == StrategyStatus.Completed || s.FinishTime != null),
             orderBy: q => q.OrderByDescending(s => s.FinishTime ?? s.StartDate),
             cancellationToken: cancellationToken);
-
         var response = new GetCompletedStrategiesResponse();
-
         foreach (var strategy in strategies)
         {
-            // Her strateji için event'leri getir
             var events = await _strategyEventRepository.GetAllAsync(
                 predicate: e => e.StrategyId == strategy.Id,
                 orderBy: q => q.OrderBy(e => e.Timestamp),
                 cancellationToken: cancellationToken);
-
             var strategyDto = new StrategyDto
             {
                 Id = strategy.Id,
@@ -60,6 +51,8 @@ public class GetCompletedStrategiesQueryHandler : IRequestHandler<GetCompletedSt
                 TotalLoss = strategy.TotalLoss,
                 TotalTransactions = strategy.TotalTransactions,
                 SuccessfulTransactions = strategy.SuccessfulTransactions,
+                DurationHours = strategy.DurationHours,
+                ExpiryDate = strategy.ExpiryDate,
                 Events = events.Select(e => new StrategyEventDto
                 {
                     Id = e.Id,
@@ -72,11 +65,8 @@ public class GetCompletedStrategiesQueryHandler : IRequestHandler<GetCompletedSt
                     Timestamp = e.Timestamp
                 }).ToList()
             };
-
             response.CompletedStrategies.Add(strategyDto);
         }
-
         return response;
     }
 }
-

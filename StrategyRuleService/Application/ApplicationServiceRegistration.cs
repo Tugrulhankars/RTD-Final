@@ -12,24 +12,18 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Application;
-
 public static class ApplicationServiceRegistration
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
-        // NRulesService'i singleton olarak register et (in-memory strategy session'ları paylaşmak için)
+        services.AddSingleton<FlowchartLogger>();
         services.AddSingleton<INRulesService, NRulesService>();
-        
-        // Sürekli strateji işleme HostedService'i ekle
         services.AddHostedService<StrategyProcessingHostedService>();
-
         services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
-
         ActivitySource activitySource=new ActivitySource("StrategyRuleService");
         services.AddOpenTelemetry().WithTracing(opt =>
         {
@@ -38,7 +32,6 @@ public static class ApplicationServiceRegistration
             {
                 resource.AddService("StrategyRuleService");
             });
-
             opt.AddAspNetCoreInstrumentation(asp =>
             {
                 asp.Filter = (context) =>
@@ -46,22 +39,18 @@ public static class ApplicationServiceRegistration
                     if (!string.IsNullOrEmpty(context.Request.Path.Value))
                     {
                         return context.Request.Path.Value.Contains("api",StringComparison.InvariantCulture);
-
                     }
                     return false;
                 };
             });
-
             opt.AddEntityFrameworkCoreInstrumentation(efOptions =>
             {
                 efOptions.SetDbStatementForText = true;
                 efOptions.SetDbStatementForStoredProcedure = true;
             });
-
             opt.AddConsoleExporter();
             opt.AddOtlpExporter();
         });
-        
         return services;
     }
 }

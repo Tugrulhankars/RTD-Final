@@ -7,14 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Application.Features.Strategies.Queries.GetIncompleteStrategies;
-
 public class GetIncompleteStrategiesQueryHandler : IRequestHandler<GetIncompleteStrategiesQuery, GetIncompleteStrategiesResponse>
 {
     private readonly IStrategyRepository _strategyRepository;
     private readonly IStrategyEventRepository _strategyEventRepository;
-
     public GetIncompleteStrategiesQueryHandler(
         IStrategyRepository strategyRepository,
         IStrategyEventRepository strategyEventRepository)
@@ -22,27 +19,30 @@ public class GetIncompleteStrategiesQueryHandler : IRequestHandler<GetIncomplete
         _strategyRepository = strategyRepository;
         _strategyEventRepository = strategyEventRepository;
     }
-
     public async Task<GetIncompleteStrategiesResponse> Handle(GetIncompleteStrategiesQuery request, CancellationToken cancellationToken)
     {
-        // Tamamlanmamış stratejileri getir (Status != Completed ve FinishTime null)
         var strategies = await _strategyRepository.GetAllAsync(
-            predicate: s => s.UserId == request.UserId && 
-                          s.Status != StrategyStatus.Completed && 
+            predicate: s => s.UserId == request.UserId &&
+                          s.Status != StrategyStatus.Completed &&
                           s.FinishTime == null,
             orderBy: q => q.OrderByDescending(s => s.StartDate),
             cancellationToken: cancellationToken);
-
         var response = new GetIncompleteStrategiesResponse();
-
+        var now = DateTime.Now;
         foreach (var strategy in strategies)
         {
-            // Her strateji için event'leri getir
+            if (strategy.ExpiryDate.HasValue && 
+                strategy.ExpiryDate.Value < now && 
+                strategy.Status == StrategyStatus.Active)
+            {
+                strategy.Status = StrategyStatus.Inactive;
+                strategy.IsActive = false;
+                await _strategyRepository.UpdateAsync(strategy, cancellationToken);
+            }
             var events = await _strategyEventRepository.GetAllAsync(
                 predicate: e => e.StrategyId == strategy.Id,
                 orderBy: q => q.OrderBy(e => e.Timestamp),
                 cancellationToken: cancellationToken);
-
             var strategyDto = new StrategyDto
             {
                 Id = strategy.Id,
@@ -61,6 +61,8 @@ public class GetIncompleteStrategiesQueryHandler : IRequestHandler<GetIncomplete
                 TotalLoss = strategy.TotalLoss,
                 TotalTransactions = strategy.TotalTransactions,
                 SuccessfulTransactions = strategy.SuccessfulTransactions,
+                DurationHours = strategy.DurationHours,
+                ExpiryDate = strategy.ExpiryDate,
                 Events = events.Select(e => new StrategyEventDto
                 {
                     Id = e.Id,
@@ -73,11 +75,8 @@ public class GetIncompleteStrategiesQueryHandler : IRequestHandler<GetIncomplete
                     Timestamp = e.Timestamp
                 }).ToList()
             };
-
             response.IncompleteStrategies.Add(strategyDto);
         }
-
         return response;
     }
 }
-

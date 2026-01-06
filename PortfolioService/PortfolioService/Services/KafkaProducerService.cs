@@ -15,16 +15,36 @@ public class KafkaProducerService : IKafkaService
 
     public async Task ProduceAsync<TKey, TValue>(string topic, TKey key, TValue value)
     {
-        using var producer = new ProducerBuilder<TKey, string>(_producerConfig)
-            .SetValueSerializer(Serializers.Utf8)
-            .Build();
-
-        var message = new Message<TKey, string>
+        try
         {
-            Key = key,
-            Value = JsonConvert.SerializeObject(value)
-        };
+            using var producer = new ProducerBuilder<TKey, string>(_producerConfig)
+                .SetValueSerializer(Serializers.Utf8)
+                .SetErrorHandler((producer, error) =>
+                {
+                    Console.WriteLine($"Kafka producer error: {error.Reason}");
+                })
+                .Build();
 
-        await producer.ProduceAsync(topic, message);
+            var message = new Message<TKey, string>
+            {
+                Key = key,
+                Value = JsonConvert.SerializeObject(value)
+            };
+
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            await producer.ProduceAsync(topic, message, cts.Token);
+        }
+        catch (KafkaException kafkaEx)
+        {
+            Console.WriteLine($"Kafka produce error (non-critical): {kafkaEx.Message}");
+        }
+        catch (OperationCanceledException)
+        {
+            Console.WriteLine($"Kafka produce timeout - Kafka might be unavailable");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Kafka produce error: {ex.Message}");
+        }
     }
 }

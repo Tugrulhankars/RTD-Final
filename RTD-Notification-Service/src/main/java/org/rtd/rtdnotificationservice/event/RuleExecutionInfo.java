@@ -1,14 +1,29 @@
 package org.rtd.rtdnotificationservice.event;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class RuleExecutionInfo {
+    @JsonProperty("ruleName")
     private String ruleName;
+    
+    @JsonProperty("step")
     private int step;
+    
+    @JsonProperty("action")
     private String action;
+    
+    @JsonProperty("reason")
     private String reason;
+    
+    @JsonProperty("price")
     private BigDecimal price;
+    
+    @JsonProperty("timestamp")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime timestamp;
 
     public RuleExecutionInfo() {
@@ -71,4 +86,3 @@ public class RuleExecutionInfo {
         this.timestamp = timestamp;
     }
 }
-

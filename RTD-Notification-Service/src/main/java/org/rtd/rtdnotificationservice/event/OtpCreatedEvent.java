@@ -58,4 +58,3 @@ public class OtpCreatedEvent {
         this.firstName = firstName;
     }
 }
-

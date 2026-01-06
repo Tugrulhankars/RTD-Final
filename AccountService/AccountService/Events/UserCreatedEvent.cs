@@ -1,10 +1,18 @@
-﻿namespace AccountService.Events;
+using System.Text.Json.Serialization;
+
+namespace AccountService.Events;
 
 public class UserCreatedEvent
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    [JsonPropertyName("userId")]
+    public long UserId { get; set; }
+    
+    [JsonPropertyName("email")]
     public string Email { get; set; }
-    public int UserId { get; set; }
-   
+    
+    [JsonPropertyName("firstName")]
+    public string FirstName { get; set; }
+    
+    [JsonPropertyName("lastName")]
+    public string LastName { get; set; }
 }

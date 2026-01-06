@@ -417,11 +417,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\C project\\RTD-FinalProject\\RTD-Gateway\\Gateway\\Gateway.csproj",
+      "projectUniqueName": "C:\\RTD-FinalProject\\RTD-Gateway\\Gateway\\Gateway.csproj",
       "projectName": "Gateway",
-      "projectPath": "C:\\C project\\RTD-FinalProject\\RTD-Gateway\\Gateway\\Gateway.csproj",
+      "projectPath": "C:\\RTD-FinalProject\\RTD-Gateway\\Gateway\\Gateway.csproj",
       "packagesPath": "C:\\Users\\karsl\\.nuget\\packages\\",
-      "outputPath": "C:\\C project\\RTD-FinalProject\\RTD-Gateway\\Gateway\\obj\\",
+      "outputPath": "C:\\RTD-FinalProject\\RTD-Gateway\\Gateway\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

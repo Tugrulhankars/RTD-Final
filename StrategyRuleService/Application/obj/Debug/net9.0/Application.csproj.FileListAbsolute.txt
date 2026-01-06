@@ -17,3 +17,23 @@ C:\C project\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\A
 C:\C project\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\refint\Application.dll
 C:\C project\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\Application.pdb
 C:\C project\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\ref\Application.dll
+C:\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\Application.csproj.AssemblyReference.cache
+C:\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\Application.AssemblyInfoInputs.cache
+C:\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\Application.AssemblyInfo.cs
+C:\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\Application.csproj.CoreCompileInputs.cache
+C:\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\Application.sourcelink.json
+C:\RTD-FinalProject\StrategyRuleService\Application\bin\Debug\net9.0\Application.deps.json
+C:\RTD-FinalProject\StrategyRuleService\Application\bin\Debug\net9.0\Application.dll
+C:\RTD-FinalProject\StrategyRuleService\Application\bin\Debug\net9.0\Application.pdb
+C:\RTD-FinalProject\StrategyRuleService\Application\bin\Debug\net9.0\Core.dll
+C:\RTD-FinalProject\StrategyRuleService\Application\bin\Debug\net9.0\Domain.dll
+C:\RTD-FinalProject\StrategyRuleService\Application\bin\Debug\net9.0\Infrastructure.dll
+C:\RTD-FinalProject\StrategyRuleService\Application\bin\Debug\net9.0\Core.pdb
+C:\RTD-FinalProject\StrategyRuleService\Application\bin\Debug\net9.0\Domain.pdb
+C:\RTD-FinalProject\StrategyRuleService\Application\bin\Debug\net9.0\Infrastructure.pdb
+C:\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\Applicat.44B5EDA2.Up2Date
+C:\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\Application.dll
+C:\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\refint\Application.dll
+C:\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\Application.pdb
+C:\RTD-FinalProject\StrategyRuleService\Application\obj\Debug\net9.0\ref\Application.dll

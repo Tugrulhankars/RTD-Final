@@ -33,3 +33,39 @@ C:\C project\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9
 C:\C project\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.genruntimeconfig.cache
 C:\C project\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\ref\MarketDataService.dll
 C:\C project\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\RTD-FinalProject\MarketDataService\MarketDataService\bin\Debug\net9.0\MarketDataService.staticwebassets.endpoints.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\bin\Debug\net9.0\appsettings.Development.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\bin\Debug\net9.0\appsettings.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\bin\Debug\net9.0\MarketDataService.exe
+C:\RTD-FinalProject\MarketDataService\MarketDataService\bin\Debug\net9.0\MarketDataService.deps.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\bin\Debug\net9.0\MarketDataService.runtimeconfig.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\bin\Debug\net9.0\MarketDataService.dll
+C:\RTD-FinalProject\MarketDataService\MarketDataService\bin\Debug\net9.0\MarketDataService.pdb
+C:\RTD-FinalProject\MarketDataService\MarketDataService\bin\Debug\net9.0\Microsoft.OpenApi.dll
+C:\RTD-FinalProject\MarketDataService\MarketDataService\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\RTD-FinalProject\MarketDataService\MarketDataService\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\RTD-FinalProject\MarketDataService\MarketDataService\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.csproj.AssemblyReference.cache
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.GeneratedMSBuildEditorConfig.editorconfig
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.AssemblyInfoInputs.cache
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.AssemblyInfo.cs
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.csproj.CoreCompileInputs.cache
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.MvcApplicationPartsAssemblyInfo.cs
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.MvcApplicationPartsAssemblyInfo.cache
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.sourcelink.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\rjimswa.dswa.cache.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\scopedcss\bundle\MarketDataService.styles.css
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.build.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.build.json.cache
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.development.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDa.FAA560AF.Up2Date
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.dll
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\refint\MarketDataService.dll
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.pdb
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.genruntimeconfig.cache
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\ref\MarketDataService.dll

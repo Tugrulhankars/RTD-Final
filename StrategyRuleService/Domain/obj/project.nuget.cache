@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "exAZjEH8aq0=",
+  "dgSpecHash": "uOzSMWUj7ng=",
   "success": true,
-  "projectFilePath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj",
+  "projectFilePath": "C:\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\karsl\\.nuget\\packages\\mediatr\\13.0.0\\mediatr.13.0.0.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
@@ -28,6 +28,7 @@
     "C:\\Users\\karsl\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.0.1\\microsoft.identitymodel.tokens.8.0.1.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\microsoft.io.recyclablememorystream\\3.0.1\\microsoft.io.recyclablememorystream.3.0.1.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\microsoft.net.http.headers\\2.3.0\\microsoft.net.http.headers.2.3.0.nupkg.sha512",
+    "C:\\Users\\karsl\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\system.buffers\\4.6.0\\system.buffers.4.6.0.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\system.io.pipelines\\6.0.0-preview.4.21253.7\\system.io.pipelines.6.0.0-preview.4.21253.7.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512"

@@ -11,4 +11,5 @@ type TradeRepository interface {
 	Delete(ctx context.Context, tradeId int) error
 	GetByAccount(ctx context.Context, id int) (*domain.Trade, error)
 	GetAll(ctx context.Context) ([]*domain.Trade, error)
+	GetByAccountId(ctx context.Context, accountId int) ([]*domain.Trade, error)
 }

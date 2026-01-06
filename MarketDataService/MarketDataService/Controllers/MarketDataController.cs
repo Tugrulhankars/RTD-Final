@@ -27,7 +27,7 @@ public class MarketDataController : ControllerBase
             var buffer = new byte[1024 * 4];
             while (socket.State == WebSocketState.Open)
             {
-                await Task.Delay(1000); // keep-alive
+                await Task.Delay(1000);
             }
         }
         else

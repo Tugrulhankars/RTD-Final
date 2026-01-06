@@ -16,18 +16,12 @@ public class TestController : ControllerBase
         _logger = logger;
     }
 
-    /// <summary>
-    /// Test endpoint - servislerin çalışıp çalışmadığını kontrol eder
-    /// </summary>
     [HttpGet("health")]
     public ActionResult<string> HealthCheck()
     {
         return Ok("MarketDataService is running!");
     }
 
-    /// <summary>
-    /// Hisse senedi verisi test endpoint'i
-    /// </summary>
     [HttpGet("quote/{ticker}")]
     public async Task<ActionResult> TestQuote(string ticker)
     {
@@ -55,9 +49,6 @@ public class TestController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// WebSocket test endpoint'i
-    /// </summary>
     [HttpGet("websocket/{ticker}")]
     public ActionResult TestWebSocket(string ticker)
     {

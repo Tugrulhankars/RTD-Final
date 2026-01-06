@@ -1,14 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-
 #nullable disable
-
 namespace Persistance.Migrations
 {
-    /// <inheritdoc />
     public partial class init : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -50,7 +46,6 @@ namespace Persistance.Migrations
                 {
                     table.PrimaryKey("PK_Strategies", x => x.Id);
                 });
-
             migrationBuilder.CreateTable(
                 name: "StrategyEvents",
                 columns: table => new
@@ -74,13 +69,10 @@ namespace Persistance.Migrations
                     table.PrimaryKey("PK_StrategyEvents", x => x.Id);
                 });
         }
-
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Strategies");
-
             migrationBuilder.DropTable(
                 name: "StrategyEvents");
         }

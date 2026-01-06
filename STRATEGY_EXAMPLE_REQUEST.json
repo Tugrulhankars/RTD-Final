@@ -1,0 +1,18 @@
+{
+  "strategyName": "THYAO Alım Stratejisi",
+  "description": "THYAO hissesi için otomatik alım stratejisi - Fiyat düşüşünde alım yapar",
+  "userId": 1,
+  "stockSymbol": "THYAO",
+  "timeTracking": 60,
+  "lot": 10,
+  "transactionAmount": null,
+  "accountId": 1,
+  "portfolioId": 1,
+  "durationHours": null,
+  "stopLossPercentage": 3.0,
+  "takeProfitPercentage": 5.0,
+  "entryThresholdPercentage": -2.0,
+  "maxLossLimitPercentage": 10.0,
+  "totalPercentLoss": 10.0
+}
+

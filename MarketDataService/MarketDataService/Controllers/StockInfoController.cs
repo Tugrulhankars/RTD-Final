@@ -25,20 +25,47 @@ public class StockInfoController : ControllerBase
     [HttpGet("{ticker}")]
     public async Task<StockInfoDto> Get(string ticker)
     {
-        var quoteTask = _quoteService.GetQuoteAsync(ticker);
-        var profileTask = _profileService.GetProfileAsync(ticker);
-        var metricsTask = _metricsService.GetMetricsAsync(ticker);
+        StockQuoteDto? quote = null;
+        CompanyProfileDto? profile = null;
+        FinancialMetricsDto? metrics = null;
 
-        await Task.WhenAll(quoteTask, profileTask, metricsTask);
+        try
+        {
+            quote = await _quoteService.GetQuoteAsync(ticker);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Quote alınamadı: {ticker}, Hata: {ex.Message}");
+        }
+
+        try
+        {
+            profile = await _profileService.GetProfileAsync(ticker);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Profile alınamadı: {ticker}, Hata: {ex.Message}");
+        }
+
+        try
+        {
+            metrics = await _metricsService.GetMetricsAsync(ticker);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Metrics alınamadı: {ticker}, Hata: {ex.Message}");
+        }
+
+        if (quote == null)
+        {
+            throw new InvalidOperationException($"Hisse senedi bilgisi alınamadı: {ticker}");
+        }
 
         return new StockInfoDto
         {
-            Quote = quoteTask.Result,
-            Profile = profileTask.Result,
-            Metrics = metricsTask.Result
+            Quote = quote,
+            Profile = profile,
+            Metrics = metrics
         };
     }
 }
-
-
-

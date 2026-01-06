@@ -12,9 +12,11 @@ public interface IPortfolioService
 
     Task<List<GetAllPortfolioResponse>> GetAllPortfolioByUserAsync(int userId);
 
+    Task<GetAllPortfolioResponse?> GetPortfolioByAccountIdAsync(int accountId);
+
     Task<List<GetAllPortfolioResponse>> GetPortfoliosWithActiveStockCertificates(int userId);
 
-    Task SellStockCertificateToPortfolio(SellStockRequest request);
+    Task SellStockCertificateToPortfolio(Protos.SellStockRequest request);
 
     Task AddStockCertificateToPortfolio(AddStockCertificateToPortfolioRequest request);
 }

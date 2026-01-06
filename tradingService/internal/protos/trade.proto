@@ -4,12 +4,10 @@ package tradeService;
 
 option go_package = "/tradeService";
 
-// gRPC Service tanımı
 service TradeService {
   rpc CreateTrade(CreateTradeRequest) returns (CreateTradeResponse);
 }
 
-// Trade oluşturma isteği
 message CreateTradeRequest {
   int32 account_id = 1;
   string symbol = 2;
@@ -18,15 +16,11 @@ message CreateTradeRequest {
   TradeType type = 5;
 }
 
-// Trade oluşturma cevabı
 message CreateTradeResponse {
   string message = 1;
-  int32 trade_id = 2; // opsiyonel: yeni trade'in ID'si
-}
+  int32 trade_id = 2;}
 
-// Trade tipi enum
 enum TradeType {
-  TRADE_TYPE_UNSPECIFIED = 0; // default
-  BUY = 1;
+  TRADE_TYPE_UNSPECIFIED = 0;  BUY = 1;
   SELL = 2;
 }

@@ -38,3 +38,44 @@ C:\C project\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\refint\Gatewa
 C:\C project\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.pdb
 C:\C project\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.genruntimeconfig.cache
 C:\C project\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\ref\Gateway.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Gateway.staticwebassets.endpoints.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\appsettings.Development.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\appsettings.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Gateway.exe
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Gateway.deps.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Gateway.runtimeconfig.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Gateway.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Gateway.pdb
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\System.IO.Hashing.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\bin\Debug\net9.0\Yarp.ReverseProxy.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.csproj.AssemblyReference.cache
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.GeneratedMSBuildEditorConfig.editorconfig
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.AssemblyInfoInputs.cache
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.AssemblyInfo.cs
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.csproj.CoreCompileInputs.cache
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.MvcApplicationPartsAssemblyInfo.cache
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.sourcelink.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\rjimswa.dswa.cache.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\scopedcss\bundle\Gateway.styles.css
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\staticwebassets.build.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\staticwebassets.build.json.cache
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\staticwebassets.development.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.csproj.Up2Date
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\refint\Gateway.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.pdb
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\Gateway.genruntimeconfig.cache
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\ref\Gateway.dll
+C:\RTD-FinalProject\RTD-Gateway\Gateway\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Account/create": {
+    "/api/account/create": {
       "post": {
         "tags": [
           "Account"
@@ -36,7 +36,7 @@
         }
       }
     },
-    "/api/Account/getAccountByUser/{userId}": {
+    "/api/account/getAccountByUser/{userId}": {
       "get": {
         "tags": [
           "Account"
@@ -59,7 +59,7 @@
         }
       }
     },
-    "/api/Account/updateBalance": {
+    "/api/account/updateBalance": {
       "put": {
         "tags": [
           "Account"
@@ -83,6 +83,30 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/api/account/transactionHistory/{userId}": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"

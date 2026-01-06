@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 namespace StrategyRuleService.Worker
 {
     public class Worker : BackgroundService
@@ -21,7 +20,6 @@ namespace StrategyRuleService.Worker
         private readonly IServiceProvider _serviceProvider;
         private readonly List<Strategy> _activeStrategies;
         private readonly SemaphoreSlim _semaphore;
-
         public Worker(ILogger<Worker> logger, IServiceProvider serviceProvider)
         {
             _logger = logger;
@@ -29,19 +27,15 @@ namespace StrategyRuleService.Worker
             _activeStrategies = new List<Strategy>();
             _semaphore = new SemaphoreSlim(1, 1);
         }
-
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("NRules Worker başlatıldı - Kurallar sürekli çalışacak");
-
             await LoadActiveStrategiesFromDatabaseAsync(stoppingToken);
-
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
                     await _semaphore.WaitAsync(stoppingToken);
-                    
                     using (var scope = _serviceProvider.CreateScope())
                     {
                         var nRulesService = scope.ServiceProvider.GetRequiredService<INRulesService>();
@@ -61,13 +55,10 @@ namespace StrategyRuleService.Worker
                 {
                     _semaphore.Release();
                 }
-
-                await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
             }
-            
             _logger.LogInformation("NRules Worker durduruldu");
         }
-
         private async Task LoadActiveStrategiesFromDatabaseAsync(CancellationToken cancellationToken)
         {
             try
@@ -76,9 +67,7 @@ namespace StrategyRuleService.Worker
                 var strategyRepository = scope.ServiceProvider.GetRequiredService<IStrategyRepository>();
                 var nRulesService = scope.ServiceProvider.GetRequiredService<INRulesService>();
                 var marketDataService = scope.ServiceProvider.GetService<IMarketDataService>();
-
                 await ExpireOldDailyStrategiesAsync(scope, cancellationToken);
-
                 var today = DateTime.Today;
                 var tomorrow = today.AddDays(1);
                 var activeStrategies = await strategyRepository.GetAllAsync(
@@ -87,9 +76,7 @@ namespace StrategyRuleService.Worker
                                     && s.StartDate >= today
                                     && s.StartDate < tomorrow,
                     cancellationToken: cancellationToken);
-
                 _logger.LogInformation("Veritabanından {Count} adet aktif strateji bulundu", activeStrategies.Count);
-
                 foreach (var strategy in activeStrategies)
                 {
                     try
@@ -103,13 +90,11 @@ namespace StrategyRuleService.Worker
                         decimal percentChange = 0;
                         string companyName = null;
                         string currency = null;
-
                         if (marketDataService != null && !string.IsNullOrEmpty(strategy.StockSymbol))
                         {
                             try
                             {
                                 var stockInfo = await marketDataService.GetStockInfo(strategy.StockSymbol);
-                                
                                 if (stockInfo?.Quote != null)
                                 {
                                     openingPrice = stockInfo.Quote.OpenPrice;
@@ -120,7 +105,6 @@ namespace StrategyRuleService.Worker
                                     change = stockInfo.Quote.Change;
                                     percentChange = stockInfo.Quote.PercentChange;
                                 }
-                                
                                 if (stockInfo?.Profile != null)
                                 {
                                     companyName = stockInfo.Profile.Name;
@@ -138,7 +122,6 @@ namespace StrategyRuleService.Worker
                                 catch { }
                             }
                         }
-
                         var strategyContext = new StockWorkflow
                         {
                             StrategyId = strategy.Id,
@@ -165,10 +148,8 @@ namespace StrategyRuleService.Worker
                             PortfolioId = 0,
                             Step = 0
                         };
-
                         var strategyKey = $"Strategy_{strategy.Id}";
                         await nRulesService.AddStrategyAsync(strategyKey, strategyContext);
-
                         _logger.LogInformation("Aktif strateji yüklendi: StrategyId={StrategyId}, Name={StrategyName}, Symbol={Symbol}", 
                             strategy.Id, strategy.StrategyName, strategy.StockSymbol);
                     }
@@ -178,7 +159,6 @@ namespace StrategyRuleService.Worker
                             strategy.Id, strategy.StrategyName);
                     }
                 }
-
                 _logger.LogInformation("Tüm aktif stratejiler yüklendi");
             }
             catch (Exception ex)
@@ -186,19 +166,16 @@ namespace StrategyRuleService.Worker
                 _logger.LogError(ex, "Aktif stratejiler veritabanından yüklenirken hata oluştu");
             }
         }
-
         private static async Task ExpireOldDailyStrategiesAsync(IServiceScope scope, CancellationToken cancellationToken)
         {
             var strategyRepository = scope.ServiceProvider.GetRequiredService<IStrategyRepository>();
             var strategyEventRepository = scope.ServiceProvider.GetRequiredService<IStrategyEventRepository>();
-
             var today = DateTime.Today;
             var oldStrategies = await strategyRepository.GetAllAsync(
                 s => s.Status == StrategyStatus.Active
                      && s.FinishTime == null
                      && s.StartDate < today,
                 cancellationToken: cancellationToken);
-
             foreach (var strategy in oldStrategies)
             {
                 bool hasTrade = await strategyEventRepository.AnyAsync(
@@ -208,15 +185,12 @@ namespace StrategyRuleService.Worker
                              || e.Action == "BUY_SIMULATED"
                              || e.Action == "SELL_SIMULATED"),
                     cancellationToken);
-
                 strategy.Status = StrategyStatus.Inactive;
                 strategy.FinishTime = DateTime.Now;
                 await strategyRepository.UpdateAsync(strategy, cancellationToken);
-
                 var reason = hasTrade
                     ? "Günlük strateji süresi doldu."
                     : "Günlük strateji süresi doldu, gün içinde hiç alım/satım yapılmadı.";
-
                 var expiredEvent = new StrategyEvent
                 {
                     StrategyId = strategy.Id,
@@ -230,16 +204,9 @@ namespace StrategyRuleService.Worker
                 await strategyEventRepository.AddAsync(expiredEvent, cancellationToken);
             }
         }
-
-
-
-      
-
-
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Strateji Worker durduruluyor...");
-
             await _semaphore.WaitAsync();
             try
             {
@@ -249,7 +216,6 @@ namespace StrategyRuleService.Worker
             {
                 _semaphore.Release();
             }
-
             _semaphore.Dispose();
             await base.StopAsync(cancellationToken);
         }

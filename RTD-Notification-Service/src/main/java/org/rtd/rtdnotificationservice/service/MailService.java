@@ -12,7 +12,6 @@ import org.rtd.rtdnotificationservice.event.UserRegisteredEvent;
 
 public interface MailService {
 
-
     void sendOtpMail(OtpCreatedEvent event) throws MessagingException;
     void sendWelcomeMail(UserRegisteredEvent event) throws MessagingException;
     void sendUserVerifiedMail(OtpVerifiedEvent event) throws MessagingException;

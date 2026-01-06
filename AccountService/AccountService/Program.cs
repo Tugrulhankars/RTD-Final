@@ -2,6 +2,7 @@ using AccountService.Configuration;
 using AccountService.Repositories;
 using AccountService.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -12,23 +13,85 @@ builder.Services.AddGrpc();
 builder.Services.AddScoped<IAccountService, AccountService.Services.AccountService>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IRabbitMQPublisher,RabbitMqPublisher>();
-builder.Services.AddScoped(typeof(KafkaConsumerService<>));
+
+builder.Services.AddHttpClient("PortfolioService", client =>
+{
+    var portfolioServiceUrl = builder.Configuration["PortfolioService:BaseUrl"] ?? "http://localhost:5242";
+    client.BaseAddress = new Uri(portfolioServiceUrl);
+    client.Timeout = TimeSpan.FromSeconds(30);
+});
+builder.Services.AddSingleton(typeof(KafkaConsumerService<>));
+builder.Services.AddSingleton<KafkaTopicInitializer>();
 
 builder.Services.AddHostedService<UserCreatedEventConsumerService>();
+builder.Services.AddHostedService<PaymentSuccessEventConsumerService>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:3000", "http://localhost:5173", "http://localhost:5286")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
 builder.Services.AddDbContext<DatabaseContext>(op =>
 {
-    op.UseSqlServer("server=MetropolTilkisi;database=RTD-AccountService;integrated security=SSPI;persist security info=False;Trusted_Connection=True;Encrypt=false");
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? "Server=localhost;Database=RTD-AccountService;Trusted_Connection=True;TrustServerCertificate=True;";
+    
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        throw new InvalidOperationException("Database connection string is null or empty. Please check appsettings.json ConnectionStrings:DefaultConnection");
+    }
+    
+    op.UseSqlServer(connectionString, sqlOptions =>
+    {
+        sqlOptions.MaxBatchSize(100);
+        sqlOptions.CommandTimeout(60);
+        
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null
+        );
+    });
 });
 var app = builder.Build();
+
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+logger.LogInformation("Account-Service başlatılıyor...");
+
+_ = Task.Run(async () =>
+{
+    try
+    {
+        await Task.Delay(2000);
+        using var scope = app.Services.CreateScope();
+        var topicInitializer = scope.ServiceProvider.GetRequiredService<KafkaTopicInitializer>();
+        await topicInitializer.InitializeTopicsAsync();
+        logger.LogInformation("Kafka topic initialization tamamlandı.");
+    }
+    catch (Exception ex)
+    {
+        logger.LogWarning(ex, "Kafka topic initialization başarısız (non-critical): {Error}", ex.Message);
+    }
+});
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
+app.UseCors();
+if (app.Environment.IsProduction())
+{
+    app.UseHttpsRedirection();
+}
 
 app.MapControllers();
 
 var grpcPort = builder.Configuration["Grpc:Port"] ?? "5001";
 app.MapGrpcService<AccountService.Services.AccountService>();
 
+logger.LogInformation("Account-Service başlatıldı, dinleniyor...");
 app.Run();
-

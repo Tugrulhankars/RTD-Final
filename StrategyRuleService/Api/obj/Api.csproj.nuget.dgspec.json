@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Api\\Api.csproj": {}
+    "C:\\RTD-FinalProject\\StrategyRuleService\\Api\\Api.csproj": {}
   },
   "projects": {
-    "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Api\\Api.csproj": {
+    "C:\\RTD-FinalProject\\StrategyRuleService\\Api\\Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Api\\Api.csproj",
+        "projectUniqueName": "C:\\RTD-FinalProject\\StrategyRuleService\\Api\\Api.csproj",
         "projectName": "Api",
-        "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Api\\Api.csproj",
+        "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Api\\Api.csproj",
         "packagesPath": "C:\\Users\\karsl\\.nuget\\packages\\",
-        "outputPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Api\\obj\\",
+        "outputPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,14 +33,14 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj": {
-                "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj"
+              "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj": {
+                "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj"
               },
-              "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj"
+              "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj"
               },
-              "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Persistance\\Persistance.csproj": {
-                "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Persistance\\Persistance.csproj"
+              "C:\\RTD-FinalProject\\StrategyRuleService\\Persistance\\Persistance.csproj": {
+                "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Persistance\\Persistance.csproj"
               }
             }
           }
@@ -64,6 +64,12 @@
             "MediatR": {
               "target": "Package",
               "version": "[13.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.8, )"
             },
             "OpenTelemetry": {
               "target": "Package",
@@ -125,14 +131,14 @@
         }
       }
     },
-    "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj": {
+    "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj",
+        "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\karsl\\.nuget\\packages\\",
-        "outputPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Application\\obj\\",
+        "outputPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -154,14 +160,14 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj": {
-                "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj"
+              "C:\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj": {
+                "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj"
               },
-              "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj"
+              "C:\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj"
               },
-              "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj"
+              "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -188,15 +194,15 @@
             },
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[9.0.8, )"
             },
             "Microsoft.Extensions.Hosting.Abstractions": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[9.0.8, )"
             },
             "Microsoft.Extensions.Http": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[9.0.8, )"
             },
             "NRules": {
               "target": "Package",
@@ -259,14 +265,14 @@
         }
       }
     },
-    "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj": {
+    "C:\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj",
+        "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\karsl\\.nuget\\packages\\",
-        "outputPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Core\\obj\\",
+        "outputPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -351,14 +357,14 @@
         }
       }
     },
-    "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj": {
+    "C:\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj",
+        "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\karsl\\.nuget\\packages\\",
-        "outputPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Domain\\obj\\",
+        "outputPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -380,8 +386,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj": {
-                "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj"
+              "C:\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj": {
+                "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj"
               }
             }
           }
@@ -401,6 +407,12 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.4, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -421,14 +433,14 @@
         }
       }
     },
-    "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\karsl\\.nuget\\packages\\",
-        "outputPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\obj\\",
+        "outputPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -449,7 +461,11 @@
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -504,11 +520,11 @@
             },
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[9.0.8, )"
             },
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[9.0.8, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
@@ -539,14 +555,14 @@
         }
       }
     },
-    "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Persistance\\Persistance.csproj": {
+    "C:\\RTD-FinalProject\\StrategyRuleService\\Persistance\\Persistance.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Persistance\\Persistance.csproj",
+        "projectUniqueName": "C:\\RTD-FinalProject\\StrategyRuleService\\Persistance\\Persistance.csproj",
         "projectName": "Persistance",
-        "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Persistance\\Persistance.csproj",
+        "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Persistance\\Persistance.csproj",
         "packagesPath": "C:\\Users\\karsl\\.nuget\\packages\\",
-        "outputPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Persistance\\obj\\",
+        "outputPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Persistance\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -568,11 +584,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj": {
-                "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj"
+              "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj": {
+                "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Application.csproj"
               },
-              "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj"
+              "C:\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Domain\\Domain.csproj"
               }
             }
           }

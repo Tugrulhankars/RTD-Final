@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+9Jbw8rEFPI=",
+  "dgSpecHash": "vYisnfH1UY4=",
   "success": true,
-  "projectFilePath": "C:\\C project\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj",
+  "projectFilePath": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\karsl\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
@@ -11,7 +11,6 @@
     "C:\\Users\\karsl\\.nuget\\packages\\grpc.aspnetcore\\2.71.0\\grpc.aspnetcore.2.71.0.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\grpc.aspnetcore.server\\2.71.0\\grpc.aspnetcore.server.2.71.0.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\grpc.aspnetcore.server.clientfactory\\2.71.0\\grpc.aspnetcore.server.clientfactory.2.71.0.nupkg.sha512",
-    "C:\\Users\\karsl\\.nuget\\packages\\grpc.core\\2.46.6\\grpc.core.2.46.6.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\grpc.core.api\\2.71.0\\grpc.core.api.2.71.0.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\grpc.net.client\\2.71.0\\grpc.net.client.2.71.0.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\grpc.net.clientfactory\\2.71.0\\grpc.net.clientfactory.2.71.0.nupkg.sha512",

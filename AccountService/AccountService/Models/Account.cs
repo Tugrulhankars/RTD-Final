@@ -7,8 +7,7 @@ public class Account
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
-    public double Balance { get; set; }
+    public decimal Balance { get; set; }
     public AccountStatus AccountStatus { get; set; }
-
 
 }

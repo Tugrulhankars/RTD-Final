@@ -11,12 +11,12 @@ import (
 )
 
 func main() {
-
 	err := service.NewRabbitMqConnection("")
 	if err != nil {
-		log.Fatalf("Failed to initialize RabbitMQ: %v", err)
+		log.Printf("WARNING: Failed to initialize RabbitMQ: %v. Application will continue without RabbitMQ.", err)
+	} else {
+		defer service.RabbitMQClient.Close()
 	}
-	defer service.RabbitMQClient.Close()
 
 	app := fiber.New()
 
@@ -30,6 +30,7 @@ func main() {
 	app.Post("/api/v1/trade/direct/sell", newTradeController.DirectSell)
 	app.Get("/api/v1/trade/getTradeByAccount", newTradeController.GetTradeByAccount)
 	app.Get("/api/v1/trade/getAllTrade", newTradeController.GetAllTrade)
+	app.Get("/api/trade/history/:accountId", newTradeController.GetTradeHistoryByAccountId)
 
-	app.Listen(":8081")
+	app.Listen(":9084")
 }

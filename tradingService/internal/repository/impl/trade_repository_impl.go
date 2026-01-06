@@ -62,3 +62,13 @@ func (t TradeRepository) GetAll(ctx context.Context) ([]*domain.Trade, error) {
 	return trades, nil
 
 }
+
+func (t TradeRepository) GetByAccountId(ctx context.Context, accountId int) ([]*domain.Trade, error) {
+	var trades []*domain.Trade
+
+	err := t.db.WithContext(ctx).Where("account_id = ?", accountId).Order("executed_at DESC").Find(&trades).Error
+	if err != nil {
+		return nil, err
+	}
+	return trades, nil
+}

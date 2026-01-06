@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 @Table(name = "mails")
 public class Mail extends NotificationBase<Long>{
 
-
     private String mailTo;
     private String mailFrom;
     private String title;

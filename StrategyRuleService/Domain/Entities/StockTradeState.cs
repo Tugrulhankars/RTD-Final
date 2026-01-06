@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Domain.Entities;
-
-//finhub'dan gelcek veriler
 public class StockTradeState
 {
     public string StockSymbol { get; set; }
@@ -19,4 +16,3 @@ public class StockTradeState
     public TimeSpan? TradingStartTime { get; set; }
     public TimeSpan? TradingEndTime { get; set; }
 }
-

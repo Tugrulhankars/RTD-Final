@@ -32,8 +32,6 @@ public class Sms extends NotificationBase<Long>{
         this.smsFrom = smsFrom;
     }
 
-
-
     public String getSmsTo() {
         return smsTo;
     }

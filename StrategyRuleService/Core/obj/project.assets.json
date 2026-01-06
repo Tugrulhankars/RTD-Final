@@ -1113,11 +1113,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj",
+      "projectUniqueName": "C:\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj",
       "projectName": "Core",
-      "projectPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj",
+      "projectPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Core\\Core.csproj",
       "packagesPath": "C:\\Users\\karsl\\.nuget\\packages\\",
-      "outputPath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\Core\\obj\\",
+      "outputPath": "C:\\RTD-FinalProject\\StrategyRuleService\\Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

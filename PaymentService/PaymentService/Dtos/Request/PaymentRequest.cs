@@ -1,12 +1,10 @@
-﻿namespace PaymentService.Dtos.Request;
-
+namespace PaymentService.Dtos.Request;
 public class PaymentRequest
 {
-    public int UserId { get; set; }               // Hangi kullanıcıya ait
+    public int UserId { get; set; }
     public int AccountId { get; set; }
-    public decimal Amount { get; set; }              // Ödeme miktarı
-    public string Currency { get; set; }             // TRY, USD vb.
-    public string PaymentMethod { get; set; }        // CreditCard, EFT, vs.
-    public string Status { get; set; }               // "Pending", "Success", "Failed"
-   
+    public decimal Amount { get; set; }
+    public string Currency { get; set; } = string.Empty;
+    public string PaymentMethod { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty;
 }

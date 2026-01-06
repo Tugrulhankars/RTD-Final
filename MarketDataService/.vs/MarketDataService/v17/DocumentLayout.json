@@ -1,85 +1,85 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\C project\\RTD-FinalProject\\MarketDataService\\",
+  "WorkspaceRootPath": "C:\\RTD-FinalProject\\MarketDataService\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\helpers\\finnhubclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\helpers\\finnhubclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\controllers\\stockquotecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\controllers\\stockquotecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\controllers\\marketdatacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\controllers\\marketdatacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\controllers\\companyprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\controllers\\companyprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\controllers\\financialmetricscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\controllers\\financialmetricscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\controllers\\stockinfocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\controllers\\stockinfocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\controllers\\stockinfocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\dtos\\stockinfodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\helpers\\finnhubclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\helpers\\finnhubclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\controllers\\stockquotecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\controllers\\stockquotecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\controllers\\marketdatacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\controllers\\marketdatacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\controllers\\companyprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\controllers\\companyprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\controllers\\financialmetricscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\controllers\\financialmetricscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\dtos\\stockinfodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\dtos\\stockinfodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\dtos\\financialmetricsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\dtos\\financialmetricsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\dtos\\financialmetricsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\dtos\\companyprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\dtos\\companyprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\dtos\\companyprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\dtos\\stockquotedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\dtos\\stockquotedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\dtos\\stockquotedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\impl\\marketdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\impl\\marketdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\services\\impl\\marketdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\impl\\companyprofileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\impl\\companyprofileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\services\\impl\\companyprofileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\imarketdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\imarketdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\services\\imarketdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\impl\\financialmetricsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\impl\\financialmetricsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\services\\impl\\financialmetricsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\impl\\stockquoteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\impl\\stockquoteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\services\\impl\\stockquoteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\istockquoteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\istockquoteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\services\\istockquoteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\ifinancialmetricsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\ifinancialmetricsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\services\\ifinancialmetricsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\c project\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\icompanyprofileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|c:\\rtd-finalproject\\marketdataservice\\marketdataservice\\services\\icompanyprofileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBB75ABA-0573-49A5-BDE8-C4A1C1999B70}|MarketDataService\\MarketDataService.csproj|solutionrelative:marketdataservice\\services\\icompanyprofileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -90,7 +90,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -98,48 +98,49 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "FinnhubClient.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Helpers\\FinnhubClient.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Helpers\\FinnhubClient.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Helpers\\FinnhubClient.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Helpers\\FinnhubClient.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Helpers\\FinnhubClient.cs",
               "RelativeToolTip": "MarketDataService\\Helpers\\FinnhubClient.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAgwD4AAABDAAAAAAAAAA==",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAwwHQAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-02T20:12:03.703Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "StockInfoController.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\StockInfoController.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\StockInfoController.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Controllers\\StockInfoController.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\StockInfoController.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\StockInfoController.cs",
               "RelativeToolTip": "MarketDataService\\Controllers\\StockInfoController.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAAAEEAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-02T20:13:25.491Z"
+              "WhenOpened": "2025-10-02T20:13:25.491Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Program.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Program.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Program.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Program.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Program.cs",
               "RelativeToolTip": "MarketDataService\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-02T20:37:06.764Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "StockQuoteController.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\StockQuoteController.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\StockQuoteController.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Controllers\\StockQuoteController.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\StockQuoteController.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\StockQuoteController.cs",
               "RelativeToolTip": "MarketDataService\\Controllers\\StockQuoteController.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAuwA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -147,11 +148,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "CompanyProfileController.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\CompanyProfileController.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\CompanyProfileController.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Controllers\\CompanyProfileController.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\CompanyProfileController.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\CompanyProfileController.cs",
               "RelativeToolTip": "MarketDataService\\Controllers\\CompanyProfileController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -159,11 +160,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "FinancialMetricsController.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\FinancialMetricsController.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\FinancialMetricsController.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Controllers\\FinancialMetricsController.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\FinancialMetricsController.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\FinancialMetricsController.cs",
               "RelativeToolTip": "MarketDataService\\Controllers\\FinancialMetricsController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -171,11 +172,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "TestController.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\TestController.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\TestController.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Controllers\\TestController.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\TestController.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\TestController.cs",
               "RelativeToolTip": "MarketDataService\\Controllers\\TestController.cs",
               "ViewState": "AgIAABsAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -183,11 +184,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "MarketDataController.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\MarketDataController.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\MarketDataController.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Controllers\\MarketDataController.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\MarketDataController.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\MarketDataController.cs",
               "RelativeToolTip": "MarketDataService\\Controllers\\MarketDataController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -197,9 +198,9 @@
               "$type": "Document",
               "DocumentIndex": 9,
               "Title": "FinancialMetricsDto.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\FinancialMetricsDto.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\FinancialMetricsDto.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Dtos\\FinancialMetricsDto.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\FinancialMetricsDto.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\FinancialMetricsDto.cs",
               "RelativeToolTip": "MarketDataService\\Dtos\\FinancialMetricsDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -209,9 +210,9 @@
               "$type": "Document",
               "DocumentIndex": 11,
               "Title": "StockQuoteDto.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\StockQuoteDto.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\StockQuoteDto.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Dtos\\StockQuoteDto.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\StockQuoteDto.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\StockQuoteDto.cs",
               "RelativeToolTip": "MarketDataService\\Dtos\\StockQuoteDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -221,9 +222,9 @@
               "$type": "Document",
               "DocumentIndex": 8,
               "Title": "StockInfoDto.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\StockInfoDto.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\StockInfoDto.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Dtos\\StockInfoDto.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\StockInfoDto.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\StockInfoDto.cs",
               "RelativeToolTip": "MarketDataService\\Dtos\\StockInfoDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -233,9 +234,9 @@
               "$type": "Document",
               "DocumentIndex": 10,
               "Title": "CompanyProfileDto.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\CompanyProfileDto.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\CompanyProfileDto.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Dtos\\CompanyProfileDto.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\CompanyProfileDto.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Dtos\\CompanyProfileDto.cs",
               "RelativeToolTip": "MarketDataService\\Dtos\\CompanyProfileDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -245,9 +246,9 @@
               "$type": "Document",
               "DocumentIndex": 12,
               "Title": "MarketDataService.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\MarketDataService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\MarketDataService.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Services\\Impl\\MarketDataService.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\MarketDataService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\MarketDataService.cs",
               "RelativeToolTip": "MarketDataService\\Services\\Impl\\MarketDataService.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAAuwGMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -257,9 +258,9 @@
               "$type": "Document",
               "DocumentIndex": 13,
               "Title": "CompanyProfileService.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\CompanyProfileService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\CompanyProfileService.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Services\\Impl\\CompanyProfileService.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\CompanyProfileService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\CompanyProfileService.cs",
               "RelativeToolTip": "MarketDataService\\Services\\Impl\\CompanyProfileService.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAAABoAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -269,9 +270,9 @@
               "$type": "Document",
               "DocumentIndex": 14,
               "Title": "IMarketDataService.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\IMarketDataService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\IMarketDataService.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Services\\IMarketDataService.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\IMarketDataService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\IMarketDataService.cs",
               "RelativeToolTip": "MarketDataService\\Services\\IMarketDataService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -281,9 +282,9 @@
               "$type": "Document",
               "DocumentIndex": 15,
               "Title": "FinancialMetricsService.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\FinancialMetricsService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\FinancialMetricsService.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Services\\Impl\\FinancialMetricsService.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\FinancialMetricsService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\FinancialMetricsService.cs",
               "RelativeToolTip": "MarketDataService\\Services\\Impl\\FinancialMetricsService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -293,9 +294,9 @@
               "$type": "Document",
               "DocumentIndex": 16,
               "Title": "StockQuoteService.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\StockQuoteService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\StockQuoteService.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Services\\Impl\\StockQuoteService.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\StockQuoteService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\Impl\\StockQuoteService.cs",
               "RelativeToolTip": "MarketDataService\\Services\\Impl\\StockQuoteService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -305,9 +306,9 @@
               "$type": "Document",
               "DocumentIndex": 17,
               "Title": "IStockQuoteService.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\IStockQuoteService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\IStockQuoteService.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Services\\IStockQuoteService.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\IStockQuoteService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\IStockQuoteService.cs",
               "RelativeToolTip": "MarketDataService\\Services\\IStockQuoteService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -317,9 +318,9 @@
               "$type": "Document",
               "DocumentIndex": 18,
               "Title": "IFinancialMetricsService.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\IFinancialMetricsService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\IFinancialMetricsService.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Services\\IFinancialMetricsService.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\IFinancialMetricsService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\IFinancialMetricsService.cs",
               "RelativeToolTip": "MarketDataService\\Services\\IFinancialMetricsService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -329,9 +330,9 @@
               "$type": "Document",
               "DocumentIndex": 19,
               "Title": "ICompanyProfileService.cs",
-              "DocumentMoniker": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\ICompanyProfileService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\ICompanyProfileService.cs",
               "RelativeDocumentMoniker": "MarketDataService\\Services\\ICompanyProfileService.cs",
-              "ToolTip": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\ICompanyProfileService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Services\\ICompanyProfileService.cs",
               "RelativeToolTip": "MarketDataService\\Services\\ICompanyProfileService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

@@ -14,7 +14,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain.Enums;
 using Domain.Events;
-
 namespace Application.Services
 {
     public class NRulesService : INRulesService
@@ -23,109 +22,144 @@ namespace Application.Services
         private readonly ISessionFactory _sessionFactory;
         private readonly ConcurrentDictionary<string, ISession> _strategySessions;
         private readonly IServiceScopeFactory _scopeFactory;
-
+        private readonly FlowchartLogger _flowchartLogger;
         public NRulesService(
             ILogger<NRulesService> logger, 
-            IServiceScopeFactory scopeFactory)
+            IServiceScopeFactory scopeFactory,
+            FlowchartLogger flowchartLogger)
         {
             _logger = logger;
             _scopeFactory = scopeFactory;
+            _flowchartLogger = flowchartLogger;
             _strategySessions = new ConcurrentDictionary<string, ISession>();
             _logger.LogInformation("NRulesService instance oluşturuldu: {Hash}", GetHashCode());
-
-            // NRules repository ve factory oluştur
             var repository = new RuleRepository();
             repository.Load(x => x.From(typeof(TimeCheckRule).Assembly));
             _sessionFactory = repository.Compile();
         }
-
         public async Task ProcessRulesAsync()
         {
             try
             {
                 _logger.LogInformation("ProcessRulesAsync başladı - Toplam {Count} strateji işlenecek", _strategySessions.Count);
-
                 if (_strategySessions.Count == 0)
                 {
                     _logger.LogWarning("ProcessRulesAsync: Hiç strateji yok, işlenecek bir şey yok");
                     return;
                 }
-
+                var tasks = new List<Task>();
                 foreach (var kvp in _strategySessions)
                 {
                     var strategyName = kvp.Key;
                     var session = kvp.Value;
-                    
-                    _logger.LogInformation("Strateji işleniyor: {StrategyName}", strategyName);
-                    
-                    await UpdateContextAsync(session);
-                    
-                    // Step değişikliklerini yakalamak için birden fazla kez Fire() çağır
-                    // Her Fire() sonrası fact'leri Update et ki sonraki kurallar tetiklensin
-                    int maxIterations = 10; // Maksimum iterasyon sayısı (sonsuz döngüyü önlemek için)
-                    int iteration = 0;
-                    int previousFiredCount = 0;
-                    
-                    while (iteration < maxIterations)
+                    var task = Task.Run(async () =>
                     {
-                        _logger.LogDebug("Kurallar tetikleniyor: {StrategyName}, Iteration: {Iteration}", strategyName, iteration + 1);
-                        
-                        var firedCount = session.Fire();
-                        _logger.LogDebug("Fired rules count: {Count}", firedCount);
-                        
-                        // Eğer hiç kural tetiklenmediyse, döngüden çık
-                        if (firedCount == 0)
+                        try
                         {
-                            _logger.LogDebug("Hiç kural tetiklenmedi, döngü sonlandı");
-                            break;
+                            await ProcessStrategyAsync(strategyName, session);
                         }
-                        
-                        // Fact'leri güncelle (Step değişikliklerini session'a bildir)
-                        var facts = session.Query<StockWorkflow>().ToList();
-                        foreach (var fact in facts)
+                        catch (Exception ex)
                         {
-                            session.Update(fact);
-                            _logger.LogDebug("Fact güncellendi: {Symbol}, Step={Step}", fact.Symbol, fact.Step);
+                            _logger.LogError(ex, "Strateji işlenirken hata oluştu: {StrategyName}", strategyName);
                         }
-                        
-                        // Eğer aynı sayıda kural tetiklendiyse (değişiklik yok), döngüden çık
-                        if (firedCount == previousFiredCount && iteration > 0)
-                        {
-                            _logger.LogDebug("Kural tetiklenme sayısı değişmedi, döngü sonlandı");
-                            break;
-                        }
-                        
-                        previousFiredCount = firedCount;
-                        iteration++;
-                    }
-                    
-                    if (iteration >= maxIterations)
-                    {
-                        _logger.LogWarning("Maksimum iterasyon sayısına ulaşıldı: {StrategyName}", strategyName);
-                    }
-                    
-                    // StrategyEvent'leri topla ve kaydet
-                    _logger.LogDebug("Event'ler kaydediliyor: {StrategyName}", strategyName);
-                    await SaveStrategyEventsAsync(session);
+                    });
+                    tasks.Add(task);
                 }
-                
-                _logger.LogInformation("ProcessRulesAsync tamamlandı");
+                await Task.WhenAll(tasks);
+                _logger.LogInformation("ProcessRulesAsync tamamlandı - {Count} strateji işlendi", tasks.Count);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Kurallar işlenirken hata oluştu");
             }
         }
-
+        private async Task ProcessStrategyAsync(string strategyName, ISession session)
+        {
+            _logger.LogInformation("Strateji işleniyor: {StrategyName}", strategyName);
+            await UpdateContextAsync(session);
+            int maxIterations = 10;
+            int iteration = 0;
+            int previousFiredCount = 0;
+            while (iteration < maxIterations)
+            {
+                _logger.LogDebug("Kurallar tetikleniyor: {StrategyName}, Iteration: {Iteration}", strategyName, iteration + 1);
+                var factsBefore = session.Query<StockWorkflow>().ToList();
+                var currentStepBefore = factsBefore.FirstOrDefault()?.Step ?? 0;
+                var firedCount = session.Fire();
+                _logger.LogDebug("Fired rules count: {Count}", firedCount);
+                if (firedCount == 0)
+                {
+                    _logger.LogDebug("Hiç kural tetiklenmedi, döngü sonlandı");
+                    break;
+                }
+                var facts = session.Query<StockWorkflow>().ToList();
+                foreach (var fact in facts)
+                {
+                    session.Update(fact);
+                    _logger.LogDebug("Fact güncellendi: {Symbol}, Step={Step}", fact.Symbol, fact.Step);
+                    var currentRule = GetCurrentRuleName(fact.Step, currentStepBefore);
+                    var decision = GetDecision(fact, currentStepBefore);
+                    var reason = GetReason(fact, currentRule);
+                    if (iteration % 5 == 0 || fact.Step != currentStepBefore)
+                    {
+                        _flowchartLogger.LogFlowchart(fact, currentRule, decision.Item1, decision.Item2, reason);
+                    }
+                    else
+                    {
+                        _flowchartLogger.LogSimpleFlowchart(fact, currentRule, decision.Item1, reason);
+                    }
+                    await UpdateStrategyCurrentStepAsync(fact.StrategyId, fact.Step);
+                }
+                if (firedCount == previousFiredCount && iteration > 0)
+                {
+                    _logger.LogDebug("Kural tetiklenme sayısı değişmedi, döngü sonlandı");
+                    break;
+                }
+                previousFiredCount = firedCount;
+                iteration++;
+            }
+            if (iteration >= maxIterations)
+            {
+                _logger.LogWarning("Maksimum iterasyon sayısına ulaşıldı: {StrategyName}", strategyName);
+            }
+            _logger.LogDebug("Event'ler kaydediliyor: {StrategyName}", strategyName);
+            await SaveStrategyEventsAsync(session);
+        }
+        private async Task UpdateStrategyCurrentStepAsync(int strategyId, int currentStep)
+        {
+            try
+            {
+                using var scope = _scopeFactory.CreateScope();
+                var strategyRepository = scope.ServiceProvider.GetRequiredService<IStrategyRepository>();
+                var strategy = await strategyRepository.GetAsync(
+                    s => s.Id == strategyId,
+                    cancellationToken: default);
+                if (strategy != null && strategy.CurrentStep != currentStep)
+                {
+                    strategy.CurrentStep = currentStep;
+                    if (strategy.Status == Domain.Enums.StrategyStatus.Waiting)
+                    {
+                        strategy.Status = Domain.Enums.StrategyStatus.Active;
+                    }
+                    await strategyRepository.UpdateAsync(strategy);
+                    _logger.LogDebug("Strategy CurrentStep güncellendi: StrategyId={StrategyId}, CurrentStep={CurrentStep}", 
+                        strategyId, currentStep);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Strategy CurrentStep güncellenirken hata oluştu: StrategyId={StrategyId}, CurrentStep={CurrentStep}", 
+                    strategyId, currentStep);
+            }
+        }
         public async Task AddStrategyAsync(string strategyName, object context)
         {
             try
             {
                 var session = _sessionFactory.CreateSession();
-                
-                // Eğer context StockWorkflow ise, TradeService ve PortfolioService delegate'lerini set et
                 if (context is StockWorkflow workflow)
                 {
+                    workflow.Symbol = workflow.Symbol.ToUpper().Trim();
                     workflow.TradeService = async (request) =>
                     {
                         using var scope = _scopeFactory.CreateScope();
@@ -135,15 +169,12 @@ namespace Application.Services
                             _logger.LogWarning("TradeService çözümlenemedi. Alım/Satım isteği simüle edilecek. Symbol={Symbol}", workflow.Symbol);
                             return null;
                         }
-
                         return await tradeService.CreateTrade(request);
                     };
-                    
                     workflow.PortfolioService = async (portfolioId, symbol) =>
                     {
                         if (portfolioId <= 0 || string.IsNullOrWhiteSpace(symbol))
                             return false;
-
                         using var scope = _scopeFactory.CreateScope();
                         var portfolioService = scope.ServiceProvider.GetService<IPortfolioService>();
                         if (portfolioService == null)
@@ -151,15 +182,12 @@ namespace Application.Services
                             _logger.LogWarning("PortfolioService çözümlenemedi. Symbol={Symbol}", symbol);
                             return false;
                         }
-
                         return await portfolioService.IsInPortfolio(portfolioId, symbol);
                     };
-                    
                     workflow.AccountService = async (accountId) =>
                     {
                         if (accountId <= 0)
                             return 0;
-
                         using var scope = _scopeFactory.CreateScope();
                         var accountService = scope.ServiceProvider.GetService<IAccountService>();
                         if (accountService == null)
@@ -167,7 +195,6 @@ namespace Application.Services
                             _logger.LogWarning("AccountService çözümlenemedi. AccountId={AccountId}", accountId);
                             return 0;
                         }
-
                         try
                         {
                             var balance = await accountService.GetAccountBalanceAsync(accountId);
@@ -179,12 +206,10 @@ namespace Application.Services
                             return 0;
                         }
                     };
-                    
                     workflow.MarketDataService = async (symbol) =>
                     {
                         if (string.IsNullOrWhiteSpace(symbol))
                             return null;
-
                         using var scope = _scopeFactory.CreateScope();
                         var marketDataService = scope.ServiceProvider.GetService<IMarketDataService>();
                         if (marketDataService == null)
@@ -192,7 +217,6 @@ namespace Application.Services
                             _logger.LogWarning("MarketDataService çözümlenemedi. Symbol={Symbol}", symbol);
                             return null;
                         }
-
                         try
                         {
                             return await marketDataService.GetStockInfo(symbol);
@@ -203,10 +227,24 @@ namespace Application.Services
                             return null;
                         }
                     };
+                    var userPreference = new UserPreference
+                    {
+                        StrategyId = workflow.StrategyId,
+                        UserId = workflow.UserId,
+                        Ticker = workflow.Symbol.ToUpper().Trim(),
+                        StopLossPercentage = workflow.StopLossPercent,
+                        TakeProfitPercentage = workflow.ProfitTargetPercent,
+                        EntryThresholdPercentage = workflow.EntryThresholdPercent,
+                        MaxLossLimitPercentage = workflow.MaxTotalLoss
+                    };
+                    workflow.UserPreference = userPreference;
+                    session.Insert(workflow);
+                    session.Insert(userPreference);
                 }
-                
-                session.Insert(context);
-
+                else
+                {
+                    session.Insert(context);
+                }
                 if (_strategySessions.TryAdd(strategyName, session))
                 {
                     _logger.LogInformation("Strateji başarıyla eklendi: {StrategyName}", strategyName);
@@ -220,16 +258,13 @@ namespace Application.Services
             {
                 _logger.LogError(ex, "Strateji eklenirken hata oluştu: {StrategyName}", strategyName);
             }
-
         }
-
         public async Task RemoveStrategyAsync(string strategyName)
         {
             try
             {
                 if (_strategySessions.TryRemove(strategyName, out var session))
                 {
-                    // ISession IDisposable değil, sadece kaldır
                     _logger.LogInformation("Strateji kaldırıldı: {StrategyName}", strategyName);
                 }
             }
@@ -238,47 +273,140 @@ namespace Application.Services
                 _logger.LogError(ex, "Strateji kaldırılırken hata oluştu: {StrategyName}", strategyName);
             }
         }
-
+        public async Task UpdateStrategyPreferencesAsync(int strategyId, Application.Features.Strategies.Dtos.UserPreference userPreference)
+        {
+            try
+            {
+                var strategyKey = $"Strategy_{strategyId}";
+                if (_strategySessions.TryGetValue(strategyKey, out var session))
+                {
+                    userPreference.Ticker = userPreference.Ticker.ToUpper().Trim();
+                    string normalizedTicker = userPreference.Ticker;
+                    var allPreferences = session.Query<UserPreference>()
+                        .Where(pref => pref.StrategyId == strategyId)
+                        .ToList();
+                    var existingPreferences = allPreferences
+                        .Where(pref => pref.Ticker.ToUpper().Trim() == normalizedTicker)
+                        .ToList();
+                    if (existingPreferences.Any())
+                    {
+                        var existingPref = existingPreferences.First();
+                        existingPref.StopLossPercentage = userPreference.StopLossPercentage;
+                        existingPref.TakeProfitPercentage = userPreference.TakeProfitPercentage;
+                        existingPref.EntryThresholdPercentage = userPreference.EntryThresholdPercentage;
+                        existingPref.MaxLossLimitPercentage = userPreference.MaxLossLimitPercentage;
+                        session.Update(existingPref);
+                        _logger.LogInformation("UserPreference güncellendi: StrategyId={StrategyId}, Ticker={Ticker}", strategyId, userPreference.Ticker);
+                    }
+                    else
+                    {
+                        session.Insert(userPreference);
+                        _logger.LogInformation("Yeni UserPreference eklendi: StrategyId={StrategyId}, Ticker={Ticker}", strategyId, userPreference.Ticker);
+                    }
+                    var allWorkflows = session.Query<StockWorkflow>()
+                        .Where(w => w.StrategyId == strategyId)
+                        .ToList();
+                    var workflows = allWorkflows
+                        .Where(w => w.Symbol.ToUpper().Trim() == normalizedTicker)
+                        .ToList();
+                    var updatedPreference = existingPreferences.Any() ? existingPreferences.First() : userPreference;
+                    foreach (var workflow in workflows)
+                    {
+                        workflow.StopLossPercent = userPreference.StopLossPercentage;
+                        workflow.ProfitTargetPercent = userPreference.TakeProfitPercentage;
+                        workflow.EntryThresholdPercent = userPreference.EntryThresholdPercentage;
+                        workflow.MaxTotalLoss = userPreference.MaxLossLimitPercentage;
+                        workflow.UserPreference = updatedPreference;
+                        session.Update(workflow);
+                    }
+                }
+                else
+                {
+                    _logger.LogWarning("Strateji session'ı bulunamadı: {StrategyKey}", strategyKey);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "UserPreference güncellenirken hata oluştu: StrategyId={StrategyId}", strategyId);
+                throw;
+            }
+        }
+        private string GetCurrentRuleName(int currentStep, int previousStep)
+        {
+            return currentStep switch
+            {
+                0 => "TimeCheckRule",
+                1 => "PortfolioCheckRule",
+                2 => "SellRule",
+                3 => "BuyRule",
+                -1 => "Completed",
+                _ => "Unknown"
+            };
+        }
+        private (string, bool?) GetDecision(StockWorkflow ctx, int previousStep)
+        {
+            if (ctx.Step == -1)
+            {
+                return ("SONLANDI", false);
+            }
+            if (ctx.Step > previousStep)
+            {
+                return ("EVET", true);
+            }
+            if (ctx.Step == previousStep && (ctx.Step == 2 || ctx.Step == 3))
+            {
+                return ("BEKLE", null);
+            }
+            return ("DEVAM", null);
+        }
+        private string GetReason(StockWorkflow ctx, string currentRule)
+        {
+            return currentRule switch
+            {
+                "TimeCheckRule" => ctx.MarketOpen 
+                    ? "Piyasa açık (10:00-17:59) - Portföy kontrolüne geçiliyor" 
+                    : "Piyasa kapalı - Strateji sonlandırılıyor",
+                "PortfolioCheckRule" => ctx.InPortfolio 
+                    ? "Hisse portföyde var - Satış kontrolüne geçiliyor" 
+                    : "Hisse portföyde yok - Alım kontrolüne geçiliyor",
+                "SellRule" => ctx.BuyPrice.HasValue 
+                    ? $"Take Profit/Stop Loss kontrol ediliyor (Alış: ₺{ctx.BuyPrice.Value:F2}, Mevcut: ₺{ctx.CurrentPrice:F2})" 
+                    : "Alış fiyatı yok - Satış yapılamıyor",
+                "BuyRule" => ctx.OpeningPrice > 0 
+                    ? $"Entry fiyatı kontrol ediliyor (Açılış: ₺{ctx.OpeningPrice:F2}, Mevcut: ₺{ctx.CurrentPrice:F2})" 
+                    : "Açılış fiyatı yok - Alım yapılamıyor",
+                "Completed" => "Strateji başarıyla tamamlandı",
+                _ => "İşlem devam ediyor"
+            };
+        }
         private async Task UpdateContextAsync(ISession session)
         {
             var currentTime = DateTime.Now;
-            
             using var scope = _scopeFactory.CreateScope();
             var marketDataService = scope.ServiceProvider.GetService<IMarketDataService>();
-
-            // Context'i güncelle
             var facts = session.Query<StockWorkflow>().ToList();
             foreach (var fact in facts)
             {
                 try
                 {
-                    // MarketDataService'ten gerçek veri al (eğer mevcut ise)
                     if (marketDataService != null && !string.IsNullOrEmpty(fact.Symbol))
                     {
                         try
                         {
-                            // Tüm market verilerini tek seferde al (StockInfoDto)
                             var stockInfo = await marketDataService.GetStockInfo(fact.Symbol);
-                            
                             if (stockInfo?.Quote != null)
                             {
                                 var quote = stockInfo.Quote;
-                                
-                                // Açılış fiyatı günün açılış fiyatıdır ve bir kez alınmalı, sabit kalmalı
                                 if (fact.OpeningPrice <= 0)
                                 {
                                     fact.OpeningPrice = quote.OpenPrice;
                                 }
-                                
-                                // Sürekli güncellenen fiyat verileri
                                 fact.CurrentPrice = quote.CurrentPrice;
                                 fact.HighPrice = quote.HighPrice;
                                 fact.LowPrice = quote.LowPrice;
                                 fact.PreviousClosePrice = quote.PreviousClosePrice;
                                 fact.Change = quote.Change;
                                 fact.PercentChange = quote.PercentChange;
-                                
-                                // Şirket bilgileri
                                 if (stockInfo.Profile != null)
                                 {
                                     fact.CompanyName = stockInfo.Profile.Name;
@@ -286,8 +414,6 @@ namespace Application.Services
                                     fact.Industry = stockInfo.Profile.Industry;
                                     fact.Currency = stockInfo.Profile.Currency;
                                 }
-                                
-                                // Finansal metrikler
                                 if (stockInfo.Metrics != null)
                                 {
                                     fact.Pe = stockInfo.Metrics.Pe;
@@ -296,13 +422,11 @@ namespace Application.Services
                                     fact.NetMargin = stockInfo.Metrics.NetMargin;
                                     fact.DebtEquity = stockInfo.Metrics.DebtEquity;
                                 }
-                                
                                 _logger.LogDebug("MarketDataService'ten tüm veriler alındı: {Symbol} - Current={CurrentPrice:F2}, Open={OpenPrice:F2}, Change={PercentChange:F2}%", 
                                     fact.Symbol, fact.CurrentPrice, fact.OpeningPrice, fact.PercentChange);
                             }
                             else
                             {
-                                // Fallback: Eski metodlar
                                 var currentPrice = await marketDataService.GetStockCurrentPrice(fact.Symbol);
                                 if (fact.OpeningPrice <= 0)
                                 {
@@ -320,22 +444,14 @@ namespace Application.Services
                     }
                     else
                     {
-                        // MarketDataService yoksa simüle veri kullan
                         await UpdateWithSimulatedData(fact, currentTime);
                     }
-                    
-                    // Zarar yüzdesi hesapla
                     if (fact.OpeningPrice > 0)
                     {
                         fact.TotalLossPercent = ((fact.CurrentPrice - fact.OpeningPrice) / fact.OpeningPrice) * 100;
                     }
-                    
-                    // Zamanı güncelle
                     fact.Now = currentTime;
-                    
-                    // NRules'a fact değişikliğini bildir
                     session.Update(fact);
-                    
                     _logger.LogDebug("Veri güncellendi: {Symbol} - Fiyat={CurrentPrice:F2}, Zarar={TotalLossPercent:F2}%, Step={Step}", 
                         fact.Symbol, fact.CurrentPrice, fact.TotalLossPercent, fact.Step);
                 }
@@ -345,55 +461,41 @@ namespace Application.Services
                 }
             }
         }
-        
         private async Task UpdateWithSimulatedData(StockWorkflow fact, DateTime currentTime)
         {
             var random = new Random();
-            // Fiyat değişimi simülasyonu (%-2 ile +2 arası)
             var priceChange = (decimal)(random.NextDouble() - 0.5) * 4m;
             fact.CurrentPrice = Math.Max(1, fact.CurrentPrice + priceChange);
-            
-            // İlk kez açılış fiyatı set ediliyorsa
             if (fact.OpeningPrice == 0)
             {
                 fact.OpeningPrice = fact.CurrentPrice;
             }
         }
-        
         private async Task SaveStrategyEventsAsync(ISession session)
         {
             try
             {
-                // StockWorkflow'lardan StrategyEvent'leri topla
                 var workflows = session.Query<StockWorkflow>().ToList();
-                
                 _logger.LogDebug("SaveStrategyEventsAsync: {Count} workflow bulundu", workflows.Count);
-                
                 foreach (var workflow in workflows)
                 {
                     if (workflow.StrategyEvents != null && workflow.StrategyEvents.Any())
                     {
                         _logger.LogInformation("[{Symbol}] StrategyId={StrategyId}, Step={Step} - {Count} adet StrategyEvent bulundu", 
                             workflow.Symbol, workflow.StrategyId, workflow.Step, workflow.StrategyEvents.Count);
-                        
-                        // Her event'i veritabanına kaydet
                         foreach (var strategyEvent in workflow.StrategyEvents)
                         {
                             try
                             {
-                                // StrategyId'nin doğru set edildiğinden emin ol
                                 if (strategyEvent.StrategyId <= 0 && workflow.StrategyId > 0)
                                 {
                                     strategyEvent.StrategyId = workflow.StrategyId;
                                     _logger.LogDebug("StrategyEvent StrategyId güncellendi: {OldId} -> {NewId}", 
                                         strategyEvent.StrategyId, workflow.StrategyId);
                                 }
-                                
-                                // Event'i veritabanına kaydet
                                 using var scope = _scopeFactory.CreateScope();
                                 var strategyEventRepository = scope.ServiceProvider.GetRequiredService<IStrategyEventRepository>();
                                 var savedEvent = await strategyEventRepository.AddAsync(strategyEvent);
-                                
                                 _logger.LogInformation("✓ Event kaydedildi: Id={Id}, StrategyId={StrategyId}, Step={Step}, RuleName={RuleName}, Action={Action}, Reason={Reason}, Fiyat={Price:F2}, Timestamp={Timestamp}", 
                                     savedEvent.Id, savedEvent.StrategyId, savedEvent.Step, savedEvent.RuleName, 
                                     savedEvent.Action, savedEvent.Reason, savedEvent.Price, savedEvent.Timestamp);
@@ -404,18 +506,12 @@ namespace Application.Services
                                     strategyEvent.RuleName, strategyEvent.StrategyId, strategyEvent.Step, strategyEvent.Action);
                             }
                         }
-                        
-                        // Başarılı alış/satış durumlarında notification gönder
                         var successfulBuyOrSellEvents = workflow.StrategyEvents
                             .Where(e => e.Action == "BUY" || e.Action == "SELL")
                             .ToList();
-                        
-                        // Piyasa kapalı durumunda notification gönder
                         var marketClosedEvents = workflow.StrategyEvents
                             .Where(e => e.Action == "MARKET_CLOSED")
                             .ToList();
-                        
-                        // Başarılı alış veya satış yapıldıysa notification gönder
                         if (successfulBuyOrSellEvents.Any())
                         {
                             try
@@ -426,11 +522,8 @@ namespace Application.Services
                             {
                                 _logger.LogError(ex, "Notification gönderilirken hata oluştu: StrategyId={StrategyId}", 
                                     workflow.StrategyId);
-                                // Notification hatası event kaydetmeyi engellemez
                             }
                         }
-                        
-                        // Piyasa kapalıyken notification gönder
                         if (marketClosedEvents.Any())
                         {
                             try
@@ -441,11 +534,8 @@ namespace Application.Services
                             {
                                 _logger.LogError(ex, "Piyasa kapalı notification gönderilirken hata oluştu: StrategyId={StrategyId}", 
                                     workflow.StrategyId);
-                                // Notification hatası event kaydetmeyi engellemez
                             }
                         }
-                        
-                        // Event'leri temizle (tekrar kaydedilmemesi için)
                         workflow.StrategyEvents.Clear();
                         _logger.LogDebug("[{Symbol}] StrategyEvents temizlendi", workflow.Symbol);
                     }
@@ -461,72 +551,130 @@ namespace Application.Services
                 _logger.LogError(ex, "StrategyEvent'ler kaydedilirken genel hata oluştu");
             }
         }
-        
         private async Task SendNotificationAsync(StockWorkflow workflow, List<Domain.Entities.StrategyEvent> successfulBuyOrSellEvents)
         {
             using var scope = _scopeFactory.CreateScope();
             var strategyRepository = scope.ServiceProvider.GetRequiredService<IStrategyRepository>();
             var strategyEventRepository = scope.ServiceProvider.GetRequiredService<IStrategyEventRepository>();
             var rabbitMQPublisher = scope.ServiceProvider.GetService<IRabbitMQPublisher>();
-            
             if (rabbitMQPublisher == null)
             {
                 _logger.LogWarning("RabbitMQPublisher bulunamadı, notification gönderilemedi: StrategyId={StrategyId}", 
                     workflow.StrategyId);
                 return;
             }
-            
-            // Strateji bilgilerini al
             var strategy = await strategyRepository.GetAsync(
                 s => s.Id == workflow.StrategyId,
                 cancellationToken: default);
-            
             if (strategy == null)
             {
                 _logger.LogWarning("Strateji bulunamadı, notification gönderilemedi: StrategyId={StrategyId}", 
                     workflow.StrategyId);
                 return;
             }
-            
-            // Tüm event'leri al (kullanıcıya gönderilecek - alış/satışa kadar çalışan kurallar)
             var allEvents = await strategyEventRepository.GetAllAsync(
                 e => e.StrategyId == workflow.StrategyId,
                 cancellationToken: default);
-            
-            // Başarılı alım/satım event'ini bul (sadece "BUY" veya "SELL" action'ları)
             var buyEvent = successfulBuyOrSellEvents.FirstOrDefault(e => e.Action == "BUY");
             var sellEvent = successfulBuyOrSellEvents.FirstOrDefault(e => e.Action == "SELL");
-            
-            // Event oluştur - sadece başarılı alış/satış için
+            _logger.LogInformation("📋 Creating StrategyNotificationEvent - Source Data: Strategy.Id={StrategyId}, Strategy.UserId={UserId}, Strategy.StrategyName={StrategyName}, Strategy.StockSymbol={StockSymbol}, Workflow.Symbol={WorkflowSymbol}, Workflow.CurrentPrice={CurrentPrice}", 
+                strategy.Id, strategy.UserId, strategy.StrategyName, strategy.StockSymbol, workflow.Symbol, workflow.CurrentPrice);
+            string userEmail = null;
+            try
+            {
+                using var userScope = _scopeFactory.CreateScope();
+                var userService = userScope.ServiceProvider.GetService<IUserService>();
+                if (userService == null)
+                {
+                    _logger.LogWarning("⚠️ IUserService is not registered in DI container. Using fallback email.");
+                }
+                else
+                {
+                    _logger.LogDebug("Attempting to get user email from AuthUserService: UserId={UserId}", strategy.UserId);
+                    userEmail = await userService.GetUserEmailByIdAsync(strategy.UserId);
+                    if (!string.IsNullOrEmpty(userEmail))
+                    {
+                        _logger.LogInformation("✅ User Email retrieved from AuthUserService: UserId={UserId}, Email={Email}", 
+                            strategy.UserId, userEmail);
+                    }
+                    else
+                    {
+                        _logger.LogWarning("⚠️ User email is null or empty from AuthUserService: UserId={UserId}", strategy.UserId);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "❌ Failed to get user email from AuthUserService: UserId={UserId}", strategy.UserId);
+            }
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                userEmail = $"user{strategy.UserId}@example.com";
+                _logger.LogWarning("⚠️ Using fallback email: UserId={UserId}, Email={Email}", strategy.UserId, userEmail);
+            }
+            var action = buyEvent != null ? "BUY" : "SELL";
+            _logger.LogInformation("🎯 Action determined: {Action} (BuyEvent={HasBuyEvent}, SellEvent={HasSellEvent})", 
+                action, buyEvent != null, sellEvent != null);
             var strategyNotificationEvent = new StrategyNotificationEvent
             {
                 StrategyId = strategy.Id,
                 UserId = strategy.UserId,
-                StrategyName = strategy.StrategyName,
-                StockSymbol = strategy.StockSymbol,
+                UserEmail = userEmail ?? $"user{strategy.UserId}@example.com",
+                StrategyName = strategy.StrategyName ?? "Unknown Strategy",
+                StockSymbol = strategy.StockSymbol ?? workflow.Symbol ?? "UNKNOWN",
                 Status = strategy.Status.ToString(),
-                Action = buyEvent != null ? "BUY" : "SELL", // Sadece başarılı alış veya satış
+                Action = action,
                 BuyPrice = buyEvent?.Price ?? strategy.BuyPrice,
                 SellPrice = sellEvent?.Price ?? strategy.SellPrice,
                 CurrentPrice = workflow.CurrentPrice,
                 Timestamp = DateTime.Now,
-                // Alış/satışa kadar çalışan tüm kuralları ekle
                 ExecutedRules = allEvents
                     .OrderBy(e => e.Step)
                     .ThenBy(e => e.Timestamp)
                     .Select(e => new Domain.Events.RuleExecutionInfo
                     {
-                        RuleName = e.RuleName,
+                        RuleName = e.RuleName ?? "Unknown",
                         Step = e.Step,
-                        Action = e.Action,
-                        Reason = e.Reason,
+                        Action = e.Action ?? "UNKNOWN",
+                        Reason = e.Reason ?? string.Empty,
                         Price = e.Price,
                         Timestamp = e.Timestamp
                     })
                     .ToList()
             };
-            
-            // Kar/Zarar hesapla
+            _logger.LogInformation("✅ StrategyNotificationEvent created successfully: StrategyId={StrategyId}, UserId={UserId}, UserEmail={UserEmail}, Action={Action}, StrategyName={StrategyName}, StockSymbol={StockSymbol}, Status={Status}, CurrentPrice={CurrentPrice}, Timestamp={Timestamp}", 
+                strategyNotificationEvent.StrategyId, 
+                strategyNotificationEvent.UserId, 
+                strategyNotificationEvent.UserEmail ?? "NULL",
+                strategyNotificationEvent.Action ?? "NULL",
+                strategyNotificationEvent.StrategyName ?? "NULL",
+                strategyNotificationEvent.StockSymbol ?? "NULL",
+                strategyNotificationEvent.Status ?? "NULL",
+                strategyNotificationEvent.CurrentPrice,
+                strategyNotificationEvent.Timestamp);
+            if (strategyNotificationEvent.StrategyId == 0)
+            {
+                _logger.LogError("❌ StrategyNotificationEvent StrategyId is 0! Event will not be sent.");
+                throw new InvalidOperationException("StrategyNotificationEvent StrategyId cannot be 0");
+            }
+            if (strategyNotificationEvent.UserId == 0)
+            {
+                _logger.LogError("❌ StrategyNotificationEvent UserId is 0! Event will not be sent. StrategyId={StrategyId}", 
+                    strategyNotificationEvent.StrategyId);
+                throw new InvalidOperationException("StrategyNotificationEvent UserId cannot be 0");
+            }
+            if (string.IsNullOrEmpty(strategyNotificationEvent.Action))
+            {
+                _logger.LogError("❌ StrategyNotificationEvent Action is null or empty! Event will not be sent. StrategyId={StrategyId}, UserId={UserId}", 
+                    strategyNotificationEvent.StrategyId, strategyNotificationEvent.UserId);
+                throw new InvalidOperationException("StrategyNotificationEvent Action cannot be null or empty");
+            }
+            if (string.IsNullOrEmpty(strategyNotificationEvent.UserEmail))
+            {
+                _logger.LogWarning("⚠️ StrategyNotificationEvent UserEmail is null or empty. Using fallback. StrategyId={StrategyId}, UserId={UserId}", 
+                    strategyNotificationEvent.StrategyId, strategyNotificationEvent.UserId);
+                strategyNotificationEvent.UserEmail = $"user{strategyNotificationEvent.UserId}@example.com";
+            }
             if (buyEvent != null && sellEvent != null)
             {
                 strategyNotificationEvent.ProfitLoss = sellEvent.Price - buyEvent.Price;
@@ -539,15 +687,12 @@ namespace Application.Services
             {
                 strategyNotificationEvent.ProfitLoss = sellEvent.Price - strategy.BuyPrice.Value;
             }
-            
-            // Stratejiyi güncelle (alım/satım fiyatları ve durum)
             if (buyEvent != null)
             {
                 strategy.BuyPrice = buyEvent.Price;
                 strategy.IsPositionOpen = true;
                 strategy.TotalTransactions++;
             }
-            
             if (sellEvent != null)
             {
                 strategy.SellPrice = sellEvent.Price;
@@ -566,15 +711,19 @@ namespace Application.Services
                     }
                 }
             }
-            
             await strategyRepository.UpdateAsync(strategy);
-            
-            // RabbitMQ'ya event gönder - sadece başarılı alış/satış için bir kez
             try
             {
+                _logger.LogInformation("🚀 Publishing StrategyNotificationEvent to RabbitMQ: StrategyId={StrategyId}, UserId={UserId}, UserEmail={UserEmail}, Action={Action}", 
+                    strategyNotificationEvent.StrategyId, 
+                    strategyNotificationEvent.UserId, 
+                    strategyNotificationEvent.UserEmail,
+                    strategyNotificationEvent.Action);
                 await rabbitMQPublisher.PublishAsync(strategyNotificationEvent, "strategy-notifications");
-                
-                // Notification gönderildi event'ini kaydet
+                _logger.LogInformation("✅ StrategyNotificationEvent successfully published to RabbitMQ: StrategyId={StrategyId}, UserId={UserId}, Action={Action}", 
+                    strategyNotificationEvent.StrategyId, 
+                    strategyNotificationEvent.UserId, 
+                    strategyNotificationEvent.Action);
                 var notificationEvent = new Domain.Entities.StrategyEvent
                 {
                     StrategyId = strategy.Id,
@@ -585,16 +734,13 @@ namespace Application.Services
                     Price = buyEvent?.Price ?? sellEvent?.Price ?? workflow.CurrentPrice,
                     Timestamp = DateTime.Now
                 };
-                
                 await strategyEventRepository.AddAsync(notificationEvent);
-                
                 _logger.LogInformation("Strateji notification event'i gönderildi ve kaydedildi: StrategyId={StrategyId}, Action={Action}, UserId={UserId}, Price={Price}", 
                     strategy.Id, strategyNotificationEvent.Action, strategy.UserId, 
                     buyEvent?.Price ?? sellEvent?.Price ?? 0);
             }
             catch (Exception ex)
             {
-                // Notification gönderilemedi event'ini kaydet
                 var notificationFailedEvent = new Domain.Entities.StrategyEvent
                 {
                     StrategyId = strategy.Id,
@@ -605,48 +751,86 @@ namespace Application.Services
                     Price = buyEvent?.Price ?? sellEvent?.Price ?? workflow.CurrentPrice,
                     Timestamp = DateTime.Now
                 };
-                
                 await strategyEventRepository.AddAsync(notificationFailedEvent);
-                
                 _logger.LogError(ex, "Event gönderilirken hata oluştu ve event kaydedildi: StrategyId={StrategyId}", 
                     strategy.Id);
-                throw; // Hata yukarı fırlatılıyor ama event kaydedildi
+                throw;
             }
         }
-        
         private async Task SendMarketClosedNotificationAsync(StockWorkflow workflow, Domain.Entities.StrategyEvent marketClosedEvent)
         {
             using var scope = _scopeFactory.CreateScope();
             var strategyRepository = scope.ServiceProvider.GetRequiredService<IStrategyRepository>();
             var strategyEventRepository = scope.ServiceProvider.GetRequiredService<IStrategyEventRepository>();
             var rabbitMQPublisher = scope.ServiceProvider.GetService<IRabbitMQPublisher>();
-            
             if (rabbitMQPublisher == null)
             {
                 _logger.LogWarning("RabbitMQPublisher bulunamadı, piyasa kapalı notification gönderilemedi: StrategyId={StrategyId}", 
                     workflow.StrategyId);
                 return;
             }
-            
-            // Strateji bilgilerini al
             var strategy = await strategyRepository.GetAsync(
                 s => s.Id == workflow.StrategyId,
                 cancellationToken: default);
-            
             if (strategy == null)
             {
                 _logger.LogWarning("Strateji bulunamadı, piyasa kapalı notification gönderilemedi: StrategyId={StrategyId}", 
                     workflow.StrategyId);
                 return;
             }
-            
-            // Piyasa kapalı notification event'i oluştur
+            if (strategy.Status == Domain.Enums.StrategyStatus.Active)
+            {
+                strategy.Status = Domain.Enums.StrategyStatus.Inactive;
+                strategy.IsActive = false;
+                strategy.FinishTime = DateTime.Now;
+                await strategyRepository.UpdateAsync(strategy);
+                var strategyKey = $"Strategy_{strategy.Id}";
+                await RemoveStrategyAsync(strategyKey);
+                _logger.LogInformation("Piyasa kapalı olduğu için strateji durduruldu: StrategyId={StrategyId}, StrategyName={StrategyName}", 
+                    strategy.Id, strategy.StrategyName);
+            }
+            _logger.LogInformation("📋 Creating MarketClosed StrategyNotificationEvent - Source Data: Strategy.Id={StrategyId}, Strategy.UserId={UserId}, Strategy.StrategyName={StrategyName}, Strategy.StockSymbol={StockSymbol}, Workflow.Symbol={WorkflowSymbol}, Workflow.CurrentPrice={CurrentPrice}", 
+                strategy.Id, strategy.UserId, strategy.StrategyName, strategy.StockSymbol, workflow.Symbol, workflow.CurrentPrice);
+            string userEmail = null;
+            try
+            {
+                using var userScope = _scopeFactory.CreateScope();
+                var userService = userScope.ServiceProvider.GetService<IUserService>();
+                if (userService == null)
+                {
+                    _logger.LogWarning("⚠️ IUserService is not registered in DI container. Using fallback email.");
+                }
+                else
+                {
+                    _logger.LogDebug("Attempting to get user email from AuthUserService: UserId={UserId}", strategy.UserId);
+                    userEmail = await userService.GetUserEmailByIdAsync(strategy.UserId);
+                    if (!string.IsNullOrEmpty(userEmail))
+                    {
+                        _logger.LogInformation("✅ User Email retrieved from AuthUserService: UserId={UserId}, Email={Email}", 
+                            strategy.UserId, userEmail);
+                    }
+                    else
+                    {
+                        _logger.LogWarning("⚠️ User email is null or empty from AuthUserService: UserId={UserId}", strategy.UserId);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "❌ Failed to get user email from AuthUserService: UserId={UserId}", strategy.UserId);
+            }
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                userEmail = $"user{strategy.UserId}@example.com";
+                _logger.LogWarning("⚠️ Using fallback email: UserId={UserId}, Email={Email}", strategy.UserId, userEmail);
+            }
             var strategyNotificationEvent = new StrategyNotificationEvent
             {
                 StrategyId = strategy.Id,
                 UserId = strategy.UserId,
-                StrategyName = strategy.StrategyName,
-                StockSymbol = workflow.Symbol,
+                UserEmail = userEmail ?? $"user{strategy.UserId}@example.com",
+                StrategyName = strategy.StrategyName ?? "Unknown Strategy",
+                StockSymbol = workflow.Symbol ?? strategy.StockSymbol ?? "UNKNOWN",
                 Status = strategy.Status.ToString(),
                 Action = "MARKET_CLOSED",
                 CurrentPrice = workflow.CurrentPrice,
@@ -656,22 +840,60 @@ namespace Application.Services
                 {
                     new Domain.Events.RuleExecutionInfo
                     {
-                        RuleName = marketClosedEvent.RuleName,
+                        RuleName = marketClosedEvent.RuleName ?? "TimeCheckRule",
                         Step = marketClosedEvent.Step,
-                        Action = marketClosedEvent.Action,
-                        Reason = marketClosedEvent.Reason,
+                        Action = marketClosedEvent.Action ?? "MARKET_CLOSED",
+                        Reason = marketClosedEvent.Reason ?? string.Empty,
                         Price = marketClosedEvent.Price,
                         Timestamp = marketClosedEvent.Timestamp
                     }
                 }
             };
-            
-            // RabbitMQ'ya event gönder
+            _logger.LogInformation("✅ MarketClosed StrategyNotificationEvent created successfully: StrategyId={StrategyId}, UserId={UserId}, UserEmail={UserEmail}, Action={Action}, StrategyName={StrategyName}, StockSymbol={StockSymbol}, Status={Status}, CurrentPrice={CurrentPrice}, Timestamp={Timestamp}", 
+                strategyNotificationEvent.StrategyId, 
+                strategyNotificationEvent.UserId, 
+                strategyNotificationEvent.UserEmail ?? "NULL",
+                strategyNotificationEvent.Action ?? "NULL",
+                strategyNotificationEvent.StrategyName ?? "NULL",
+                strategyNotificationEvent.StockSymbol ?? "NULL",
+                strategyNotificationEvent.Status ?? "NULL",
+                strategyNotificationEvent.CurrentPrice,
+                strategyNotificationEvent.Timestamp);
+            if (strategyNotificationEvent.StrategyId == 0)
+            {
+                _logger.LogError("❌ MarketClosed StrategyNotificationEvent StrategyId is 0! Event will not be sent.");
+                throw new InvalidOperationException("StrategyNotificationEvent StrategyId cannot be 0");
+            }
+            if (strategyNotificationEvent.UserId == 0)
+            {
+                _logger.LogError("❌ MarketClosed StrategyNotificationEvent UserId is 0! Event will not be sent. StrategyId={StrategyId}", 
+                    strategyNotificationEvent.StrategyId);
+                throw new InvalidOperationException("StrategyNotificationEvent UserId cannot be 0");
+            }
+            if (string.IsNullOrEmpty(strategyNotificationEvent.Action))
+            {
+                _logger.LogError("❌ MarketClosed StrategyNotificationEvent Action is null or empty! Event will not be sent. StrategyId={StrategyId}, UserId={UserId}", 
+                    strategyNotificationEvent.StrategyId, strategyNotificationEvent.UserId);
+                throw new InvalidOperationException("StrategyNotificationEvent Action cannot be null or empty");
+            }
+            if (string.IsNullOrEmpty(strategyNotificationEvent.UserEmail))
+            {
+                _logger.LogWarning("⚠️ MarketClosed StrategyNotificationEvent UserEmail is null or empty. Using fallback. StrategyId={StrategyId}, UserId={UserId}", 
+                    strategyNotificationEvent.StrategyId, strategyNotificationEvent.UserId);
+                strategyNotificationEvent.UserEmail = $"user{strategyNotificationEvent.UserId}@example.com";
+            }
             try
             {
+                _logger.LogInformation("🚀 Publishing MarketClosed StrategyNotificationEvent to RabbitMQ: StrategyId={StrategyId}, UserId={UserId}, UserEmail={UserEmail}, Action={Action}", 
+                    strategyNotificationEvent.StrategyId, 
+                    strategyNotificationEvent.UserId, 
+                    strategyNotificationEvent.UserEmail,
+                    strategyNotificationEvent.Action);
                 await rabbitMQPublisher.PublishAsync(strategyNotificationEvent, "strategy-notifications");
-                
-                // Notification gönderildi event'ini kaydet
+                _logger.LogInformation("✅ MarketClosed StrategyNotificationEvent successfully published to RabbitMQ: StrategyId={StrategyId}, UserId={UserId}, Action={Action}", 
+                    strategyNotificationEvent.StrategyId, 
+                    strategyNotificationEvent.UserId, 
+                    strategyNotificationEvent.Action);
                 var notificationEvent = new Domain.Entities.StrategyEvent
                 {
                     StrategyId = strategy.Id,
@@ -682,15 +904,12 @@ namespace Application.Services
                     Price = workflow.CurrentPrice,
                     Timestamp = DateTime.Now
                 };
-                
                 await strategyEventRepository.AddAsync(notificationEvent);
-                
                 _logger.LogInformation("Piyasa kapalı notification event'i gönderildi ve kaydedildi: StrategyId={StrategyId}, UserId={UserId}, Symbol={Symbol}", 
                     strategy.Id, strategy.UserId, workflow.Symbol);
             }
             catch (Exception ex)
             {
-                // Notification gönderilemedi event'ini kaydet
                 var notificationFailedEvent = new Domain.Entities.StrategyEvent
                 {
                     StrategyId = strategy.Id,
@@ -701,12 +920,10 @@ namespace Application.Services
                     Price = workflow.CurrentPrice,
                     Timestamp = DateTime.Now
                 };
-                
                 await strategyEventRepository.AddAsync(notificationFailedEvent);
-                
                 _logger.LogError(ex, "Piyasa kapalı event gönderilirken hata oluştu ve event kaydedildi: StrategyId={StrategyId}", 
                     strategy.Id);
-                throw; // Hata yukarı fırlatılıyor ama event kaydedildi
+                throw;
             }
         }
     }

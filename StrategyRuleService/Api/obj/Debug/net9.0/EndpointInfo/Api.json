@@ -5,6 +5,72 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/marketdata/stockinfo/{symbol}": {
+      "get": {
+        "tags": [
+          "MarketData"
+        ],
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/marketdata/price/{symbol}": {
+      "get": {
+        "tags": [
+          "MarketData"
+        ],
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/marketdata/open/{symbol}": {
+      "get": {
+        "tags": [
+          "MarketData"
+        ],
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Strategy/createStrategy": {
       "post": {
         "tags": [
@@ -104,56 +170,401 @@
           }
         }
       }
+    },
+    "/api/Strategy/getStrategyDetail/{strategyId}/{userId}": {
+      "get": {
+        "tags": [
+          "Strategy"
+        ],
+        "parameters": [
+          {
+            "name": "strategyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Strategy/steps/{strategyId}/{userId}": {
+      "get": {
+        "tags": [
+          "Strategy"
+        ],
+        "parameters": [
+          {
+            "name": "strategyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Strategy/stopStrategy": {
+      "post": {
+        "tags": [
+          "Strategy"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StopStrategyCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StopStrategyCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StopStrategyCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Strategy/updatePreferences": {
+      "put": {
+        "tags": [
+          "Strategy"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStrategyPreferencesCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStrategyPreferencesCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStrategyPreferencesCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Strategy/testRabbitMQ": {
+      "post": {
+        "tags": [
+          "Strategy"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Strategy/verifyExecution/{strategyId}/{userId}": {
+      "get": {
+        "tags": [
+          "Strategy"
+        ],
+        "parameters": [
+          {
+            "name": "strategyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Strategy/events/{strategyId}/{userId}": {
+      "get": {
+        "tags": [
+          "Strategy"
+        ],
+        "parameters": [
+          {
+            "name": "strategyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Strategy/workerStatus": {
+      "get": {
+        "tags": [
+          "Strategy"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
       "CreateStrategyCommand": {
+        "required": [
+          "stockSymbol",
+          "strategyName"
+        ],
         "type": "object",
         "properties": {
           "strategyName": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 100,
+            "minLength": 3,
+            "type": "string"
           },
           "description": {
+            "maxLength": 500,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           },
           "userId": {
+            "maximum": 2147483647,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           },
           "stockSymbol": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 10,
+            "minLength": 2,
+            "type": "string"
           },
           "timeTracking": {
+            "maximum": 1440,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           },
           "totalPercentLoss": {
+            "maximum": 100,
+            "minimum": 0,1,
             "type": "number",
             "format": "double",
             "nullable": true
           },
           "lot": {
+            "maximum": 2147483647,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           },
           "transactionAmount": {
+            "minimum": 0,
             "type": "number",
             "format": "double",
             "nullable": true
           },
           "accountId": {
+            "maximum": 2147483647,
+            "minimum": 1,
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
           "portfolioId": {
+            "maximum": 2147483647,
+            "minimum": 1,
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "durationHours": {
+            "minimum": 0,0167,
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "stopLossPercentage": {
+            "maximum": 20,
+            "minimum": 0,1,
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "takeProfitPercentage": {
+            "maximum": 50,
+            "minimum": 0,1,
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "entryThresholdPercentage": {
+            "maximum": 0,
+            "minimum": -50,
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "maxLossLimitPercentage": {
+            "maximum": 100,
+            "minimum": 0,1,
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StopStrategyCommand": {
+        "type": "object",
+        "properties": {
+          "strategyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateStrategyPreferencesCommand": {
+        "required": [
+          "ticker"
+        ],
+        "type": "object",
+        "properties": {
+          "strategyId": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "ticker": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "stopLossPercentage": {
+            "maximum": 20,
+            "minimum": 0,1,
+            "type": "number",
+            "format": "double"
+          },
+          "takeProfitPercentage": {
+            "maximum": 50,
+            "minimum": 0,1,
+            "type": "number",
+            "format": "double"
+          },
+          "entryThresholdPercentage": {
+            "maximum": 0,
+            "minimum": -50,
+            "type": "number",
+            "format": "double"
+          },
+          "maxLossLimitPercentage": {
+            "maximum": 100,
+            "minimum": 0,1,
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false

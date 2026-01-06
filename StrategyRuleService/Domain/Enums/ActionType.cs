@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Domain.Enums;
-
 public enum ActionType
 {
-    BUY,        // Alış emri
-    SELL,       // Satış emri
-    WAIT,       // Bekle
-    CLOSE       // Stratejiyi kapat
+    BUY,
+    SELL,
+    WAIT,
+    CLOSE
 }

@@ -1,16 +1,15 @@
 using Infrastructure.Services.Grpc.Dtos;
 using Infrastructure.Services.Grpc.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Api.Controllers;
-
 [Route("api/marketdata")]
 [ApiController]
+[AllowAnonymous]
 public class MarketDataController : ControllerBase
 {
     private readonly IMarketDataService _marketDataService;
     private readonly ILogger<MarketDataController> _logger;
-
     public MarketDataController(
         IMarketDataService marketDataService,
         ILogger<MarketDataController> logger)
@@ -18,12 +17,6 @@ public class MarketDataController : ControllerBase
         _marketDataService = marketDataService;
         _logger = logger;
     }
-
-    /// <summary>
-    /// Hisse senedi sembolüne göre tüm market verilerini getirir (Fiyat, Şirket Profili, Finansal Metrikler)
-    /// </summary>
-    /// <param name="symbol">Hisse senedi sembolü (örn: AAPL, THYAO)</param>
-    /// <returns>StockInfoDto - Tüm market verileri</returns>
     [HttpGet("stockinfo/{symbol}")]
     public async Task<IActionResult> GetStockInfo(string symbol)
     {
@@ -33,26 +26,20 @@ public class MarketDataController : ControllerBase
             {
                 return BadRequest(new { Success = false, Message = "Hisse senedi sembolü boş olamaz." });
             }
-
             _logger.LogInformation("Hisse senedi bilgisi isteniyor: Symbol={Symbol}", symbol);
-
             var stockInfo = await _marketDataService.GetStockInfo(symbol.ToUpper());
-
             if (stockInfo == null)
             {
                 _logger.LogWarning("Hisse senedi bilgisi bulunamadı: Symbol={Symbol}", symbol);
                 return NotFound(new { Success = false, Message = $"Hisse senedi bilgisi bulunamadı: {symbol}" });
             }
-
             _logger.LogInformation("Hisse senedi bilgisi başarıyla alındı: Symbol={Symbol}, CurrentPrice={CurrentPrice}", 
                 symbol, stockInfo.Quote?.CurrentPrice);
-
             return Ok(new
             {
                 Success = true,
                 Data = new
                 {
-                    // Fiyat Bilgileri
                     Quote = stockInfo.Quote != null ? new
                     {
                         Ticker = stockInfo.Quote.Ticker,
@@ -65,8 +52,6 @@ public class MarketDataController : ControllerBase
                         PercentChange = stockInfo.Quote.PercentChange,
                         Timestamp = stockInfo.Quote.Timestamp
                     } : null,
-                    
-                    // Şirket Profili
                     Profile = stockInfo.Profile != null ? new
                     {
                         Ticker = stockInfo.Profile.Ticker,
@@ -76,8 +61,6 @@ public class MarketDataController : ControllerBase
                         Ipo = stockInfo.Profile.Ipo,
                         Currency = stockInfo.Profile.Currency
                     } : null,
-                    
-                    // Finansal Metrikler
                     Metrics = stockInfo.Metrics != null ? new
                     {
                         Pe = stockInfo.Metrics.Pe,
@@ -100,12 +83,6 @@ public class MarketDataController : ControllerBase
             });
         }
     }
-
-    /// <summary>
-    /// Sadece güncel fiyat bilgisini getirir
-    /// </summary>
-    /// <param name="symbol">Hisse senedi sembolü</param>
-    /// <returns>Güncel fiyat</returns>
     [HttpGet("price/{symbol}")]
     public async Task<IActionResult> GetCurrentPrice(string symbol)
     {
@@ -115,9 +92,7 @@ public class MarketDataController : ControllerBase
             {
                 return BadRequest(new { Success = false, Message = "Hisse senedi sembolü boş olamaz." });
             }
-
             var price = await _marketDataService.GetStockCurrentPrice(symbol.ToUpper());
-
             return Ok(new
             {
                 Success = true,
@@ -136,12 +111,6 @@ public class MarketDataController : ControllerBase
             });
         }
     }
-
-    /// <summary>
-    /// Açılış fiyatını getirir
-    /// </summary>
-    /// <param name="symbol">Hisse senedi sembolü</param>
-    /// <returns>Açılış fiyatı</returns>
     [HttpGet("open/{symbol}")]
     public async Task<IActionResult> GetOpeningPrice(string symbol)
     {
@@ -151,9 +120,7 @@ public class MarketDataController : ControllerBase
             {
                 return BadRequest(new { Success = false, Message = "Hisse senedi sembolü boş olamaz." });
             }
-
             var price = await _marketDataService.GetStockOpeningPrice(symbol.ToUpper());
-
             return Ok(new
             {
                 Success = true,
@@ -173,4 +140,3 @@ public class MarketDataController : ControllerBase
         }
     }
 }
-

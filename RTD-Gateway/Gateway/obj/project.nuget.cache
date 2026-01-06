@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "55GQasbZnZg=",
+  "dgSpecHash": "S3+6JQIKaDE=",
   "success": true,
-  "projectFilePath": "C:\\C project\\RTD-FinalProject\\RTD-Gateway\\Gateway\\Gateway.csproj",
+  "projectFilePath": "C:\\RTD-FinalProject\\RTD-Gateway\\Gateway\\Gateway.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\karsl\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\9.0.9\\microsoft.aspnetcore.authentication.jwtbearer.9.0.9.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.0.1\\microsoft.identitymodel.abstractions.8.0.1.nupkg.sha512",

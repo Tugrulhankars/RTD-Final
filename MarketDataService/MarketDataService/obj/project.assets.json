@@ -451,11 +451,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\MarketDataService.csproj",
+      "projectUniqueName": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\MarketDataService.csproj",
       "projectName": "MarketDataService",
-      "projectPath": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\MarketDataService.csproj",
+      "projectPath": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\MarketDataService.csproj",
       "packagesPath": "C:\\Users\\karsl\\.nuget\\packages\\",
-      "outputPath": "C:\\C project\\RTD-FinalProject\\MarketDataService\\MarketDataService\\obj\\",
+      "outputPath": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

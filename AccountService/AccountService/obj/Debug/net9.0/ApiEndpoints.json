@@ -2,7 +2,7 @@
   {
     "ContainingType": "AccountService.Controllers.AccountController",
     "Method": "CreateAccount",
-    "RelativePath": "api/Account/create",
+    "RelativePath": "api/account/create",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -18,7 +18,23 @@
   {
     "ContainingType": "AccountService.Controllers.AccountController",
     "Method": "GetAccountByUser",
-    "RelativePath": "api/Account/getAccountByUser/{userId}",
+    "RelativePath": "api/account/getAccountByUser/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AccountService.Controllers.AccountController",
+    "Method": "GetTransactionHistory",
+    "RelativePath": "api/account/transactionHistory/{userId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -34,7 +50,7 @@
   {
     "ContainingType": "AccountService.Controllers.AccountController",
     "Method": "UpdateBalance",
-    "RelativePath": "api/Account/updateBalance",
+    "RelativePath": "api/account/updateBalance",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,

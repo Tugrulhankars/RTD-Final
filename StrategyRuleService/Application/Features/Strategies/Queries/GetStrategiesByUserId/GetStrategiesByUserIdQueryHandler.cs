@@ -1,4 +1,5 @@
 using Application.Services;
+using Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,14 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Application.Features.Strategies.Queries.GetStrategiesByUserId;
-
 public class GetStrategiesByUserIdQueryHandler : IRequestHandler<GetStrategiesByUserIdQuery, GetStrategiesByUserIdResponse>
 {
     private readonly IStrategyRepository _strategyRepository;
     private readonly IStrategyEventRepository _strategyEventRepository;
-
     public GetStrategiesByUserIdQueryHandler(
         IStrategyRepository strategyRepository,
         IStrategyEventRepository strategyEventRepository)
@@ -21,25 +19,28 @@ public class GetStrategiesByUserIdQueryHandler : IRequestHandler<GetStrategiesBy
         _strategyRepository = strategyRepository;
         _strategyEventRepository = strategyEventRepository;
     }
-
     public async Task<GetStrategiesByUserIdResponse> Handle(GetStrategiesByUserIdQuery request, CancellationToken cancellationToken)
     {
-        // Kullanıcının tüm stratejilerini getir
         var strategies = await _strategyRepository.GetAllAsync(
             predicate: s => s.UserId == request.UserId,
             orderBy: q => q.OrderByDescending(s => s.StartDate),
             cancellationToken: cancellationToken);
-
         var response = new GetStrategiesByUserIdResponse();
-
+        var now = DateTime.Now;
         foreach (var strategy in strategies)
         {
-            // Her strateji için event'leri getir
+            if (strategy.ExpiryDate.HasValue && 
+                strategy.ExpiryDate.Value < now && 
+                strategy.Status == Domain.Enums.StrategyStatus.Active)
+            {
+                strategy.Status = Domain.Enums.StrategyStatus.Inactive;
+                strategy.IsActive = false;
+                await _strategyRepository.UpdateAsync(strategy, cancellationToken);
+            }
             var events = await _strategyEventRepository.GetAllAsync(
                 predicate: e => e.StrategyId == strategy.Id,
                 orderBy: q => q.OrderBy(e => e.Timestamp),
                 cancellationToken: cancellationToken);
-
             var strategyDto = new StrategyDto
             {
                 Id = strategy.Id,
@@ -58,6 +59,8 @@ public class GetStrategiesByUserIdQueryHandler : IRequestHandler<GetStrategiesBy
                 TotalLoss = strategy.TotalLoss,
                 TotalTransactions = strategy.TotalTransactions,
                 SuccessfulTransactions = strategy.SuccessfulTransactions,
+                DurationHours = strategy.DurationHours,
+                ExpiryDate = strategy.ExpiryDate,
                 Events = events.Select(e => new StrategyEventDto
                 {
                     Id = e.Id,
@@ -70,11 +73,8 @@ public class GetStrategiesByUserIdQueryHandler : IRequestHandler<GetStrategiesBy
                     Timestamp = e.Timestamp
                 }).ToList()
             };
-
             response.Strategies.Add(strategyDto);
         }
-
         return response;
     }
 }
-

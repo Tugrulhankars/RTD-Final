@@ -7,50 +7,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Application.Features.Strategies.Rules;
-
 public class PortfolioCheckRule : Rule
 {
-    // NRules parameterless constructor gerektirir
     public PortfolioCheckRule()
     {
     }
-
     public override void Define()
     {
         StockWorkflow ctx = new StockWorkflow();
-
         When()
             .Match<StockWorkflow>(() => ctx, c => c.Step == 1);
-
         Then()
             .Do(_ => Execute(ctx));
     }
-
     private async void Execute(StockWorkflow ctx)
     {
         try
         {
-            // Aynı Step ve Action için daha önce event oluşturulmuş mu kontrol et
             ctx.StrategyEvents = ctx.StrategyEvents ?? new List<StrategyEvent>();
             bool alreadyProcessed = ctx.StrategyEvents.Any(e => 
                 e.RuleName == "PortfolioCheckRule" && 
                 e.Step == ctx.Step && 
                 e.Action == "CHECK");
-            
             if (alreadyProcessed)
             {
-                // Bu Step için zaten işlem yapılmış, tekrar event oluşturma
                 return;
             }
-            
             bool inPortfolio = false;
             bool portfolioServiceAvailable = false;
             string reason = "Portföy kontrolü";
             string serviceStatus = "";
-            
-            // Gerçek portföy kontrolü yap (eğer PortfolioService mevcut ise)
             if (ctx.PortfolioService != null && ctx.PortfolioId > 0)
             {
                 try
@@ -69,8 +56,6 @@ public class PortfolioCheckRule : Rule
             {
                 serviceStatus = "PortfolioService mevcut değil veya PortfolioId set edilmemiş - Varsayılan: Hisse portföyde yok";
             }
-            
-            // StrategyEvent oluştur - Portföy kontrolü sonucu
             var portfolioCheckEvent = new StrategyEvent
             {
                 StrategyId = ctx.StrategyId > 0 ? ctx.StrategyId : 1,
@@ -81,25 +66,18 @@ public class PortfolioCheckRule : Rule
                 Price = ctx.CurrentPrice,
                 Timestamp = DateTime.Now
             };
-            
             ctx.InPortfolio = inPortfolio;
             ctx.StrategyEvents.Add(portfolioCheckEvent);
-
             if (ctx.InPortfolio)
             {
                 Console.WriteLine($"[{ctx.Symbol}] Hisse senedi portföyde var → Step 2 (satış kontrolü) - Fiyat: {ctx.CurrentPrice:F2}, Zarar: {ctx.TotalLossPercent:F2}%");
-                
-                // Step değişikliği için de kontrol et
                 bool stepChangeExists = ctx.StrategyEvents.Any(e => 
                     e.RuleName == "PortfolioCheckRule" && 
                     e.Step == 2 && 
                     e.Action == "STEP_CHANGE");
-                
                 if (!stepChangeExists)
                 {
                     ctx.Step = 2;
-                    
-                    // Step değişikliği event'i
                     var stepChangeEvent = new StrategyEvent
                     {
                         StrategyId = ctx.StrategyId > 0 ? ctx.StrategyId : 1,
@@ -116,18 +94,13 @@ public class PortfolioCheckRule : Rule
             else
             {
                 Console.WriteLine($"[{ctx.Symbol}] Hisse senedi portföyde yok → Step 3 (alım kontrolü) - Fiyat: {ctx.CurrentPrice:F2}, Zarar: {ctx.TotalLossPercent:F2}%");
-                
-                // Step değişikliği için de kontrol et
                 bool stepChangeExists = ctx.StrategyEvents.Any(e => 
                     e.RuleName == "PortfolioCheckRule" && 
                     e.Step == 3 && 
                     e.Action == "STEP_CHANGE");
-                
                 if (!stepChangeExists)
                 {
                     ctx.Step = 3;
-                    
-                    // Step değişikliği event'i
                     var stepChangeEvent = new StrategyEvent
                     {
                         StrategyId = ctx.StrategyId > 0 ? ctx.StrategyId : 1,
@@ -145,8 +118,6 @@ public class PortfolioCheckRule : Rule
         catch (Exception ex)
         {
             Console.WriteLine($"[{ctx.Symbol}] Portföy kontrolü sırasında hata: {ex.Message}");
-            
-            // Hata event'i oluştur
             var errorEvent = new StrategyEvent
             {
                 StrategyId = ctx.StrategyId > 0 ? ctx.StrategyId : 1,
@@ -157,12 +128,9 @@ public class PortfolioCheckRule : Rule
                 Price = ctx.CurrentPrice,
                 Timestamp = DateTime.Now
             };
-            
             ctx.StrategyEvents = ctx.StrategyEvents ?? new List<StrategyEvent>();
             ctx.StrategyEvents.Add(errorEvent);
-            
-            ctx.Step = -1; // workflow sonu
+            ctx.Step = -1;
         }
     }
 }
-

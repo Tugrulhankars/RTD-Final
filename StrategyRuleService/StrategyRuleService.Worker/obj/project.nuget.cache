@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dQ9rzfSH2bM=",
+  "dgSpecHash": "vlpg00Jq06o=",
   "success": true,
-  "projectFilePath": "C:\\C project\\RTD-FinalProject\\StrategyRuleService\\StrategyRuleService.Worker\\StrategyRuleService.Worker.csproj",
+  "projectFilePath": "C:\\RTD-FinalProject\\StrategyRuleService\\StrategyRuleService.Worker\\StrategyRuleService.Worker.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\karsl\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
@@ -47,7 +47,7 @@
     "C:\\Users\\karsl\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\9.0.8\\microsoft.extensions.filesystemglobbing.9.0.8.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\microsoft.extensions.hosting\\9.0.8\\microsoft.extensions.hosting.9.0.8.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\microsoft.extensions.hosting.abstractions\\9.0.8\\microsoft.extensions.hosting.abstractions.9.0.8.nupkg.sha512",
-    "C:\\Users\\karsl\\.nuget\\packages\\microsoft.extensions.http\\9.0.0\\microsoft.extensions.http.9.0.0.nupkg.sha512",
+    "C:\\Users\\karsl\\.nuget\\packages\\microsoft.extensions.http\\9.0.8\\microsoft.extensions.http.9.0.8.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\microsoft.extensions.logging\\9.0.8\\microsoft.extensions.logging.9.0.8.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\9.0.8\\microsoft.extensions.logging.abstractions.9.0.8.nupkg.sha512",
     "C:\\Users\\karsl\\.nuget\\packages\\microsoft.extensions.logging.configuration\\9.0.8\\microsoft.extensions.logging.configuration.9.0.8.nupkg.sha512",

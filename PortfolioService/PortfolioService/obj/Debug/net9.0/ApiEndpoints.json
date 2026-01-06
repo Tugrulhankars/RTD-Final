@@ -1,6 +1,70 @@
 [
   {
     "ContainingType": "PortfolioService.Controllers.PortfolioController",
+    "Method": "AddStock",
+    "RelativePath": "api/Portfolio/addStock",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "PortfolioService.Dtos.Request.AddStockRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PortfolioService.Controllers.PortfolioController",
+    "Method": "CreatePortfolio",
+    "RelativePath": "api/Portfolio/createPortfolio",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "PortfolioService.Dtos.Request.CreatePortfolioRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PortfolioService.Controllers.PortfolioController",
+    "Method": "GetActiveStocksByUser",
+    "RelativePath": "api/Portfolio/getActiveStocksByUser/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PortfolioService.Controllers.PortfolioController",
+    "Method": "GetPortfolioByAccount",
+    "RelativePath": "api/Portfolio/getPortfolioByAccount/{accountId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PortfolioService.Controllers.PortfolioController",
     "Method": "GetPortfolioByUser",
     "RelativePath": "api/Portfolio/getPortfolioByUser",
     "HttpMethod": "GET",
@@ -11,6 +75,32 @@
         "Name": "userId",
         "Type": "System.Int32",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PortfolioService.Controllers.PortfolioController",
+    "Method": "Health",
+    "RelativePath": "api/Portfolio/health",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PortfolioService.Controllers.PortfolioController",
+    "Method": "SellStock",
+    "RelativePath": "api/Portfolio/sellStock",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "PortfolioService.Dtos.Request.SellStockRequest",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

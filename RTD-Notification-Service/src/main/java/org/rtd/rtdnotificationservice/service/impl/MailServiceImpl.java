@@ -33,29 +33,39 @@ public class MailServiceImpl implements MailService {
         this.templateEngine = templateEngine;
     }
 
-
-
-
     @Override
     public void sendOtpMail(OtpCreatedEvent event) throws MessagingException {
-        Mail mail=new Mail();
-        Context context = new Context();
-        context.setVariable("OTP",event.getVerifyOtpCode());
-        String process=templateEngine.process("email-otp",context);
-        MimeMessage mimeMessage=javaMailSender.createMimeMessage();
-        MimeMessageHelper helper=new MimeMessageHelper(mimeMessage);
-        helper.setFrom("karslitugrulhan@gmail.com");
-        helper.setTo(event.getEmail());
-        helper.setSubject("OTP Doğrulama");
-        helper.setText(process,true);
-        javaMailSender.send(mimeMessage);
+        try {
+            System.out.println("Starting to send OTP mail to: " + event.getEmail() + ", OTP: " + event.getVerifyOtpCode());
+            Mail mail=new Mail();
+            Context context = new Context();
+            context.setVariable("OTP",event.getVerifyOtpCode());
+            String process=templateEngine.process("email-otp",context);
+            System.out.println("Email template processed successfully");
+            
+            MimeMessage mimeMessage=javaMailSender.createMimeMessage();
+            MimeMessageHelper helper=new MimeMessageHelper(mimeMessage);
+            helper.setFrom("karslitugrulhan@gmail.com");
+            helper.setTo(event.getEmail());
+            helper.setSubject("OTP Doğrulama");
+            helper.setText(process,true);
+            System.out.println("MimeMessage prepared, sending email...");
+            
+            javaMailSender.send(mimeMessage);
+            System.out.println("Email sent successfully to: " + event.getEmail());
 
-        mail.setMailTo(event.getEmail());
-        mail.setMailFrom("");
-        mail.setTitle("OTP Doğrulama");
-        mail.setSubject(event.getVerifyOtpCode());
-        mail.setNotificationType(NotificationType.MAIL);
-        mailRepository.save(mail);
+            mail.setMailTo(event.getEmail());
+            mail.setMailFrom("karslitugrulhan@gmail.com");
+            mail.setTitle("OTP Doğrulama");
+            mail.setSubject(event.getVerifyOtpCode());
+            mail.setNotificationType(NotificationType.MAIL);
+            mailRepository.save(mail);
+            System.out.println("Mail record saved to database");
+        } catch (Exception e) {
+            System.err.println("Error in sendOtpMail: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @Override
@@ -64,7 +74,6 @@ public class MailServiceImpl implements MailService {
         Context context = new Context();
         context.setVariable("FirstName",event.getFirstName());
         context.setVariable("LastName",event.getLastName());
-
 
         String process=templateEngine.process("welcome",context);
         MimeMessage mimeMessage=javaMailSender.createMimeMessage();
@@ -90,7 +99,6 @@ public class MailServiceImpl implements MailService {
         Context context = new Context();
         context.setVariable("FirstName",event.getFirstName());
         context.setVariable("LastName",event.getLastName());
-
 
         String process=templateEngine.process("user-verified",context);
         MimeMessage mimeMessage=javaMailSender.createMimeMessage();
@@ -120,7 +128,6 @@ public class MailServiceImpl implements MailService {
         Mail mail = new Mail();
         Context context = new Context();
         
-        // Template için değişkenleri ayarla
         context.setVariable("strategyName", event.getStrategyName());
         context.setVariable("stockSymbol", event.getStockSymbol());
         context.setVariable("status", event.getStatus());
@@ -129,7 +136,7 @@ public class MailServiceImpl implements MailService {
         context.setVariable("sellPrice", event.getSellPrice() != null ? event.getSellPrice().toString() : "N/A");
         String profitLossStr = event.getProfitLoss() != null ? event.getProfitLoss().toString() : "N/A";
         context.setVariable("profitLoss", profitLossStr);
-        context.setVariable("profitLossValue", event.getProfitLoss()); // BigDecimal olarak da gönder
+        context.setVariable("profitLossValue", event.getProfitLoss());
         context.setVariable("currentPrice", event.getCurrentPrice() != null ? event.getCurrentPrice().toString() : "N/A");
         context.setVariable("timestamp", event.getTimestamp() != null ? event.getTimestamp().toString() : "N/A");
         context.setVariable("reason", event.getReason() != null ? event.getReason() : "");
@@ -140,10 +147,8 @@ public class MailServiceImpl implements MailService {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
         helper.setFrom("karslitugrulhan@gmail.com");
         
-        // Email adresi event'te yoksa UserId'den alınması gerekebilir
         String email = event.getUserEmail();
         if (email == null || email.isEmpty()) {
-            // TODO: UserId'den email almak için servis çağrısı yapılabilir
             throw new MessagingException("User email is required but not provided in event");
         }
         
@@ -165,7 +170,6 @@ public class MailServiceImpl implements MailService {
         Mail mail = new Mail();
         Context context = new Context();
         
-        // Template için değişkenleri ayarla
         context.setVariable("symbol", event.getSymbol());
         context.setVariable("tradeType", event.getTradeType() != null ? event.getTradeType().name() : "N/A");
         context.setVariable("quantity", event.getQuantity() != null ? event.getQuantity().toString() : "N/A");
@@ -179,10 +183,8 @@ public class MailServiceImpl implements MailService {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
         helper.setFrom("karslitugrulhan@gmail.com");
         
-        // Email adresi event'te yoksa AccountId'den alınması gerekebilir
         String email = event.getUserEmail();
         if (email == null || email.isEmpty()) {
-            // TODO: AccountId'den email almak için servis çağrısı yapılabilir
             throw new MessagingException("User email is required but not provided in event");
         }
         
@@ -204,7 +206,6 @@ public class MailServiceImpl implements MailService {
         Mail mail = new Mail();
         Context context = new Context();
         
-        // Template için değişkenleri ayarla
         context.setVariable("amount", event.getAmount() != null ? event.getAmount().toString() : "N/A");
         context.setVariable("currency", event.getCurrency() != null ? event.getCurrency() : "TRY");
         context.setVariable("paymentTransactionId", event.getPaymentTransactionId() != null ? event.getPaymentTransactionId() : "N/A");
@@ -243,7 +244,6 @@ public class MailServiceImpl implements MailService {
         Mail mail = new Mail();
         Context context = new Context();
         
-        // Template için değişkenleri ayarla
         context.setVariable("amount", event.getAmount() != null ? event.getAmount().toString() : "N/A");
         context.setVariable("currency", event.getCurrency() != null ? event.getCurrency() : "TRY");
         context.setVariable("paymentTransactionId", event.getPaymentTransactionId() != null ? event.getPaymentTransactionId() : "N/A");

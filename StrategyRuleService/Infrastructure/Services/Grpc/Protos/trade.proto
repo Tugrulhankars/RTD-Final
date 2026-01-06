@@ -4,7 +4,6 @@ package tradeService;
 
 option csharp_namespace="StrategyRuleService.Protos";
 
-
 service TradeService{
 	rpc CreateTrade(CreateTradeRequest) returns(CreateTradeResponse);
 }
@@ -22,7 +21,6 @@ message CreateTradeResponse{
 	string message=1;
 	int32 trade_id=2;
 }
-
 
 enum TradeType {
   TRADE_TYPE_UNSPECIFIED = 0; 

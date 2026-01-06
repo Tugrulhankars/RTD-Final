@@ -20,8 +20,13 @@ func NewRabbitMqConnection(amqpURL string) error {
 	if amqpURL == "" {
 		amqpURL = os.Getenv("AMQP_URL")
 		if amqpURL == "" {
-			log.Fatal("AMQP_URL environment variable is not set")
+			amqpURL = "amqps://okzwdbrz:AmGKgw5DTXuIAjOraNCNzFiqI5_lhV-s@kebnekaise.lmq.cloudamqp.com/okzwdbrz"
+			log.Printf("INFO: AMQP_URL environment variable is not set, using default CloudAMQP connection: %s", amqpURL)
+		} else {
+			log.Printf("INFO: Using AMQP_URL from environment variable")
 		}
+	} else {
+		log.Printf("INFO: Using provided AMQP_URL")
 	}
 
 	conn, err := amqp091.Dial(amqpURL)

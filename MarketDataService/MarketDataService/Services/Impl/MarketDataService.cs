@@ -18,7 +18,6 @@ public class MarketDataService : IMarketDataService
     private readonly IFinancialMetricsService _metricsService;
     private readonly FinnhubClient _finnhubClient;
 
-    // Ticker -> Abone WebSocket listesi
     private readonly ConcurrentDictionary<string, List<WebSocket>> _tickerSubscriptions = new();
 
     public MarketDataService(
@@ -60,7 +59,6 @@ public class MarketDataService : IMarketDataService
     {
         var socket = await _finnhubClient.ConnectWebSocketAsync();
 
-        // Başlangıçta tüm ticker listesine subscribe ol
         foreach (var ticker in _tickerSubscriptions.Keys)
         {
             await _finnhubClient.SubscribeAsync(socket, ticker);
@@ -75,7 +73,6 @@ public class MarketDataService : IMarketDataService
             {
                 var json = Encoding.UTF8.GetString(buffer, 0, result.Count);
 
-                // Finnhub WebSocket JSON: {"s":"AAPL","p":172.35,"t":1693647600,...}
                 using var doc = JsonDocument.Parse(json);
                 var ticker = doc.RootElement.GetProperty("s").GetString();
                 var price = doc.RootElement.GetProperty("p").GetDecimal();
@@ -87,7 +84,7 @@ public class MarketDataService : IMarketDataService
                     {
                         Ticker = ticker,
                         CurrentPrice = price,
-                        OpenPrice = price, // WebSocket'te sadece current price var
+                        OpenPrice = price,
                         HighPrice = price,
                         LowPrice = price,
                         PreviousClosePrice = price,
@@ -99,8 +96,8 @@ public class MarketDataService : IMarketDataService
                     var stockInfo = new StockInfoDto
                     {
                         Quote = stockQuote,
-                        Profile = null, // WebSocket'te profile bilgisi yok
-                        Metrics = null  // WebSocket'te metrics bilgisi yok
+                        Profile = null,
+                        Metrics = null
                     };
 
                     await BroadcastStockInfoAsync(ticker, stockInfo);

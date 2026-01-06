@@ -1,18 +1,38 @@
 package org.rtd.rtdnotificationservice.event;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class PaymentSuccessEvent {
+    @JsonProperty("userId")
     private int userId;
+    
+    @JsonProperty("accountId")
     private int accountId;
+    
+    @JsonProperty("amount")
     private BigDecimal amount;
+    
+    @JsonProperty("currency")
     private String currency = "TRY";
+    
+    @JsonProperty("paymentTransactionId")
     private String paymentTransactionId;
+    
+    @JsonProperty("paymentMethod")
     private String paymentMethod;
+    
+    @JsonProperty("paymentDate")
     private LocalDateTime paymentDate;
+    
+    @JsonProperty("email")
     private String email;
+    
+    @JsonProperty("status")
     private String status = "SUCCESS";
+    
+    @JsonProperty("message")
     private String message;
 
     public PaymentSuccessEvent() {
@@ -113,4 +133,3 @@ public class PaymentSuccessEvent {
         this.message = message;
     }
 }
-
