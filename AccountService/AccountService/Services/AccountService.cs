@@ -7,6 +7,7 @@ using AccountService.Protos;
 using AccountService.Repositories;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Transactions;
 using System.Net.Http;
@@ -124,6 +125,22 @@ public class AccountService : AccountServiceBase,IAccountService
         }
         catch (Exception ex)
         {
+            // Veritabanı bağlantı hatası durumunda uygun mesaj döndür
+            if (ex is SqlException || 
+                (ex.InnerException is SqlException) ||
+                ex.Message.Contains("network-related", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("instance-specific", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("server was not found", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("could not open a connection", StringComparison.OrdinalIgnoreCase))
+            {
+                _logger?.LogWarning("[AccountService] Veritabanı bağlantı hatası nedeniyle hesap oluşturulamadı. UserId={UserId}", request.UserId);
+                return new CreateAccountResponse
+                {
+                    IsSuccess = false,
+                    Message = "Veritabanı bağlantı hatası. Lütfen daha sonra tekrar deneyin.",
+                    AccountId = 0
+                };
+            }
             return new CreateAccountResponse
             {
                 IsSuccess = false,
@@ -144,12 +161,32 @@ public class AccountService : AccountServiceBase,IAccountService
             if (account == null)
             {
                 _logger?.LogWarning("[AccountService] Account NOT FOUND for UserId={UserId}", userId);
-                var allAccounts = await _accountRepository.GetAllAsync();
-                _logger?.LogInformation("[AccountService] Total accounts in database: {Count}", allAccounts?.Count ?? 0);
-                if (allAccounts != null && allAccounts.Any())
+                try
                 {
-                    var accountDetails = string.Join(", ", allAccounts.Select(a => $"Id={a.Id}, UserId={a.UserId}, Email={a.Email}"));
-                    _logger?.LogInformation("[AccountService] All accounts UserIds: {AccountDetails}", accountDetails);
+                    var allAccounts = await _accountRepository.GetAllAsync();
+                    _logger?.LogInformation("[AccountService] Total accounts in database: {Count}", allAccounts?.Count ?? 0);
+                    if (allAccounts != null && allAccounts.Any())
+                    {
+                        var accountDetails = string.Join(", ", allAccounts.Select(a => $"Id={a.Id}, UserId={a.UserId}, Email={a.Email}"));
+                        _logger?.LogInformation("[AccountService] All accounts UserIds: {AccountDetails}", accountDetails);
+                    }
+                }
+                catch (Exception dbEx)
+                {
+                    // Veritabanı bağlantı hatası durumunda sessizce devam et
+                    if (dbEx is SqlException || 
+                        (dbEx.InnerException is SqlException) ||
+                        dbEx.Message.Contains("network-related", StringComparison.OrdinalIgnoreCase) ||
+                        dbEx.Message.Contains("instance-specific", StringComparison.OrdinalIgnoreCase) ||
+                        dbEx.Message.Contains("server was not found", StringComparison.OrdinalIgnoreCase) ||
+                        dbEx.Message.Contains("could not open a connection", StringComparison.OrdinalIgnoreCase))
+                    {
+                        _logger?.LogDebug("[AccountService] Veritabanı bağlantı hatası nedeniyle tüm hesaplar alınamadı. UserId={UserId}", userId);
+                    }
+                    else
+                    {
+                        _logger?.LogWarning(dbEx, "[AccountService] GetAllAsync hatası: UserId={UserId}", userId);
+                    }
                 }
                 return null;
             }
@@ -159,15 +196,96 @@ public class AccountService : AccountServiceBase,IAccountService
             
             GetAccountByUserResponse response = new();
             response.AccountId = account.Id;
+            response.UserId = account.UserId;
             response.AccountStatus = account.AccountStatus;
             response.Balance = account.Balance;
             response.FirstName = account.FirstName ?? string.Empty;
             response.LastName = account.LastName ?? string.Empty;
+            
+            // Get email from account, if null/empty, try to get from AuthUserService
+            string email = account.Email;
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                _logger?.LogWarning("[AccountService] Email is null/empty in database for UserId={UserId}, AccountId={AccountId}. Attempting to get from AuthUserService.", 
+                    userId, account.Id);
+                try
+                {
+                    email = await GetUserEmailFromAuthUserService(userId);
+                    if (!string.IsNullOrWhiteSpace(email))
+                    {
+                        _logger?.LogInformation("[AccountService] Email retrieved from AuthUserService for UserId={UserId}, Email={Email}", userId, email);
+                        // Optionally update account email in database
+                        // account.Email = email;
+                        // await _accountRepository.UpdateAsync(account);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger?.LogWarning(ex, "[AccountService] Failed to get email from AuthUserService for UserId={UserId}", userId);
+                }
+            }
+            
+            response.Email = email ?? string.Empty;
             return response;
         }
         catch (Exception ex)
         {
+            // Veritabanı bağlantı hatası durumunda sessizce null döndür
+            if (ex is SqlException || 
+                (ex.InnerException is SqlException) ||
+                ex.Message.Contains("network-related", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("instance-specific", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("server was not found", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("could not open a connection", StringComparison.OrdinalIgnoreCase))
+            {
+                _logger?.LogDebug("[AccountService] Veritabanı bağlantı hatası nedeniyle hesap alınamadı. UserId={UserId}", userId);
+                return null;
+            }
             _logger?.LogError(ex, "[AccountService] GetAccountByUser EXCEPTION for UserId={UserId}: {ErrorMessage}", userId, ex.Message);
+            return null;
+        }
+    }
+
+    public async Task<GetAccountByUserResponse> GetAccountByAccountId(int accountId)
+    {
+        try
+        {
+            _logger?.LogInformation("[AccountService] GetAccountByAccountId called with AccountId={AccountId}", accountId);
+            
+            Account account = await _accountRepository.GetAsync(a => a.Id == accountId);
+            
+            if (account == null)
+            {
+                _logger?.LogWarning("[AccountService] Account NOT FOUND for AccountId={AccountId}", accountId);
+                return null;
+            }
+            
+            _logger?.LogInformation("[AccountService] Account FOUND for AccountId={AccountId}: UserId={UserId}, Email={Email}, FirstName={FirstName}", 
+                accountId, account.UserId, account.Email, account.FirstName);
+            
+            GetAccountByUserResponse response = new();
+            response.AccountId = account.Id;
+            response.UserId = account.UserId;
+            response.AccountStatus = account.AccountStatus;
+            response.Balance = account.Balance;
+            response.FirstName = account.FirstName ?? string.Empty;
+            response.LastName = account.LastName ?? string.Empty;
+            response.Email = account.Email ?? string.Empty;
+            return response;
+        }
+        catch (Exception ex)
+        {
+            if (ex is SqlException || 
+                (ex.InnerException is SqlException) ||
+                ex.Message.Contains("network-related", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("instance-specific", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("server was not found", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("could not open a connection", StringComparison.OrdinalIgnoreCase))
+            {
+                _logger?.LogDebug("[AccountService] Veritabanı bağlantı hatası nedeniyle hesap alınamadı. AccountId={AccountId}", accountId);
+                return null;
+            }
+            _logger?.LogError(ex, "[AccountService] GetAccountByAccountId EXCEPTION for AccountId={AccountId}: {ErrorMessage}", accountId, ex.Message);
             return null;
         }
     }
@@ -217,6 +335,23 @@ public class AccountService : AccountServiceBase,IAccountService
         }
         catch (Exception ex)
         {
+            // Veritabanı bağlantı hatası durumunda uygun mesaj döndür
+            if (ex is SqlException || 
+                (ex.InnerException is SqlException) ||
+                ex.Message.Contains("network-related", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("instance-specific", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("server was not found", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("could not open a connection", StringComparison.OrdinalIgnoreCase))
+            {
+                _logger?.LogWarning("[AccountService] Veritabanı bağlantı hatası nedeniyle bakiye güncellenemedi. AccountId={AccountId}, UserId={UserId}", 
+                    request.AccountId, request.UserId);
+                return new UpdateBalanceResponse
+                {
+                    IsSuccess = false,
+                    Message = "Veritabanı bağlantı hatası. Lütfen daha sonra tekrar deneyin.",
+                    NewBalance = 0
+                };
+            }
             return new UpdateBalanceResponse
             {
                 IsSuccess = false,
@@ -226,6 +361,52 @@ public class AccountService : AccountServiceBase,IAccountService
         }
     }
 
+    private async Task<string?> GetUserEmailFromAuthUserService(int userId)
+    {
+        try
+        {
+            var authUserServiceUrl = _configuration["AuthUserService:BaseUrl"] ?? "http://localhost:8080";
+            var url = $"{authUserServiceUrl}/api/v1/users/{userId}";
+            
+            _logger?.LogInformation("[AccountService] Attempting to get email from AuthUserService: URL={Url}, UserId={UserId}", url, userId);
+            
+            using var httpClient = new HttpClient();
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
+            
+            var response = await httpClient.GetAsync(url);
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger?.LogWarning("[AccountService] AuthUserService returned non-success status: StatusCode={StatusCode}, UserId={UserId}", 
+                    response.StatusCode, userId);
+                return null;
+            }
+            
+            var responseBody = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrWhiteSpace(responseBody))
+            {
+                _logger?.LogWarning("[AccountService] AuthUserService returned empty response for UserId={UserId}", userId);
+                return null;
+            }
+            
+            using var jsonDoc = JsonDocument.Parse(responseBody);
+            if (jsonDoc.RootElement.TryGetProperty("email", out var emailElement))
+            {
+                var email = emailElement.GetString();
+                _logger?.LogInformation("[AccountService] Email retrieved from AuthUserService: UserId={UserId}, Email={Email}", userId, email);
+                return email;
+            }
+            
+            _logger?.LogWarning("[AccountService] Email property not found in AuthUserService response for UserId={UserId}, Response={Response}", 
+                userId, responseBody);
+            return null;
+        }
+        catch (Exception ex)
+        {
+            _logger?.LogError(ex, "[AccountService] Exception getting email from AuthUserService for UserId={UserId}", userId);
+            return null;
+        }
+    }
+    
     private async Task CreatePortfolioForAccount(int accountId, int userId)
     {
         try

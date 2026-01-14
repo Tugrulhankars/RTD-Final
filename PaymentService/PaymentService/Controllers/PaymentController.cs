@@ -604,12 +604,43 @@ public class PaymentController : ControllerBase
     {
         try
         {
+            // Email boşsa AccountService'den al
             if (string.IsNullOrWhiteSpace(email))
             {
-                _logger.LogWarning("PaymentSuccessEvent gönderilemedi: Email boş veya null. UserId={UserId}, Amount={Amount}", 
-                    userId, amount);
+                _logger.LogWarning("Email boş, AccountService'den alınmaya çalışılıyor: UserId={UserId}, AccountId={AccountId}", 
+                    userId, accountId);
+                try
+                {
+                    var httpClientFactory = HttpContext.RequestServices.GetRequiredService<IHttpClientFactory>();
+                    var accountClient = httpClientFactory.CreateClient("AccountService");
+                    var accountResponse = await accountClient.GetAsync($"/api/account/getAccountByUser/{userId}");
+                    if (accountResponse.IsSuccessStatusCode)
+                    {
+                        var accountJson = await accountResponse.Content.ReadAsStringAsync();
+                        using var jsonDoc = System.Text.Json.JsonDocument.Parse(accountJson);
+                        var root = jsonDoc.RootElement;
+                        if (root.TryGetProperty("email", out var emailElement))
+                        {
+                            email = emailElement.GetString() ?? string.Empty;
+                            _logger.LogInformation("Email AccountService'den alındı: UserId={UserId}, Email={Email}", userId, email);
+                        }
+                    }
+                }
+                catch (Exception emailEx)
+                {
+                    _logger.LogWarning(emailEx, "AccountService'den email alınamadı: UserId={UserId}, AccountId={AccountId}", 
+                        userId, accountId);
+                }
+            }
+            
+            // Hala email boşsa event gönderilemez
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                _logger.LogWarning("PaymentSuccessEvent gönderilemedi: Email boş veya null. UserId={UserId}, AccountId={AccountId}, Amount={Amount}", 
+                    userId, accountId, amount);
                 return;
             }
+            
             var successEvent = new PaymentSuccessEvent
             {
                 UserId = userId,
@@ -636,12 +667,41 @@ public class PaymentController : ControllerBase
     {
         try
         {
+            // Email boşsa AccountService'den al
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                _logger.LogWarning("Email boş, AccountService'den alınmaya çalışılıyor: UserId={UserId}", userId);
+                try
+                {
+                    var httpClientFactory = HttpContext.RequestServices.GetRequiredService<IHttpClientFactory>();
+                    var accountClient = httpClientFactory.CreateClient("AccountService");
+                    var accountResponse = await accountClient.GetAsync($"/api/account/getAccountByUser/{userId}");
+                    if (accountResponse.IsSuccessStatusCode)
+                    {
+                        var accountJson = await accountResponse.Content.ReadAsStringAsync();
+                        using var jsonDoc = System.Text.Json.JsonDocument.Parse(accountJson);
+                        var root = jsonDoc.RootElement;
+                        if (root.TryGetProperty("email", out var emailElement))
+                        {
+                            email = emailElement.GetString() ?? string.Empty;
+                            _logger.LogInformation("Email AccountService'den alındı: UserId={UserId}, Email={Email}", userId, email);
+                        }
+                    }
+                }
+                catch (Exception emailEx)
+                {
+                    _logger.LogWarning(emailEx, "AccountService'den email alınamadı: UserId={UserId}", userId);
+                }
+            }
+            
+            // Hala email boşsa event gönderilemez
             if (string.IsNullOrWhiteSpace(email))
             {
                 _logger.LogWarning("PaymentFailedEvent gönderilemedi: Email boş veya null. UserId={UserId}, Amount={Amount}, Reason={Reason}", 
                     userId, amount, failureReason);
                 return;
             }
+            
             var failedEvent = new PaymentFailedEvent
             {
                 UserId = userId,
@@ -673,8 +733,8 @@ public class PaymentController : ControllerBase
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
     }
-    :
-    :
+    
+    
     [HttpGet("health/dns")]
     [AllowAnonymous]
     public async Task<IActionResult> HealthCheckDns()

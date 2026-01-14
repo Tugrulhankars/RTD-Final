@@ -39,7 +39,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<DatabaseContext>(op =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? "Server=localhost;Database=RTD-AccountService;Trusted_Connection=True;TrustServerCertificate=True;";
+        ?? "Server=MetropolTilkisi;Database=RtdAccount-Service;Integrated Security=SSPI;Persist Security Info=False;Trusted_Connection=True;Encrypt=false;TrustServerCertificate=True;";
     
     if (string.IsNullOrWhiteSpace(connectionString))
     {

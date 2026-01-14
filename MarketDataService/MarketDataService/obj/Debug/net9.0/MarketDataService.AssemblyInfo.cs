@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MarketDataService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f2423e23cd4ace4e508df972deaa965fff68afc6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dba1e14e9728e376d207f9d4a099d34a22cf4665")]
 [assembly: System.Reflection.AssemblyProductAttribute("MarketDataService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MarketDataService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

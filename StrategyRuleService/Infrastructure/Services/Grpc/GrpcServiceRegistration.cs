@@ -10,7 +10,7 @@ public static class GrpcServiceRegistration
     {
         var accountServiceAddress = configuration["GrpcServices:AccountServiceAddress"] ?? "https://localhost:5001";
         var portfolioServiceAddress = configuration["GrpcServices:PortfolioServiceAddress"] ?? "https://localhost:5002";
-        var tradeServiceAddress = configuration["GrpcServices:TradeServiceAddress"] ?? "https://localhost:5003";
+        var tradeServiceAddress = configuration["GrpcServices:TradeServiceAddress"] ?? "http://localhost:9084";
         var marketDataServiceAddress = configuration["GrpcServices:MarketDataServiceAddress"] ?? "https://localhost:5004";
         var marketDataServiceBaseUrl = configuration["MarketDataService:BaseUrl"] ?? "http://localhost:5275";
         services.AddHttpClient<IMarketDataService, MarketDataManager>(client =>

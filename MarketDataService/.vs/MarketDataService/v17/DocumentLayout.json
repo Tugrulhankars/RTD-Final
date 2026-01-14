@@ -106,8 +106,7 @@
               "RelativeToolTip": "MarketDataService\\Helpers\\FinnhubClient.cs",
               "ViewState": "AgIAAG8AAAAAAAAAAAAwwHQAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T20:12:03.703Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-02T20:12:03.703Z"
             },
             {
               "$type": "Document",
@@ -117,7 +116,7 @@
               "RelativeDocumentMoniker": "MarketDataService\\Controllers\\StockInfoController.cs",
               "ToolTip": "C:\\RTD-FinalProject\\MarketDataService\\MarketDataService\\Controllers\\StockInfoController.cs",
               "RelativeToolTip": "MarketDataService\\Controllers\\StockInfoController.cs",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAAAEEAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAcwDwAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-02T20:13:25.491Z",
               "EditorCaption": ""

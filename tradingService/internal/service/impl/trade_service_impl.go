@@ -34,12 +34,19 @@ func NewTradeService(tradeRepository repository.TradeRepository) service.TradeSe
 const (
 	accountServiceBaseURL   = "http://localhost:5239/api/account"
 	portfolioServiceBaseURL = "http://localhost:5242/api/portfolio"
+	authUserServiceBaseURL  = "http://localhost:8080/api/v1/users"
 )
 
 type accountInfo struct {
 	AccountId int     `json:"accountId"`
 	UserId    int     `json:"userId"`
 	Balance   float64 `json:"balance"`
+	Email     string  `json:"email"`
+}
+
+type userInfo struct {
+	Id    int64  `json:"id"`
+	Email string `json:"email"`
 }
 
 type portfolioStock struct {
@@ -70,7 +77,7 @@ func (t TradeService) DirectBuy(ctx context.Context, req request.DirectTradeRequ
 		return response.CreateTradeResponse{}, fmt.Errorf("accountId mismatch: Account Service returned AccountId=%d but request has AccountID=%d", acc.AccountId, req.AccountID)
 	}
 
-	fmt.Printf("STEP A COMPLETE: UserID=%d, AccountID=%d (from Account Service), Balance=%.2f\n", req.UserID, actualAccountID, acc.Balance)
+	fmt.Printf("STEP A COMPLETE: UserID=%d, AccountID=%d (from Account Service), Balance=%.2f, Email='%s' (length=%d)\n", req.UserID, actualAccountID, acc.Balance, acc.Email, len(acc.Email))
 
 	if acc.Balance < total {
 		return response.CreateTradeResponse{}, fmt.Errorf("yetersiz bakiye. Gerekli: %.2f, Mevcut: %.2f", total, acc.Balance)
@@ -110,6 +117,55 @@ func (t TradeService) DirectBuy(ctx context.Context, req request.DirectTradeRequ
 	} else {
 		fmt.Printf("SUCCESS: Stock added to portfolio for UserID=%d, Symbol=%s, Lot=%.2f\n", 
 			req.UserID, req.Symbol, req.Quantity)
+	}
+
+	// Get user email and send trade completed event
+	fmt.Printf("STEP E: Getting user email for notification. UserID=%d, RequestEmail=%s, AccountEmail from STEP A=%s\n", req.UserID, req.Email, acc.Email)
+	userEmail := ""
+	
+	// Priority 1: Use email from request (from JWT token or frontend)
+	if req.Email != "" {
+		userEmail = req.Email
+		fmt.Printf("STEP E COMPLETE: User email retrieved from request (JWT/frontend): UserID=%d, Email=%s\n", req.UserID, userEmail)
+	} else if acc.Email != "" {
+		// Priority 2: Use email from account (which we already have)
+		userEmail = acc.Email
+		fmt.Printf("STEP E COMPLETE: User email retrieved from account: UserID=%d, Email=%s\n", req.UserID, userEmail)
+	} else {
+		fmt.Printf("STEP E WARNING: Email not found in request or account. Attempting fallback - getting email from AccountService by AccountId=%d\n", actualAccountID)
+		
+		// Priority 3: Try to get account by AccountId to get email
+		accByID, accByIDErr := getAccountByAccountId(actualAccountID)
+		if accByIDErr == nil && accByID.Email != "" {
+			userEmail = accByID.Email
+			fmt.Printf("STEP E COMPLETE: User email retrieved from AccountService by AccountId: AccountId=%d, Email=%s\n", actualAccountID, userEmail)
+		} else {
+			accByIDEmail := ""
+			if accByIDErr == nil {
+				accByIDEmail = accByID.Email
+			}
+			fmt.Printf("STEP E WARNING: Failed to get user email from all sources. UserID=%d, AccountId=%d, RequestEmail=%s, AccountEmail(from UserId)=%s, AccountEmail(from AccountId)=%s\n", 
+				req.UserID, actualAccountID, req.Email, acc.Email, accByIDEmail)
+		}
+	}
+
+	// Send trade completed event with email
+	fmt.Printf("STEP F: Sending trade completed event. Symbol=%s, Type=BUY, Email=%s\n", req.Symbol, userEmail)
+	event := &events.TradeCompletedEvent{
+		Type:       domain.Buy,
+		Symbol:     req.Symbol,
+		Price:      req.Price,
+		Quantity:   req.Quantity,
+		Total:      total,
+		AccountID:  actualAccountID,
+		ExecutedAt: time.Now(),
+		UserEmail:  userEmail,
+	}
+	eventErr := service.RabbitMQClient.SendTradeCompletedEvent(event)
+	if eventErr != nil {
+		fmt.Printf("STEP F ERROR: Failed to send trade completed event: %v\n", eventErr)
+	} else {
+		fmt.Printf("STEP F COMPLETE: Trade completed event sent successfully: Symbol=%s, Type=BUY, Email=%s\n", req.Symbol, userEmail)
 	}
 
 	return tradeRes, nil
@@ -167,6 +223,61 @@ func (t TradeService) DirectSell(ctx context.Context, req request.DirectTradeReq
 		fmt.Printf("WARNING: Portfolio update failed: %v\n", portfolioErr)
 	}
 
+	// Get user email and send trade completed event
+	fmt.Printf("STEP E: Getting user email for notification. UserID=%d, AccountID=%d, RequestEmail=%s\n", req.UserID, req.AccountID, req.Email)
+	userEmail := ""
+	
+	// Priority 1: Use email from request (from JWT token or frontend)
+	if req.Email != "" {
+		userEmail = req.Email
+		fmt.Printf("STEP E COMPLETE: User email retrieved from request (JWT/frontend): UserID=%d, Email=%s\n", req.UserID, userEmail)
+	} else {
+		// Priority 2: Try to get account info to get email
+		acc, accErr := getAccountByUser(req.UserID)
+		if accErr == nil && acc.Email != "" {
+			userEmail = acc.Email
+			fmt.Printf("STEP E COMPLETE: User email retrieved from account (by UserId): UserID=%d, Email=%s\n", req.UserID, userEmail)
+		} else {
+			fmt.Printf("STEP E: Account email is empty from UserId. Attempting to get by AccountId=%d\n", req.AccountID)
+			// Priority 3: Fallback - try to get by AccountId
+			accByID, accByIDErr := getAccountByAccountId(req.AccountID)
+			if accByIDErr == nil && accByID.Email != "" {
+				userEmail = accByID.Email
+				fmt.Printf("STEP E COMPLETE: User email retrieved from account (by AccountId): AccountId=%d, Email=%s\n", req.AccountID, userEmail)
+			} else {
+				accountEmail := ""
+				if accErr == nil {
+					accountEmail = acc.Email
+				}
+				accByIDEmail := ""
+				if accByIDErr == nil {
+					accByIDEmail = accByID.Email
+				}
+				fmt.Printf("STEP E WARNING: Failed to get user email from all sources. UserID=%d, AccountId=%d, RequestEmail=%s, AccountEmail(from UserId)=%s, AccountEmail(from AccountId)=%s\n", 
+					req.UserID, req.AccountID, req.Email, accountEmail, accByIDEmail)
+			}
+		}
+	}
+
+	// Send trade completed event with email
+	fmt.Printf("STEP F: Sending trade completed event. Symbol=%s, Type=SELL, Email=%s\n", req.Symbol, userEmail)
+	event := &events.TradeCompletedEvent{
+		Type:       domain.Sell,
+		Symbol:     req.Symbol,
+		Price:      req.Price,
+		Quantity:   req.Quantity,
+		Total:      total,
+		AccountID:  req.AccountID,
+		ExecutedAt: time.Now(),
+		UserEmail:  userEmail,
+	}
+	eventErr := service.RabbitMQClient.SendTradeCompletedEvent(event)
+	if eventErr != nil {
+		fmt.Printf("STEP F ERROR: Failed to send trade completed event: %v\n", eventErr)
+	} else {
+		fmt.Printf("STEP F COMPLETE: Trade completed event sent successfully: Symbol=%s, Type=SELL, Email=%s\n", req.Symbol, userEmail)
+	}
+
 	return tradeRes, nil
 }
 
@@ -179,13 +290,58 @@ func getAccountByUser(userID int) (accountInfo, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		fmt.Printf("DEBUG getAccountByUser: Non-OK status for UserID=%d, StatusCode=%d, Body=%s\n", userID, resp.StatusCode, string(bodyBytes))
 		return accountInfo{}, fmt.Errorf("account service status code: %d", resp.StatusCode)
 	}
 
+	// Read response body to see raw JSON
+	bodyBytes, readErr := io.ReadAll(resp.Body)
+	if readErr != nil {
+		return accountInfo{}, fmt.Errorf("failed to read response body: %w", readErr)
+	}
+	fmt.Printf("DEBUG getAccountByUser: Raw response for UserID=%d: %s\n", userID, string(bodyBytes))
+
+	// Decode JSON
 	var acc accountInfo
-	if err := json.NewDecoder(resp.Body).Decode(&acc); err != nil {
+	if err := json.Unmarshal(bodyBytes, &acc); err != nil {
+		fmt.Printf("DEBUG getAccountByUser: JSON decode error for UserID=%d, Error=%v, Response=%s\n", userID, err, string(bodyBytes))
 		return accountInfo{}, err
 	}
+	fmt.Printf("DEBUG getAccountByUser: Decoded - UserID=%d, AccountId=%d, Email=%s, Balance=%.2f, UserId=%d\n", userID, acc.AccountId, acc.Email, acc.Balance, acc.UserId)
+	return acc, nil
+}
+
+func getAccountByAccountId(accountID int) (accountInfo, error) {
+	url := fmt.Sprintf("%s/getAccountByAccountId/%d", accountServiceBaseURL, accountID)
+	fmt.Printf("DEBUG getAccountByAccountId: Calling AccountService URL=%s\n", url)
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Printf("DEBUG getAccountByAccountId: HTTP error for AccountId=%d, Error=%v\n", accountID, err)
+		return accountInfo{}, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		fmt.Printf("DEBUG getAccountByAccountId: Non-OK status for AccountId=%d, StatusCode=%d, Body=%s\n", accountID, resp.StatusCode, string(bodyBytes))
+		return accountInfo{}, fmt.Errorf("account service status code: %d", resp.StatusCode)
+	}
+
+	// Read response body to see raw JSON
+	bodyBytes, readErr := io.ReadAll(resp.Body)
+	if readErr != nil {
+		return accountInfo{}, fmt.Errorf("failed to read response body: %w", readErr)
+	}
+	fmt.Printf("DEBUG getAccountByAccountId: Raw response for AccountId=%d: %s\n", accountID, string(bodyBytes))
+
+	// Decode JSON
+	var acc accountInfo
+	if err := json.Unmarshal(bodyBytes, &acc); err != nil {
+		fmt.Printf("DEBUG getAccountByAccountId: JSON decode error for AccountId=%d, Error=%v, Response=%s\n", accountID, err, string(bodyBytes))
+		return accountInfo{}, err
+	}
+	fmt.Printf("DEBUG getAccountByAccountId: Decoded - AccountId=%d, Email=%s, Balance=%.2f, UserId=%d\n", accountID, acc.Email, acc.Balance, acc.UserId)
 	return acc, nil
 }
 
@@ -608,6 +764,34 @@ func (s *GrpcTradeServer) CreateTradeGrpc(ctx context.Context, req *pb.CreateTra
 	}, nil
 }
 
+func getUserEmailByUserID(userID int) (string, error) {
+	url := fmt.Sprintf("%s/%d", authUserServiceBaseURL, userID)
+	fmt.Printf("DEBUG: Calling AuthUserService to get email: URL=%s, UserID=%d\n", url, userID)
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Printf("ERROR: Failed to call AuthUserService: URL=%s, Error=%v\n", url, err)
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	fmt.Printf("DEBUG: AuthUserService response: StatusCode=%d, UserID=%d\n", resp.StatusCode, userID)
+
+	if resp.StatusCode != http.StatusOK {
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		fmt.Printf("ERROR: AuthUserService returned non-OK status: StatusCode=%d, Body=%s, UserID=%d\n", resp.StatusCode, string(bodyBytes), userID)
+		return "", fmt.Errorf("auth user service status code: %d", resp.StatusCode)
+	}
+
+	var user userInfo
+	if err := json.NewDecoder(resp.Body).Decode(&user); err != nil {
+		fmt.Printf("ERROR: Failed to decode AuthUserService response: Error=%v, UserID=%d\n", err, userID)
+		return "", err
+	}
+	
+	fmt.Printf("DEBUG: User info decoded: UserID=%d, Email=%s\n", userID, user.Email)
+	return user.Email, nil
+}
+
 func (t TradeService) CreateTrade(ctx context.Context, request request.CreateTradeRequest) (res response.CreateTradeResponse, err error) {
 
 	trade := &domain.Trade{
@@ -628,19 +812,8 @@ func (t TradeService) CreateTrade(ctx context.Context, request request.CreateTra
 	res.TradeId = int32(trade.ID)
 	res.Message = "Trade created successfully"
 
-	event := &events.TradeCompletedEvent{
-		Type:       trade.Type,
-		Symbol:     trade.Symbol,
-		Price:      trade.Price,
-		Quantity:   trade.Quantity,
-		Total:      trade.Total,
-		AccountID:  trade.AccountID,
-		ExecutedAt: trade.ExecutedAt,
-	}
-	event_err := service.RabbitMQClient.SendTradeCompletedEvent(event)
-	if event_err != nil {
-		return res, nil
-	}
+	// Note: Trade completed event is now sent from DirectBuy/DirectSell functions
+	// to ensure we have user email before sending the event
 
 	return res, nil
 }

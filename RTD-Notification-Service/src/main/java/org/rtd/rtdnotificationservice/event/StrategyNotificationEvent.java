@@ -1,10 +1,8 @@
 package org.rtd.rtdnotificationservice.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +41,7 @@ public class StrategyNotificationEvent {
     private BigDecimal currentPrice;
     
     @JsonProperty("timestamp")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime timestamp;
+    private OffsetDateTime timestamp;
     
     @JsonProperty("executedRules")
     private List<RuleExecutionInfo> executedRules = new ArrayList<>();
@@ -57,7 +54,7 @@ public class StrategyNotificationEvent {
 
     public StrategyNotificationEvent(int strategyId, int userId, String userEmail, String strategyName, String stockSymbol, 
                                      String status, String action, BigDecimal buyPrice, BigDecimal sellPrice, 
-                                     BigDecimal profitLoss, BigDecimal currentPrice, LocalDateTime timestamp, 
+                                     BigDecimal profitLoss, BigDecimal currentPrice, OffsetDateTime timestamp, 
                                      List<RuleExecutionInfo> executedRules, String reason) {
         this.strategyId = strategyId;
         this.userId = userId;
@@ -163,11 +160,11 @@ public class StrategyNotificationEvent {
         this.currentPrice = currentPrice;
     }
 
-    public LocalDateTime getTimestamp() {
+    public OffsetDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(OffsetDateTime timestamp) {
         this.timestamp = timestamp;
     }
 

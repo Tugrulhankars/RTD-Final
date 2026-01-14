@@ -17,14 +17,66 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.Map;
 
 @Service
 public class MailEventListener {
     private static final Logger log = LoggerFactory.getLogger(MailEventListener.class);
     private final MailService mailService;
+    private final RestTemplate restTemplate;
+    private static final String ACCOUNT_SERVICE_URL = "http://localhost:5239/api/account";
+    
     public MailEventListener(MailService mailService) {
         this.mailService = mailService;
+        this.restTemplate = new RestTemplate();
     }
+    
+    private String getUserEmailByAccountId(int accountId) {
+        try {
+            log.info("Attempting to get user email from AccountService by AccountId: AccountId={}", accountId);
+            
+            // Get account info directly from AccountService
+            String accountUrl = ACCOUNT_SERVICE_URL + "/getAccountByAccountId/" + accountId;
+            
+            @SuppressWarnings("unchecked")
+            Map<String, Object> accountResponse;
+            
+            try {
+                accountResponse = restTemplate.getForObject(accountUrl, Map.class);
+            } catch (HttpClientErrorException.NotFound e) {
+                log.warn("Account not found (404) for AccountId={}. This account might not exist in the database.", accountId);
+                return null;
+            } catch (HttpClientErrorException e) {
+                log.error("HTTP error when getting account by AccountId={}. StatusCode={}, Error: {}", 
+                        accountId, e.getStatusCode(), e.getMessage());
+                return null;
+            }
+            
+            if (accountResponse == null) {
+                log.warn("Account response is null for AccountId={}. Account might not exist.", accountId);
+                return null;
+            }
+            
+            // Get email directly from account response
+            Object emailObj = accountResponse.get("email");
+            if (emailObj != null && !emailObj.toString().trim().isEmpty()) {
+                String email = emailObj.toString().trim();
+                log.info("Email retrieved from AccountService: AccountId={}, Email={}", accountId, email);
+                return email;
+            }
+            
+            log.warn("Email not found in account response for AccountId={}. Response: {}", accountId, accountResponse);
+            return null;
+        } catch (Exception e) {
+            log.error("Unexpected error getting user email from AccountService by AccountId: AccountId={}, Error: {}", 
+                    accountId, e.getMessage(), e);
+            return null;
+        }
+    }
+    
     @RabbitListener(queues = RabbitMQConstants.notificationEmailOtpQueue, containerFactory = "rabbitListenerContainerFactory")
     public void handleOtpCreatedEvent(@Payload OtpCreatedEvent event) throws MessagingException, JsonProcessingException {
         try {
@@ -204,24 +256,53 @@ public class MailEventListener {
     }
 
     @RabbitListener(queues = RabbitMQConstants.notificationTradeCompletedQueue, containerFactory = "rabbitListenerContainerFactory")
-    public void handleTradeCompletedEvent(@Payload TradeCompletedEvent event) throws MessagingException {
+    public void handleTradeCompletedEvent(@Payload TradeCompletedEvent event, org.springframework.amqp.core.Message message) throws MessagingException {
+        log.info("=== TradeCompletedEvent received ===");
+        log.info("Raw message headers: {}", message != null ? message.getMessageProperties().getHeaders() : "null");
+        log.info("Raw message body: {}", message != null ? new String(message.getBody()) : "null");
+        
         try {
             if (event == null) {
                 log.error("TradeCompletedEvent is null - skipping email notification");
                 return;
             }
             
-            if (event.getUserEmail() == null || event.getUserEmail().trim().isEmpty()) {
-                log.error("TradeCompletedEvent userEmail is null or empty: AccountId={}, Symbol={}, TradeType={}. " +
-                         "Email notification cannot be sent. Please ensure userEmail is properly set in the event.", 
+            log.info("TradeCompletedEvent parsed successfully: AccountId={}, Symbol={}, Type={}, Quantity={}, Price={}, Total={}, Email={}", 
+                    event.getAccountId(), event.getSymbol(), event.getTradeType(), 
+                    event.getQuantity(), event.getPrice(), event.getTotal(), event.getUserEmail());
+            
+            // First, check if email is already in the event (from trading service)
+            String userEmail = event.getUserEmail();
+            if (userEmail != null && !userEmail.trim().isEmpty()) {
+                log.info("Email found in TradeCompletedEvent: AccountId={}, Email={}", event.getAccountId(), userEmail);
+            } else {
+                log.warn("TradeCompletedEvent userEmail is null or empty: AccountId={}, Symbol={}, TradeType={}. " +
+                         "Attempting to retrieve email from AccountService.", 
                         event.getAccountId(), event.getSymbol(), event.getTradeType());
-                return;
+                
+                // Try to get email by accountId
+                userEmail = getUserEmailByAccountId(event.getAccountId());
+                
+                if (userEmail == null || userEmail.trim().isEmpty()) {
+                    log.error("Failed to retrieve email from AccountService. AccountId={}, Symbol={}, TradeType={}. " +
+                             "Email notification cannot be sent. Please verify:" +
+                             "1. Account with AccountId={} exists in the database." +
+                             "2. Account has a valid email address." +
+                             "3. UserEmail is properly set in TradeCompletedEvent from trading service.", 
+                            event.getAccountId(), event.getSymbol(), event.getTradeType(), event.getAccountId());
+                    // Don't throw exception, just log and return gracefully
+                    return;
+                } else {
+                    // Update event with retrieved email
+                    event.setUserEmail(userEmail);
+                    log.info("Email retrieved and set in event: AccountId={}, Email={}", event.getAccountId(), userEmail);
+                }
             }
             
             log.info("Trade Completed Event received: AccountId={}, Symbol={}, TradeType={}, Email={}", 
-                    event.getAccountId(), event.getSymbol(), event.getTradeType(), event.getUserEmail());
+                    event.getAccountId(), event.getSymbol(), event.getTradeType(), userEmail);
             mailService.sendTradeCompletedMail(event);
-            log.info("Trade completed mail sent successfully to: {}", event.getUserEmail());
+            log.info("Trade completed mail sent successfully to: {}", userEmail);
         } catch (MessagingException e) {
             log.error("Error sending trade completed mail to: {} - Error: {}", 
                     event != null ? event.getUserEmail() : "unknown", e.getMessage(), e);

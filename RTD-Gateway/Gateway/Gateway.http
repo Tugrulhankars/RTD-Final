@@ -1,4 +1,4 @@
-@Gateway_HostAddress = http://localhost:5286
+@Gateway_HostAddress = http://localhost:9082
 
 GET {{Gateway_HostAddress}}/weatherforecast/
 Accept: application/json

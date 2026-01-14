@@ -1,10 +1,8 @@
 package org.rtd.rtdnotificationservice.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class RuleExecutionInfo {
     @JsonProperty("ruleName")
@@ -23,13 +21,12 @@ public class RuleExecutionInfo {
     private BigDecimal price;
     
     @JsonProperty("timestamp")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime timestamp;
+    private OffsetDateTime timestamp;
 
     public RuleExecutionInfo() {
     }
 
-    public RuleExecutionInfo(String ruleName, int step, String action, String reason, BigDecimal price, LocalDateTime timestamp) {
+    public RuleExecutionInfo(String ruleName, int step, String action, String reason, BigDecimal price, OffsetDateTime timestamp) {
         this.ruleName = ruleName;
         this.step = step;
         this.action = action;
@@ -78,11 +75,11 @@ public class RuleExecutionInfo {
         this.price = price;
     }
 
-    public LocalDateTime getTimestamp() {
+    public OffsetDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(OffsetDateTime timestamp) {
         this.timestamp = timestamp;
     }
 }

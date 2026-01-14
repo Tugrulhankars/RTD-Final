@@ -24,6 +24,26 @@ public class RabbitMQPublisher : IRabbitMQPublisher
             };
             await using var connection = await factory.CreateConnectionAsync();
             await using var channel = await connection.CreateChannelAsync();
+            
+            // Exchange ve routing key belirleme
+            const string exchangeName = "notification.exchange.direct";
+            string routingKey = queueName switch
+            {
+                "notification.payment.success.queue" => "notification.payment.success.key",
+                "notification.payment.failed.queue" => "notification.payment.failed.key",
+                _ => queueName // Diğer queue'lar için queue name'i routing key olarak kullan
+            };
+            
+            // Exchange'i declare et (durable, non-auto-delete)
+            await channel.ExchangeDeclareAsync(
+                exchange: exchangeName,
+                type: ExchangeType.Direct,
+                durable: true,
+                autoDelete: false,
+                arguments: null
+            );
+            
+            // Queue'yu declare et
             await channel.QueueDeclareAsync(
                 queue: queueName,
                 durable: true,
@@ -31,6 +51,14 @@ public class RabbitMQPublisher : IRabbitMQPublisher
                 autoDelete: false,
                 arguments: null
             );
+            
+            // Queue'yu exchange'e bind et (eğer henüz bind edilmemişse)
+            await channel.QueueBindAsync(
+                queue: queueName,
+                exchange: exchangeName,
+                routingKey: routingKey
+            );
+            
             var settings = new JsonSerializerSettings
             {
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(),
@@ -46,16 +74,16 @@ public class RabbitMQPublisher : IRabbitMQPublisher
                 _ => typeof(T).FullName ?? typeof(T).Name
             };
             _logger.LogWarning("RabbitMQ.Client 7.x properties desteği olmadığı için headers gönderilemiyor. TypeMapping={TypeMapping}. Java tarafı için RabbitMQ.Client 6.x kullanılması önerilir.", typeMapping);
-            _logger.LogInformation("RabbitMQ'ya payment event gönderiliyor: Queue={QueueName}, MessageType={MessageType}, TypeMapping={TypeMapping}, MessageSize={MessageSize} bytes", 
-                queueName, typeof(T).Name, typeMapping, body.Length);
+            _logger.LogInformation("RabbitMQ'ya payment event gönderiliyor: Exchange={Exchange}, RoutingKey={RoutingKey}, Queue={QueueName}, MessageType={MessageType}, TypeMapping={TypeMapping}, MessageSize={MessageSize} bytes", 
+                exchangeName, routingKey, queueName, typeof(T).Name, typeMapping, body.Length);
             _logger.LogInformation("RabbitMQ payment event JSON içeriği: {MessageContent}", messageJson);
             await channel.BasicPublishAsync(
-                exchange: "",
-                routingKey: queueName,
+                exchange: exchangeName,
+                routingKey: routingKey,
                 body: body
             );
-            _logger.LogInformation("✓ RabbitMQ payment event'i başarıyla gönderildi: Queue={QueueName}, MessageType={MessageType}, MessageSize={MessageSize} bytes", 
-                queueName, typeof(T).Name, body.Length);
+            _logger.LogInformation("✓ RabbitMQ payment event'i başarıyla gönderildi: Exchange={Exchange}, RoutingKey={RoutingKey}, Queue={QueueName}, MessageType={MessageType}, MessageSize={MessageSize} bytes", 
+                exchangeName, routingKey, queueName, typeof(T).Name, body.Length);
         }
         catch (Exception ex)
         {

@@ -43,8 +43,9 @@ public class RabbitMQPublisher : IRabbitMQPublisher
             var jsonOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                DefaultIgnoreCondition = JsonIgnoreCondition.Never,
-                WriteIndented = false
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                WriteIndented = false,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             };
             if (message is StrategyNotificationEvent strategyEvent)
             {
@@ -65,10 +66,17 @@ public class RabbitMQPublisher : IRabbitMQPublisher
                         strategyEvent.StrategyId, strategyEvent.UserId);
                     throw new InvalidOperationException("StrategyNotificationEvent Action cannot be null or empty");
                 }
+                // Ensure UserEmail is always set before sending
+                if (string.IsNullOrEmpty(strategyEvent.UserEmail))
+                {
+                    _logger.LogWarning("⚠️ StrategyNotificationEvent UserEmail is null or empty before sending. Setting fallback email. StrategyId={StrategyId}, UserId={UserId}", 
+                        strategyEvent.StrategyId, strategyEvent.UserId);
+                    strategyEvent.UserEmail = $"user{strategyEvent.UserId}@example.com";
+                }
                 _logger.LogInformation("📤 Sending StrategyNotificationEvent to RabbitMQ: StrategyId={StrategyId}, UserId={UserId}, UserEmail={UserEmail}, Action={Action}, StrategyName={StrategyName}, StockSymbol={StockSymbol}, Status={Status}, CurrentPrice={CurrentPrice}, Timestamp={Timestamp}", 
                     strategyEvent.StrategyId,
                     strategyEvent.UserId,
-                    strategyEvent.UserEmail ?? "NULL",
+                    strategyEvent.UserEmail,
                     strategyEvent.Action ?? "NULL",
                     strategyEvent.StrategyName ?? "NULL",
                     strategyEvent.StockSymbol ?? "NULL",

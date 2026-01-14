@@ -655,12 +655,9 @@ public class IyzicoPaymentServiceImpl : IIyzicoPaymentService
         baseUrl = baseUrl.Replace("\n", "");
         baseUrl = baseUrl.Replace("\r", "");
         baseUrl = baseUrl.Replace("\t", "");
-        :
-        :
         if (!baseUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
             !baseUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
         {
-            :
             baseUrl = "https://" + baseUrl;
         }
         baseUrl = baseUrl.TrimEnd('/');
@@ -699,7 +696,7 @@ public class IyzicoPaymentServiceImpl : IIyzicoPaymentService
         {
         }
     }
-    :
+    
     private static string ExtractHostnameFromUrl(string url)
     {
         if (string.IsNullOrWhiteSpace(url))

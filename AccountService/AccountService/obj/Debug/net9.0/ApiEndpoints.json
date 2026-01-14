@@ -17,6 +17,22 @@
   },
   {
     "ContainingType": "AccountService.Controllers.AccountController",
+    "Method": "GetAccountByAccountId",
+    "RelativePath": "api/account/getAccountByAccountId/{accountId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AccountService.Controllers.AccountController",
     "Method": "GetAccountByUser",
     "RelativePath": "api/account/getAccountByUser/{userId}",
     "HttpMethod": "GET",

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Linq;
 using System.Threading;
@@ -116,7 +117,20 @@ public class StrategyProcessingHostedService : BackgroundService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Aktif stratejiler yüklenirken hata oluştu");
+            // Veritabanı bağlantı hatası durumunda sadece debug seviyesinde log
+            if (ex is SqlException || 
+                (ex.InnerException is SqlException) ||
+                ex.Message.Contains("network-related", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("instance-specific", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("server was not found", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("could not open a connection", StringComparison.OrdinalIgnoreCase))
+            {
+                _logger.LogDebug("Veritabanı bağlantı hatası nedeniyle aktif stratejiler yüklenemedi. Servis veritabanı olmadan devam edecek.");
+            }
+            else
+            {
+                _logger.LogError(ex, "Aktif stratejiler yüklenirken hata oluştu");
+            }
         }
     }
     private async Task CheckAndExpireStrategies(CancellationToken cancellationToken)
@@ -247,7 +261,21 @@ public class StrategyProcessingHostedService : BackgroundService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Süresi dolan stratejiler kontrol edilirken hata oluştu");
+            // Veritabanı bağlantı hatası durumunda sadece debug seviyesinde log
+            if (ex is SqlException || 
+                (ex.InnerException is SqlException) ||
+                ex.Message.Contains("network-related", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("instance-specific", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("server was not found", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("could not open a connection", StringComparison.OrdinalIgnoreCase))
+            {
+                // Veritabanı bağlantı hatası durumunda sessizce devam et (log spam'ini önle)
+                // Sadece ilk birkaç hatada debug log, sonrasında sessizce devam et
+            }
+            else
+            {
+                _logger.LogError(ex, "Süresi dolan stratejiler kontrol edilirken hata oluştu");
+            }
         }
     }
 }

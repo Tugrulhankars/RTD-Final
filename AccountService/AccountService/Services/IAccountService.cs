@@ -9,5 +9,6 @@ public interface IAccountService
     public Task CreateAccount();
     public Task<CreateAccountResponse> CreateAccount(CreateAccountRequest request);
     public Task<GetAccountByUserResponse> GetAccountByUser(int userId);
+    public Task<GetAccountByUserResponse> GetAccountByAccountId(int accountId);
     public Task<UpdateBalanceResponse> UpdateBalance(UpdateBalanceRequest request);
 }

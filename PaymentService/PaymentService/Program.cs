@@ -44,13 +44,13 @@ builder.Services.Configure<Iyzipay.Options>(options =>
     options.BaseUrl = baseUrl;
     var baseUrlBytes = System.Text.Encoding.UTF8.GetBytes(baseUrl);
     Console.WriteLine($"[Iyzico Config] BaseUrl yüklendi: '{baseUrl}' (Uzunluk: {baseUrl.Length}, Bytes: {baseUrlBytes.Length}, " +
-        $"StartsWithHttps: {baseUrl.StartsWith("https:
+        $"StartsWithHttps: {baseUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase)}, " +
         $"EndsWithCom: {baseUrl.EndsWith(".com", StringComparison.OrdinalIgnoreCase)})");
 });
 builder.Services.AddDbContext<DatabaseContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-        ?? "Server=localhost;Database=PaymentServiceDb;Trusted_Connection=True;TrustServerCertificate=True;";
+        ?? "Server=MetropolTilkisi;Database=RtdPayment-Service;Integrated Security=SSPI;Persist Security Info=False;Trusted_Connection=True;Encrypt=false;TrustServerCertificate=True;";
     options.UseSqlServer(connectionString, sqlOptions =>
     {
         sqlOptions.MaxBatchSize(100);
@@ -77,7 +77,6 @@ builder.Services.AddHttpClient("AccountService", client =>
     UseProxy = true,
     Proxy = System.Net.WebRequest.GetSystemWebProxy(),
 });
-:
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>

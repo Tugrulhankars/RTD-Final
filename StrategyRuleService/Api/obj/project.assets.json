@@ -2447,6 +2447,7 @@
           "Domain": "1.0.0",
           "Infrastructure": "1.0.0",
           "MediatR": "13.0.0",
+          "Microsoft.Data.SqlClient": "5.1.6",
           "Microsoft.Extensions.Configuration.Abstractions": "9.0.8",
           "Microsoft.Extensions.Hosting.Abstractions": "9.0.8",
           "Microsoft.Extensions.Http": "9.0.8",

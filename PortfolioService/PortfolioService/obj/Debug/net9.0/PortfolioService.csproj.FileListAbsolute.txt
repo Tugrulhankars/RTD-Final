@@ -400,10 +400,10 @@ C:\RTD-FinalProject\PortfolioService\PortfolioService\obj\Debug\net9.0\staticweb
 C:\RTD-FinalProject\PortfolioService\PortfolioService\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\RTD-FinalProject\PortfolioService\PortfolioService\obj\Debug\net9.0\staticwebassets.development.json
 C:\RTD-FinalProject\PortfolioService\PortfolioService\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\RTD-FinalProject\PortfolioService\PortfolioService\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\RTD-FinalProject\PortfolioService\PortfolioService\obj\Debug\net9.0\Portfoli.A42E9D35.Up2Date
 C:\RTD-FinalProject\PortfolioService\PortfolioService\obj\Debug\net9.0\PortfolioService.dll
 C:\RTD-FinalProject\PortfolioService\PortfolioService\obj\Debug\net9.0\refint\PortfolioService.dll
 C:\RTD-FinalProject\PortfolioService\PortfolioService\obj\Debug\net9.0\PortfolioService.pdb
 C:\RTD-FinalProject\PortfolioService\PortfolioService\obj\Debug\net9.0\PortfolioService.genruntimeconfig.cache
 C:\RTD-FinalProject\PortfolioService\PortfolioService\obj\Debug\net9.0\ref\PortfolioService.dll
+C:\RTD-FinalProject\PortfolioService\PortfolioService\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

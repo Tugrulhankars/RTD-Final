@@ -62,7 +62,6 @@ C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticw
 C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.development.json
 C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDa.FAA560AF.Up2Date
 C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.dll
 C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\refint\MarketDataService.dll

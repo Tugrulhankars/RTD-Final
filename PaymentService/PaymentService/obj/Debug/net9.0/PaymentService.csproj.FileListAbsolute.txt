@@ -366,7 +366,7 @@ C:\RTD-FinalProject\PaymentService\PaymentService\obj\Debug\net9.0\staticwebasse
 C:\RTD-FinalProject\PaymentService\PaymentService\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\RTD-FinalProject\PaymentService\PaymentService\obj\Debug\net9.0\staticwebassets.development.json
 C:\RTD-FinalProject\PaymentService\PaymentService\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\RTD-FinalProject\PaymentService\PaymentService\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\RTD-FinalProject\PaymentService\PaymentService\obj\Debug\net9.0\PaymentS.0CEDD34D.Up2Date
 C:\RTD-FinalProject\PaymentService\PaymentService\obj\Debug\net9.0\PaymentService.genruntimeconfig.cache
 C:\RTD-FinalProject\PaymentService\PaymentService\obj\Debug\net9.0\ref\PaymentService.dll
+C:\RTD-FinalProject\PaymentService\PaymentService\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

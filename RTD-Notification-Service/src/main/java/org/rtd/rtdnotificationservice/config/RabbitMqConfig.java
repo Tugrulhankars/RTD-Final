@@ -11,7 +11,6 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.listener.ConditionalRejectingErrorHandler;
 import org.springframework.amqp.rabbit.listener.FatalExceptionStrategy;
 import org.springframework.amqp.support.converter.DefaultJackson2JavaTypeMapper;
@@ -40,6 +39,14 @@ public class RabbitMqConfig {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        // Allow unknown properties to be ignored
+        objectMapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        // Allow empty strings to be null
+        objectMapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+        // Use getters/setters instead of fields
+        objectMapper.setVisibility(com.fasterxml.jackson.annotation.PropertyAccessor.FIELD, com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE);
+        objectMapper.setVisibility(com.fasterxml.jackson.annotation.PropertyAccessor.GETTER, com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY);
+        objectMapper.setVisibility(com.fasterxml.jackson.annotation.PropertyAccessor.SETTER, com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY);
         
         Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter(objectMapper);
 
@@ -194,11 +201,9 @@ public class RabbitMqConfig {
     
     @Bean
     public Queue paymentFailedQueue() {
-        return QueueBuilder.durable(RabbitMQConstants.notificationPaymentFailedQueue)
-                .withArgument("x-dead-letter-exchange", RabbitMQConstants.notificationDirectExchange)
-                .withArgument("x-dead-letter-routing-key", RabbitMQConstants.notificationPaymentFailedDlqKey)
-                .withArgument("x-message-ttl", 60000)
-                .build();
+        // Temporarily removed DLQ arguments to fix PRECONDITION_FAILED error
+        // TODO: Re-add DLQ configuration after deleting existing queue from RabbitMQ
+        return new Queue(RabbitMQConstants.notificationPaymentFailedQueue, true, false, false);
     }
     
     @Bean
@@ -218,11 +223,9 @@ public class RabbitMqConfig {
     
     @Bean
     public Queue paymentSuccessQueue() {
-        return QueueBuilder.durable(RabbitMQConstants.notificationPaymentSuccessQueue)
-                .withArgument("x-dead-letter-exchange", RabbitMQConstants.notificationDirectExchange)
-                .withArgument("x-dead-letter-routing-key", RabbitMQConstants.notificationPaymentSuccessDlqKey)
-                .withArgument("x-message-ttl", 60000)
-                .build();
+        // Temporarily removed DLQ arguments to fix PRECONDITION_FAILED error
+        // TODO: Re-add DLQ configuration after deleting existing queue from RabbitMQ
+        return new Queue(RabbitMQConstants.notificationPaymentSuccessQueue, true, false, false);
     }
     
     @Bean

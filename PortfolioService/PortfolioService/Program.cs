@@ -18,7 +18,7 @@ builder.Services.AddDbContext<DatabaseContext>(opt =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
         ?? builder.Configuration["ConnectionStrings:DefaultConnection"]
-        ?? "Server=localhost;Database=RtdPortfolio-Service;Integrated Security=True;TrustServerCertificate=True;Encrypt=false;";
+        ?? "Server=MetropolTilkisi;Database=RtdPortfolio-Service;Integrated Security=SSPI;Persist Security Info=False;Trusted_Connection=True;Encrypt=false;TrustServerCertificate=True;";
     opt.UseSqlServer(connectionString);
 });
 

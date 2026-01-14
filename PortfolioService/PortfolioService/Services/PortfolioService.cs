@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using PortfolioService.Dtos.Request;
 using PortfolioService.Dtos.Response;
 using PortfolioService.Models;
@@ -36,36 +37,70 @@ public class PortfolioService : PortfolioServiceBase,IPortfolioService
 
     public async Task<List<GetAllPortfolioResponse>> GetAllPortfolioByUserAsync(int userId)
     {
-        var portfolios = await _portfolioRepository
-            .GetAllAsync(p => p.UserId == userId);
-
-        var responses = portfolios.Select(p => new GetAllPortfolioResponse
+        try
         {
-            Id = p.Id,
-            AccountId = p.AccountId,
-            UserId = p.UserId,
-         
-        }).ToList();
+            var portfolios = await _portfolioRepository
+                .GetAllAsync(p => p.UserId == userId);
 
-        return responses;
+            var responses = portfolios.Select(p => new GetAllPortfolioResponse
+            {
+                Id = p.Id,
+                AccountId = p.AccountId,
+                UserId = p.UserId,
+             
+            }).ToList();
+
+            return responses;
+        }
+        catch (Exception ex)
+        {
+            // Veritabanı bağlantı hatası durumunda boş liste döndür
+            if (ex is SqlException || 
+                (ex.InnerException is SqlException) ||
+                ex.Message.Contains("network-related", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("instance-specific", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("server was not found", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("could not open a connection", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<GetAllPortfolioResponse>();
+            }
+            throw;
+        }
     }
 
     public async Task<GetAllPortfolioResponse?> GetPortfolioByAccountIdAsync(int accountId)
     {
-        var portfolio = await _portfolioRepository
-            .GetAsync(p => p.AccountId == accountId);
-
-        if (portfolio == null)
+        try
         {
-            return null;
+            var portfolio = await _portfolioRepository
+                .GetAsync(p => p.AccountId == accountId);
+
+            if (portfolio == null)
+            {
+                return null;
+            }
+
+            return new GetAllPortfolioResponse
+            {
+                Id = portfolio.Id,
+                AccountId = portfolio.AccountId,
+                UserId = portfolio.UserId,
+            };
         }
-
-        return new GetAllPortfolioResponse
+        catch (Exception ex)
         {
-            Id = portfolio.Id,
-            AccountId = portfolio.AccountId,
-            UserId = portfolio.UserId,
-        };
+            // Veritabanı bağlantı hatası durumunda null döndür
+            if (ex is SqlException || 
+                (ex.InnerException is SqlException) ||
+                ex.Message.Contains("network-related", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("instance-specific", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("server was not found", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("could not open a connection", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+            throw;
+        }
     }
 
     public async Task<bool> HasStockInPortfolioAsync(int userId, string symbol)
@@ -93,33 +128,50 @@ public class PortfolioService : PortfolioServiceBase,IPortfolioService
 
     public async Task<List<GetAllPortfolioResponse>> GetPortfoliosWithActiveStockCertificates(int userId)
     {
-        var portfolios = await _portfolioRepository
-            .GetAllAsync(
-                predicate: p => p.UserId == userId,
-                include: query => query.Include(p => p.StockCertificates)
-            );
-
-        if (portfolios == null || !portfolios.Any())
+        try
         {
-            return new List<GetAllPortfolioResponse>();
+            var portfolios = await _portfolioRepository
+                .GetAllAsync(
+                    predicate: p => p.UserId == userId,
+                    include: query => query.Include(p => p.StockCertificates)
+                );
+
+            if (portfolios == null || !portfolios.Any())
+            {
+                return new List<GetAllPortfolioResponse>();
+            }
+
+            var result = portfolios
+                .Where(p => p.StockCertificates != null && p.StockCertificates.Any(sc => !sc.IsSell))
+                .SelectMany(p => p.StockCertificates!
+                    .Where(sc => !sc.IsSell)
+                    .Select(sc => new GetAllPortfolioResponse
+                    {
+                        Id = p.Id,
+                        UserId = p.UserId,
+                        AccountId = p.AccountId,
+                        Symbol = sc.Symbol,
+                        Lot = sc.Lot,
+                        AveragePrice = sc.PricePerShare
+                    }))
+                .ToList();
+
+            return result;
         }
-
-        var result = portfolios
-            .Where(p => p.StockCertificates != null && p.StockCertificates.Any(sc => !sc.IsSell))
-            .SelectMany(p => p.StockCertificates!
-                .Where(sc => !sc.IsSell)
-                .Select(sc => new GetAllPortfolioResponse
-                {
-                    Id = p.Id,
-                    UserId = p.UserId,
-                    AccountId = p.AccountId,
-                    Symbol = sc.Symbol,
-                    Lot = sc.Lot,
-                    AveragePrice = sc.PricePerShare
-                }))
-            .ToList();
-
-        return result;
+        catch (Exception ex)
+        {
+            // Veritabanı bağlantı hatası durumunda boş liste döndür
+            if (ex is SqlException || 
+                (ex.InnerException is SqlException) ||
+                ex.Message.Contains("network-related", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("instance-specific", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("server was not found", StringComparison.OrdinalIgnoreCase) ||
+                ex.Message.Contains("could not open a connection", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<GetAllPortfolioResponse>();
+            }
+            throw;
+        }
     }
 
     public override async Task<Protos.SellStockResponse> SellStock(Protos.SellStockRequest request, ServerCallContext context)

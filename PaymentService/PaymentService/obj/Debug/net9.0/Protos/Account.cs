@@ -150,9 +150,6 @@ namespace PaymentService.Protos {
     /// <summary>Field number for the "amount" field.</summary>
     public const int AmountFieldNumber = 5;
     private double amount_;
-    /// <summary>
-    /// Pozitif -> arttır, Negatif -> azalt
-    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public double Amount {
@@ -165,9 +162,6 @@ namespace PaymentService.Protos {
     /// <summary>Field number for the "transactionTime" field.</summary>
     public const int TransactionTimeFieldNumber = 6;
     private global::Google.Protobuf.WellKnownTypes.Timestamp transactionTime_;
-    /// <summary>
-    /// opsiyonel
-    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::Google.Protobuf.WellKnownTypes.Timestamp TransactionTime {
@@ -526,9 +520,6 @@ namespace PaymentService.Protos {
     /// <summary>Field number for the "newBalance" field.</summary>
     public const int NewBalanceFieldNumber = 4;
     private double newBalance_;
-    /// <summary>
-    /// opsiyonel ama kullanıcıyı bilgilendirmek için faydalı
-    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public double NewBalance {

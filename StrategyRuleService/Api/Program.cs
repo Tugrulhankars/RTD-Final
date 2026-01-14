@@ -94,8 +94,8 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Veritabanı migration'ları veya seed data uygulanırken bir hata oluştu.");
-        throw;
+        logger.LogWarning(ex, "Veritabanı migration'ları veya seed data uygulanırken bir hata oluştu. Servis veritabanı olmadan devam edecek. Hata: {Message}", ex.Message);
+        // Servisi veritabanı bağlantısı olmadan da başlatabilmek için throw yapmıyoruz
     }
 }
 app.Run();

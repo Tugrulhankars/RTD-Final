@@ -46,6 +46,8 @@ public class AccountController : ControllerBase
                     Message = "Kullanıcı hesabı bulunamadı. Lütfen önce hesap oluşturun." 
                 });
             }
+            _logger.LogInformation("[AccountController] Returning account for UserId={UserId}: AccountId={AccountId}, Email={Email}, Balance={Balance}", 
+                userId, response.AccountId, response.Email ?? "NULL", response.Balance);
             return Ok(response);
         }
         catch (Exception ex)
@@ -54,6 +56,32 @@ public class AccountController : ControllerBase
             return NotFound(new { 
                 Success = false, 
                 Message = "Kullanıcı hesabı bulunamadı." 
+            });
+        }
+    }
+
+    [HttpGet("getAccountByAccountId/{accountId}")]
+    public async Task<IActionResult> GetAccountByAccountId(int accountId)
+    {
+        try
+        {
+            var response = await _accountService.GetAccountByAccountId(accountId);
+            if (response == null)
+            {
+                _logger.LogWarning("Hesap bulunamadı: AccountId={AccountId}", accountId);
+                return NotFound(new { 
+                    Success = false, 
+                    Message = "Hesap bulunamadı." 
+                });
+            }
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Hesap bilgisi alınırken beklenmeyen hata oluştu: AccountId={AccountId}", accountId);
+            return NotFound(new { 
+                Success = false, 
+                Message = "Hesap bulunamadı." 
             });
         }
     }
