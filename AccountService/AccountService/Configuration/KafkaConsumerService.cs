@@ -14,6 +14,8 @@ public class KafkaConsumerService<T> where T : class
     private readonly IConfiguration _configuration;
     private readonly ILogger<KafkaConsumerService<T>>? _logger;
     private readonly HashSet<string> _initializedTopics = new HashSet<string>();
+    private DateTime? _lastBrokerDownTime = null;
+    private int _consecutiveFailures = 0;
 
     public KafkaConsumerService(IConfiguration configuration, ILogger<KafkaConsumerService<T>>? logger = null)
     {
@@ -28,7 +30,7 @@ public class KafkaConsumerService<T> where T : class
             return;
         }
 
-        var bootstrapServers = _configuration["Kafka:BootstrapServers"] ?? "localhost:19092";
+        var bootstrapServers = _configuration["Kafka:BootstrapServers"] ?? "localhost:9092";
         
         try
         {
@@ -51,7 +53,7 @@ public class KafkaConsumerService<T> where T : class
         IConsumer<int, T>? consumer = null;
         try
         {
-            var bootstrapServers = _configuration["Kafka:BootstrapServers"] ?? "localhost:19092";
+            var bootstrapServers = _configuration["Kafka:BootstrapServers"] ?? "localhost:9092";
             var groupId = _configuration["Kafka:GroupId"] ?? "AccountService";
             
             _logger?.LogInformation("Kafka consumer başlatılıyor: BootstrapServers={BootstrapServers}, Topic={Topic}, GroupId={GroupId}", 
@@ -79,7 +81,32 @@ public class KafkaConsumerService<T> where T : class
                 .SetValueDeserializer(new ValueSerializer<T>())
                 .SetErrorHandler((consumer, error) =>
                 {
-                    _logger?.LogWarning("Kafka consumer error: {Error}", error.Reason);
+                    // Broker down hatalarını kontrol et
+                    if (error.Code == ErrorCode.Local_Transport || 
+                        
+                        error.Reason?.Contains("brokers are down", StringComparison.OrdinalIgnoreCase) == true ||
+                        error.Reason?.Contains("Connection setup timed out", StringComparison.OrdinalIgnoreCase) == true)
+                    {
+                        _consecutiveFailures++;
+                        _lastBrokerDownTime = DateTime.UtcNow;
+                        
+                        // Her 10 hatada bir log et (spam'i azalt)
+                        if (_consecutiveFailures % 10 == 0)
+                        {
+                            _logger?.LogWarning("Kafka broker unavailable - consecutive failures: {Failures}. Kafka may be down. Service will continue retrying.", 
+                                _consecutiveFailures);
+                        }
+                        else
+                        {
+                            _logger?.LogDebug("Kafka broker unavailable (silenced log #{Failure}): {Error}", 
+                                _consecutiveFailures, error.Reason);
+                        }
+                    }
+                    else
+                    {
+                        _logger?.LogWarning("Kafka consumer error: {Error}", error.Reason);
+                        _consecutiveFailures = 0;
+                    }
                 })
                 .Build();
 
@@ -131,7 +158,20 @@ public class KafkaConsumerService<T> where T : class
         }
         catch (KafkaException kafkaEx)
         {
-            _logger?.LogError(kafkaEx, "Kafka bağlantı hatası - Kafka down olabilir: {Error}", kafkaEx.Message);
+            _consecutiveFailures++;
+            _lastBrokerDownTime = DateTime.UtcNow;
+            
+            // Her 10 hatada bir log et (spam'i azalt)
+            if (_consecutiveFailures % 10 == 0)
+            {
+                _logger?.LogWarning(kafkaEx, "Kafka bağlantı hatası (consecutive failures: {Failures}) - Kafka may be down. Service continues without Kafka: {Error}", 
+                    _consecutiveFailures, kafkaEx.Message);
+            }
+            else
+            {
+                _logger?.LogDebug(kafkaEx, "Kafka bağlantı hatası (silenced log #{Failure}): {Error}", 
+                    _consecutiveFailures, kafkaEx.Message);
+            }
             return null;
         }
         catch (Exception ex)

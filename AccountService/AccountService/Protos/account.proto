@@ -6,8 +6,19 @@ option csharp_namespace="AccountService.Protos";
 import "google/protobuf/timestamp.proto";
 
 service AccountService{
-    // Hem artýþ hem azalýþ için amount kullan
+	rpc GetAccountBalance(GetAccountBalanceRequest) returns(GetAccountBalanceResponse);
+    // Hem artÄ±ÅŸ hem azalÄ±ÅŸ iÃ§in amount kullan
 	rpc UpdateAccountBalance(UpdateBalanceRequest) returns(UpdateBalanceResponse);
+}
+
+message GetAccountBalanceRequest{
+	int32 accountId = 1;
+}
+
+message GetAccountBalanceResponse{
+	double balance = 1;
+	bool success = 2;
+	string message = 3;
 }
 
 message UpdateBalanceRequest{
@@ -15,7 +26,7 @@ message UpdateBalanceRequest{
 	int32 userId = 2;
 	string firstName = 3;
 	string lastName = 4;
-	double amount = 5; // Pozitif -> arttýr, Negatif -> azalt
+	double amount = 5; // Pozitif -> arttÄ±r, Negatif -> azalt
 	google.protobuf.Timestamp transactionTime = 6; // opsiyonel
 }
 
@@ -29,5 +40,5 @@ message UpdateBalanceResponse{
 		UNKNOWN_ERROR = 3;
 	}
 	ErrorCode error = 3;
-	double newBalance = 4; // opsiyonel ama kullanýcýyý bilgilendirmek için faydalý
+	double newBalance = 4; // opsiyonel ama kullanÄ±cÄ±yÄ± bilgilendirmek iÃ§in faydalÄ±
 }

@@ -46,6 +46,7 @@ public class StockWorkflow
     public Func<int, string, Task<bool>> PortfolioService { get; set; }
     public Func<int, Task<decimal>> AccountService { get; set; }
     public Func<string, Task<StockInfoDto>> MarketDataService { get; set; }
+    public Func<Task> OnStrategyCompleted { get; set; } // Strateji tamamlandığında çağrılacak callback
     public bool MarketOpen =>
         !Cancelled && 
         Now.TimeOfDay >= new TimeSpan(10, 0, 0) &&

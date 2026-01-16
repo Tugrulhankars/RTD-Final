@@ -15,8 +15,8 @@ func NewTradeRepository(db *gorm.DB) repository.TradeRepository {
 	return &TradeRepository{db: db}
 }
 
-func (t TradeRepository) Create(ctx context.Context, trade domain.Trade) error {
-	err := t.db.WithContext(ctx).Create(&trade).Error
+func (t TradeRepository) Create(ctx context.Context, trade *domain.Trade) error {
+	err := t.db.WithContext(ctx).Create(trade).Error
 	if err != nil {
 		return err
 	}

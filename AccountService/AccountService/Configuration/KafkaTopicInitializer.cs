@@ -21,7 +21,7 @@ public class KafkaTopicInitializer
 
     public async Task InitializeTopicsAsync()
     {
-        var bootstrapServers = _configuration["Kafka:BootstrapServers"] ?? "localhost:19092";
+        var bootstrapServers = _configuration["Kafka:BootstrapServers"] ?? "localhost:9092";
         
         _logger.LogInformation("Kafka topic initialization başlatılıyor: BootstrapServers={BootstrapServers}", bootstrapServers);
 

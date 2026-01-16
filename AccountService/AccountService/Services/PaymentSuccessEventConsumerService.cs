@@ -13,6 +13,8 @@ public class PaymentSuccessEventConsumerService : BackgroundService
     private readonly ILogger<PaymentSuccessEventConsumerService> _logger;
     private readonly IServiceProvider _serviceProvider;
     private bool _topicInitialized = false;
+    private int _consecutiveKafkaFailures = 0;
+    private DateTime? _lastKafkaFailure = null;
 
     public PaymentSuccessEventConsumerService(
         ILogger<PaymentSuccessEventConsumerService> logger,
@@ -60,6 +62,10 @@ public class PaymentSuccessEventConsumerService : BackgroundService
 
                     if (paymentSuccessEvent != null)
                     {
+                        // Reset failure counter on successful consume
+                        _consecutiveKafkaFailures = 0;
+                        _lastKafkaFailure = null;
+                        
                         var eventData = paymentSuccessEvent;
                         _logger.LogInformation("PaymentSuccessEvent alındı: UserId={UserId}, AccountId={AccountId}, Amount={Amount}, TransactionId={TransactionId}",
                             eventData.UserId, eventData.AccountId, eventData.Amount, eventData.PaymentTransactionId);
@@ -141,6 +147,7 @@ public class PaymentSuccessEventConsumerService : BackgroundService
                             await topicInitializer.InitializeTopicsAsync();
                             _logger.LogInformation("Topic başarıyla oluşturuldu. Consumer devam ediyor...");
                             await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken);
+                            _consecutiveKafkaFailures = 0; // Reset on success
                         }
                         catch (Exception initEx)
                         {
@@ -148,10 +155,37 @@ public class PaymentSuccessEventConsumerService : BackgroundService
                             await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
                         }
                     }
+                    else if (kafkaEx.Error.Code == ErrorCode.Local_Transport || 
+                             
+                             kafkaEx.Message?.Contains("brokers are down", StringComparison.OrdinalIgnoreCase) == true ||
+                             kafkaEx.Message?.Contains("Connection setup timed out", StringComparison.OrdinalIgnoreCase) == true)
+                    {
+                        // Broker down hatası - exponential backoff
+                        _consecutiveKafkaFailures++;
+                        _lastKafkaFailure = DateTime.UtcNow;
+                        
+                        // Exponential backoff: 5, 10, 20, 30, max 60 seconds
+                        int delaySeconds = Math.Min(5 * (int)Math.Pow(2, Math.Min(_consecutiveKafkaFailures - 1, 4)), 60);
+                        
+                        // Her 20 hatada bir log et (spam'i azalt)
+                        if (_consecutiveKafkaFailures % 20 == 0)
+                        {
+                            _logger.LogWarning("Kafka broker unavailable (consecutive failures: {Failures}). Retrying in {Delay} seconds. Service continues without Kafka events. Payment balance updates will be handled via gRPC fallback.", 
+                                _consecutiveKafkaFailures, delaySeconds);
+                        }
+                        else
+                        {
+                            _logger.LogDebug("Kafka broker unavailable (silenced log #{Failure}). Retrying in {Delay} seconds.", 
+                                _consecutiveKafkaFailures, delaySeconds);
+                        }
+                        
+                        await Task.Delay(TimeSpan.FromSeconds(delaySeconds), stoppingToken);
+                    }
                     else
                     {
                         _logger.LogError(kafkaEx, "Kafka exception: {Error}", kafkaEx.Message);
                         await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
+                        _consecutiveKafkaFailures = 0; // Reset on other errors
                     }
                 }
             }
@@ -162,8 +196,36 @@ public class PaymentSuccessEventConsumerService : BackgroundService
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "PaymentSuccessEventConsumerService genel hata: {Error}", ex.Message);
-                await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+                // Kafka bağlantı hatalarını kontrol et
+                if (ex.Message?.Contains("brokers are down", StringComparison.OrdinalIgnoreCase) == true ||
+                    ex.Message?.Contains("Connection setup timed out", StringComparison.OrdinalIgnoreCase) == true ||
+                    ex.InnerException?.Message?.Contains("brokers are down", StringComparison.OrdinalIgnoreCase) == true ||
+                    ex.InnerException?.Message?.Contains("Connection setup timed out", StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    _consecutiveKafkaFailures++;
+                    _lastKafkaFailure = DateTime.UtcNow;
+                    
+                    int delaySeconds = Math.Min(5 * (int)Math.Pow(2, Math.Min(_consecutiveKafkaFailures - 1, 4)), 60);
+                    
+                    if (_consecutiveKafkaFailures % 20 == 0)
+                    {
+                        _logger.LogWarning(ex, "Kafka connection error in PaymentSuccessEventConsumerService (consecutive failures: {Failures}). Retrying in {Delay} seconds. Service continues.", 
+                            _consecutiveKafkaFailures, delaySeconds);
+                    }
+                    else
+                    {
+                        _logger.LogDebug(ex, "Kafka connection error (silenced log #{Failure}). Retrying in {Delay} seconds.", 
+                            _consecutiveKafkaFailures, delaySeconds);
+                    }
+                    
+                    await Task.Delay(TimeSpan.FromSeconds(delaySeconds), stoppingToken);
+                }
+                else
+                {
+                    _logger.LogError(ex, "PaymentSuccessEventConsumerService genel hata: {Error}", ex.Message);
+                    await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+                    _consecutiveKafkaFailures = 0; // Reset on other errors
+                }
             }
         }
 

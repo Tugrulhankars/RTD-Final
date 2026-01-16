@@ -17,16 +17,12 @@ public class SellRule : Rule
     public override void Define()
     {
         StockWorkflow ctx = null;
-        UserPreference userPref = null;
         When()
-            .Match<StockWorkflow>(() => ctx, c => c.Step == 2)
-            .Match<UserPreference>(() => userPref, 
-                pref => pref.StrategyId == ctx.StrategyId && 
-                        pref.Ticker == ctx.Symbol);
+            .Match<StockWorkflow>(() => ctx, c => c.Step == 2 && !c.Cancelled);
         Then()
-            .Do(_ => Execute(ctx, userPref));
+            .Do(_ => Execute(ctx));
     }
-    private async void Execute(StockWorkflow ctx, UserPreference userPref)
+    private async void Execute(StockWorkflow ctx)
     {
         try
         {
@@ -38,6 +34,9 @@ public class SellRule : Rule
             {
                 return;
             }
+            
+            // UserPreference'ı context'ten al (opsiyonel)
+            UserPreference userPref = ctx.UserPreference;
             decimal stopLossPercent = (userPref != null && userPref.StopLossPercentage > 0) 
                 ? userPref.StopLossPercentage 
                 : (ctx.StopLossPercent > 0 ? ctx.StopLossPercent : 2.0m);
@@ -146,6 +145,14 @@ public class SellRule : Rule
                             strategyEvent.Reason += $" - TradeId: {tradeResponse.TradeId} - TradeService başarılı";
                             ctx.InPortfolio = false;
                             Console.WriteLine($"[{ctx.Symbol}] Toplam zarar limiti satış emri başarıyla gönderildi - TradeId: {tradeResponse.TradeId}");
+                            
+                            // Stratejiyi tamamlandı olarak işaretle ve durdur
+                            if (ctx.OnStrategyCompleted != null)
+                            {
+                                await ctx.OnStrategyCompleted();
+                                ctx.Cancelled = true; // Stratejiyi durdur
+                                Console.WriteLine($"[{ctx.Symbol}] Strateji tamamlandı olarak işaretlendi ve durduruldu - StrategyId: {ctx.StrategyId}");
+                            }
                         }
                         else
                         {
@@ -208,6 +215,14 @@ public class SellRule : Rule
                             strategyEvent.Reason += $" - TradeId: {tradeResponse.TradeId} - TradeService başarılı";
                             ctx.InPortfolio = false;
                             Console.WriteLine($"[{ctx.Symbol}] Satış emri başarıyla gönderildi - TradeId: {tradeResponse.TradeId}");
+                            
+                            // Stratejiyi tamamlandı olarak işaretle ve durdur
+                            if (ctx.OnStrategyCompleted != null)
+                            {
+                                await ctx.OnStrategyCompleted();
+                                ctx.Cancelled = true; // Stratejiyi durdur
+                                Console.WriteLine($"[{ctx.Symbol}] Strateji tamamlandı olarak işaretlendi ve durduruldu - StrategyId: {ctx.StrategyId}");
+                            }
                         }
                         else
                         {

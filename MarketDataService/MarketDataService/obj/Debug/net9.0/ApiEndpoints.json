@@ -1,5 +1,73 @@
 [
   {
+    "ContainingType": "MarketDataService.Controllers.MarketDataPriceController",
+    "Method": "GetPrice",
+    "RelativePath": "api/marketdata/price/{ticker}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ticker",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MarketDataService.Controllers.MarketDataPriceController",
+    "Method": "GetQuote",
+    "RelativePath": "api/marketdata/quote/{ticker}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ticker",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MarketDataService.Dtos.StockQuoteDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MarketDataService.Controllers.MarketDataPriceController",
+    "Method": "GetStockInfo",
+    "RelativePath": "api/marketdata/stockinfo/{ticker}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ticker",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MarketDataService.Dtos.StockInfoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "MarketDataService.Controllers.FinancialMetricsController",
     "Method": "Get",
     "RelativePath": "api/metrics/{ticker}",

@@ -35,3 +35,8 @@ public class StockQuoteController : ControllerBase
         return q.PreviousClosePrice;
     }
 }
+
+
+
+
+

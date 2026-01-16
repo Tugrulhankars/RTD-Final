@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Services.Grpc.Services;
 using NRules.Fluent.Dsl;
+using NRules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ public class PortfolioCheckRule : Rule
     }
     public override void Define()
     {
-        StockWorkflow ctx = new StockWorkflow();
+        StockWorkflow ctx = null;
         When()
             .Match<StockWorkflow>(() => ctx, c => c.Step == 1);
         Then()
@@ -25,6 +26,7 @@ public class PortfolioCheckRule : Rule
     {
         try
         {
+            Console.WriteLine($"[PortfolioCheckRule] Execute çağrıldı - Symbol: {ctx.Symbol}, Step: {ctx.Step}, AccountId: {ctx.AccountId}");
             ctx.StrategyEvents = ctx.StrategyEvents ?? new List<StrategyEvent>();
             bool alreadyProcessed = ctx.StrategyEvents.Any(e => 
                 e.RuleName == "PortfolioCheckRule" && 
@@ -32,29 +34,36 @@ public class PortfolioCheckRule : Rule
                 e.Action == "CHECK");
             if (alreadyProcessed)
             {
+                Console.WriteLine($"[PortfolioCheckRule] Zaten işlendi, atlanıyor - Symbol: {ctx.Symbol}, Step: {ctx.Step}");
                 return;
             }
             bool inPortfolio = false;
             bool portfolioServiceAvailable = false;
             string reason = "Portföy kontrolü";
             string serviceStatus = "";
+            Console.WriteLine($"[PortfolioCheckRule] PortfolioService kontrolü - PortfolioService null? {ctx.PortfolioService == null}, PortfolioId: {ctx.PortfolioId}, Symbol: {ctx.Symbol}");
+            
             if (ctx.PortfolioService != null && ctx.PortfolioId > 0)
             {
                 try
                 {
                     portfolioServiceAvailable = true;
+                    Console.WriteLine($"[PortfolioCheckRule] PortfolioService çağrılıyor - PortfolioId: {ctx.PortfolioId}, Symbol: {ctx.Symbol}");
                     inPortfolio = await ctx.PortfolioService(ctx.PortfolioId, ctx.Symbol);
-                    serviceStatus = "PortfolioService kullanıldı";
+                    Console.WriteLine($"[PortfolioCheckRule] PortfolioService sonucu - PortfolioId: {ctx.PortfolioId}, Symbol: {ctx.Symbol}, InPortfolio: {inPortfolio}");
+                    serviceStatus = $"PortfolioService kullanıldı - Sonuç: {(inPortfolio ? "VAR" : "YOK")}";
                 }
                 catch (Exception ex)
                 {
                     portfolioServiceAvailable = false;
                     serviceStatus = $"PortfolioService hatası: {ex.Message}";
+                    Console.WriteLine($"[PortfolioCheckRule] ❌ PortfolioService EXCEPTION - PortfolioId: {ctx.PortfolioId}, Symbol: {ctx.Symbol}, Error: {ex.Message}");
                 }
             }
             else
             {
-                serviceStatus = "PortfolioService mevcut değil veya PortfolioId set edilmemiş - Varsayılan: Hisse portföyde yok";
+                serviceStatus = $"PortfolioService mevcut değil veya PortfolioId set edilmemiş (PortfolioService null? {ctx.PortfolioService == null}, PortfolioId: {ctx.PortfolioId}) - Varsayılan: Hisse portföyde yok";
+                Console.WriteLine($"[PortfolioCheckRule] ⚠️ PortfolioService veya PortfolioId eksik - PortfolioService null? {ctx.PortfolioService == null}, PortfolioId: {ctx.PortfolioId}");
             }
             var portfolioCheckEvent = new StrategyEvent
             {
@@ -112,6 +121,7 @@ public class PortfolioCheckRule : Rule
                         Timestamp = DateTime.Now
                     };
                     ctx.StrategyEvents.Add(stepChangeEvent);
+                    Console.WriteLine($"[{ctx.Symbol}] ✅ Step 3'e geçildi - BuyRule tetiklenmeli - AccountId: {ctx.AccountId}");
                 }
             }
         }

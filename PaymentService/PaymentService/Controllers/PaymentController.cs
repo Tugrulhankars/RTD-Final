@@ -213,7 +213,8 @@ public class PaymentController : ControllerBase
                     token, checkout.ConversationId);
                 await SendPaymentFailedEventAsync(userId, amount, email, paymentTransactionId, paymentMethod, 
                     "Ödeme durumu belirlenemedi");
-                var statusUnknownRedirectUrl = "http://localhost:3000/dashboard/payment-failed";
+                var errorMessage = Uri.EscapeDataString("Ödeme durumu belirlenemedi. Lütfen tekrar deneyin.");
+                var statusUnknownRedirectUrl = $"http://localhost:5173/strategy/deposit?error=payment_status_unknown&message={errorMessage}";
                 var statusUnknownHtml = $@"
 <!DOCTYPE html>
 <html lang=""tr"">
@@ -224,12 +225,16 @@ public class PaymentController : ControllerBase
 </head>
 <body>
     <div style=""text-align: center; margin-top: 50px; font-family: Arial, sans-serif;"">
-        <h2>Ödeme Durumu Belirlenemedi</h2>
+        <h2 style=""color: #f59e0b;"">Ödeme Durumu Belirlenemedi</h2>
+        <p>Ödeme işleminizin durumu belirlenemedi.</p>
+        <p>Lütfen tekrar deneyin.</p>
         <p>Yönlendiriliyorsunuz...</p>
         <p>Eğer yönlendirme otomatik olmazsa, <a href=""{statusUnknownRedirectUrl}"">buraya tıklayın</a>.</p>
     </div>
     <script>
-        window.location.href = '{statusUnknownRedirectUrl}';
+        setTimeout(function() {{
+            window.location.href = '{statusUnknownRedirectUrl}';
+        }}, 2000);
     </script>
 </body>
 </html>";
@@ -250,7 +255,31 @@ public class PaymentController : ControllerBase
                             userId, accountResponse.StatusCode, errorContent);
                         await SendPaymentFailedEventAsync(userId, amount, email, paymentTransactionId, paymentMethod, 
                             $"Kullanıcı hesabı bulunamadı (HTTP {(int)accountResponse.StatusCode})");
-                        return StatusCode(500, $"Kullanıcı hesabı bulunamadı. HTTP Status: {accountResponse.StatusCode}");
+                        var accountServiceErrorRedirectUrl = "http://localhost:5173/strategy/deposit?error=account_service_unavailable&message=Hesap%20servisine%20ulaşılamadı.%20Lütfen%20daha%20sonra%20tekrar%20deneyin.";
+                        var accountServiceErrorHtml = $@"
+<!DOCTYPE html>
+<html lang=""tr"">
+<head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>Ödeme Hatası</title>
+</head>
+<body>
+    <div style=""text-align: center; margin-top: 50px; font-family: Arial, sans-serif;"">
+        <h2>Hesap Servisine Ulaşılamıyor</h2>
+        <p>Ödeme işleminiz alındı ancak hesap bilgilerinize erişilemedi.</p>
+        <p>Lütfen daha sonra tekrar deneyin veya destek ekibiyle iletişime geçin.</p>
+        <p>Yönlendiriliyorsunuz...</p>
+        <p>Eğer yönlendirme otomatik olmazsa, <a href=""{accountServiceErrorRedirectUrl}"">buraya tıklayın</a>.</p>
+    </div>
+    <script>
+        setTimeout(function() {{
+            window.location.href = '{accountServiceErrorRedirectUrl}';
+        }}, 2000);
+    </script>
+</body>
+</html>";
+                        return Content(accountServiceErrorHtml, "text/html; charset=utf-8");
                     }
                     var accountJson = await accountResponse.Content.ReadAsStringAsync();
                     _logger.LogInformation("AccountService yanıtı alındı: UserId={UserId}, Response={Response}", userId, accountJson);
@@ -300,13 +329,61 @@ public class PaymentController : ControllerBase
                     {
                         _logger.LogError(parseEx, "AccountService yanıtı parse edilemedi: UserId={UserId}, JSON={Json}", userId, accountJson);
                         await SendPaymentFailedEventAsync(userId, amount, email, paymentTransactionId, paymentMethod, "Hesap bilgisi alınamadı (parse hatası)");
-                        return StatusCode(500, "Hesap bilgisi alınamadı");
+                        var parseErrorRedirectUrl = "http://localhost:5173/strategy/deposit?error=account_parse_error&message=Hesap%20bilgileri%20işlenemedi.%20Lütfen%20tekrar%20deneyin.";
+                        var parseErrorHtml = $@"
+<!DOCTYPE html>
+<html lang=""tr"">
+<head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>Ödeme Hatası</title>
+</head>
+<body>
+    <div style=""text-align: center; margin-top: 50px; font-family: Arial, sans-serif;"">
+        <h2>Hesap Bilgileri İşlenemedi</h2>
+        <p>Ödeme işleminiz alındı ancak hesap bilgileriniz işlenemedi.</p>
+        <p>Lütfen tekrar deneyin.</p>
+        <p>Yönlendiriliyorsunuz...</p>
+        <p>Eğer yönlendirme otomatik olmazsa, <a href=""{parseErrorRedirectUrl}"">buraya tıklayın</a>.</p>
+    </div>
+    <script>
+        setTimeout(function() {{
+            window.location.href = '{parseErrorRedirectUrl}';
+        }}, 2000);
+    </script>
+</body>
+</html>";
+                        return Content(parseErrorHtml, "text/html; charset=utf-8");
                     }
                     if (account == null)
                     {
                         _logger.LogError("AccountService yanıtı deserialize edilemedi: UserId={UserId}, JSON={Json}", userId, accountJson);
                         await SendPaymentFailedEventAsync(userId, amount, email, paymentTransactionId, paymentMethod, "Hesap bilgisi alınamadı (deserialize hatası)");
-                        return StatusCode(500, "Hesap bilgisi alınamadı");
+                        var deserializeErrorRedirectUrl = "http://localhost:5173/strategy/deposit?error=account_deserialize_error&message=Hesap%20bilgileri%20işlenemedi.%20Lütfen%20tekrar%20deneyin.";
+                        var deserializeErrorHtml = $@"
+<!DOCTYPE html>
+<html lang=""tr"">
+<head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>Ödeme Hatası</title>
+</head>
+<body>
+    <div style=""text-align: center; margin-top: 50px; font-family: Arial, sans-serif;"">
+        <h2>Hesap Bilgileri İşlenemedi</h2>
+        <p>Ödeme işleminiz alındı ancak hesap bilgileriniz işlenemedi.</p>
+        <p>Lütfen tekrar deneyin.</p>
+        <p>Yönlendiriliyorsunuz...</p>
+        <p>Eğer yönlendirme otomatik olmazsa, <a href=""{deserializeErrorRedirectUrl}"">buraya tıklayın</a>.</p>
+    </div>
+    <script>
+        setTimeout(function() {{
+            window.location.href = '{deserializeErrorRedirectUrl}';
+        }}, 2000);
+    </script>
+</body>
+</html>";
+                        return Content(deserializeErrorHtml, "text/html; charset=utf-8");
                     }
                     _logger.LogInformation("Hesap bilgisi başarıyla alındı: UserId={UserId}, AccountId={AccountId}, Balance={Balance}", 
                         userId, account.AccountId, account.Balance);
@@ -496,7 +573,8 @@ public class PaymentController : ControllerBase
                     _logger.LogError(httpEx, "AccountService'e HTTP isteği başarısız: UserId={UserId}, Message={Message}", userId, httpEx.Message);
                     await SendPaymentFailedEventAsync(userId, amount, email, paymentTransactionId, paymentMethod, 
                         $"AccountService'e bağlanılamadı: {httpEx.Message}");
-                    var accountServiceErrorRedirectUrl = "http://localhost:3000/dashboard/payment-failed";
+                    var errorMessage = Uri.EscapeDataString("Hesap servisine ulaşılamadı. Lütfen daha sonra tekrar deneyin.");
+                    var accountServiceErrorRedirectUrl = $"http://localhost:5173/strategy/deposit?error=account_service_connection&message={errorMessage}";
                     var accountServiceErrorHtml = $@"
 <!DOCTYPE html>
 <html lang=""tr"">
@@ -507,13 +585,16 @@ public class PaymentController : ControllerBase
 </head>
 <body>
     <div style=""text-align: center; margin-top: 50px; font-family: Arial, sans-serif;"">
-        <h2>AccountService'e Ulaşılamıyor</h2>
-        <p>Lütfen servisin çalıştığından emin olun.</p>
+        <h2>Hesap Servisine Ulaşılamıyor</h2>
+        <p>Ödeme işleminiz alındı ancak hesap servisine bağlanılamadı.</p>
+        <p>Lütfen daha sonra tekrar deneyin veya destek ekibiyle iletişime geçin.</p>
         <p>Yönlendiriliyorsunuz...</p>
         <p>Eğer yönlendirme otomatik olmazsa, <a href=""{accountServiceErrorRedirectUrl}"">buraya tıklayın</a>.</p>
     </div>
     <script>
-        window.location.href = '{accountServiceErrorRedirectUrl}';
+        setTimeout(function() {{
+            window.location.href = '{accountServiceErrorRedirectUrl}';
+        }}, 2000);
     </script>
 </body>
 </html>";
@@ -525,7 +606,8 @@ public class PaymentController : ControllerBase
                         userId, ex);
                     await SendPaymentFailedEventAsync(userId, amount, email, paymentTransactionId, paymentMethod, 
                         $"AccountService hatası: {ex.Message}");
-                    var accountServiceExceptionRedirectUrl = "http://localhost:3000/dashboard/payment-failed";
+                    var errorMessage = Uri.EscapeDataString("Hesap servisinde bir hata oluştu. Lütfen tekrar deneyin.");
+                    var accountServiceExceptionRedirectUrl = $"http://localhost:5173/strategy/deposit?error=account_service_error&message={errorMessage}";
                     var accountServiceExceptionHtml = $@"
 <!DOCTYPE html>
 <html lang=""tr"">
@@ -536,13 +618,16 @@ public class PaymentController : ControllerBase
 </head>
 <body>
     <div style=""text-align: center; margin-top: 50px; font-family: Arial, sans-serif;"">
-        <h2>AccountService Hatası</h2>
-        <p>{ex.Message}</p>
+        <h2>Hesap Servisinde Hata</h2>
+        <p>Ödeme işleminiz alındı ancak hesap servisinde bir hata oluştu.</p>
+        <p>Lütfen tekrar deneyin.</p>
         <p>Yönlendiriliyorsunuz...</p>
         <p>Eğer yönlendirme otomatik olmazsa, <a href=""{accountServiceExceptionRedirectUrl}"">buraya tıklayın</a>.</p>
     </div>
     <script>
-        window.location.href = '{accountServiceExceptionRedirectUrl}';
+        setTimeout(function() {{
+            window.location.href = '{accountServiceExceptionRedirectUrl}';
+        }}, 2000);
     </script>
 </body>
 </html>";
@@ -555,7 +640,8 @@ public class PaymentController : ControllerBase
                 _logger.LogWarning("Ödeme başarısız: UserId={UserId}, Amount={Amount}, PaymentStatus={PaymentStatus}, Reason={Reason}", 
                     userId, amount, checkout.PaymentStatus, failureReason);
                 await SendPaymentFailedEventAsync(userId, amount, email, paymentTransactionId, paymentMethod, failureReason, checkout.ErrorCode);
-                var paymentFailedRedirectUrl = "http://localhost:3000/dashboard/payment-failed";
+                var encodedReason = Uri.EscapeDataString(failureReason);
+                var paymentFailedRedirectUrl = $"http://localhost:5173/strategy/deposit?error=payment_failed&message={encodedReason}";
                 var paymentFailedHtml = $@"
 <!DOCTYPE html>
 <html lang=""tr"">
@@ -566,13 +652,15 @@ public class PaymentController : ControllerBase
 </head>
 <body>
     <div style=""text-align: center; margin-top: 50px; font-family: Arial, sans-serif;"">
-        <h2>Ödeme Başarısız</h2>
-        <p>{failureReason}</p>
-        <p>Yönlendiriliyorsunuz...</p>
+        <h2 style=""color: #dc2626;"">Ödeme Başarısız</h2>
+        <p style=""font-size: 16px; margin: 20px 0;"">{failureReason}</p>
+        <p>Ödeme formuna yönlendiriliyorsunuz...</p>
         <p>Eğer yönlendirme otomatik olmazsa, <a href=""{paymentFailedRedirectUrl}"">buraya tıklayın</a>.</p>
     </div>
     <script>
-        window.location.href = '{paymentFailedRedirectUrl}';
+        setTimeout(function() {{
+            window.location.href = '{paymentFailedRedirectUrl}';
+        }}, 2000);
     </script>
 </body>
 </html>";

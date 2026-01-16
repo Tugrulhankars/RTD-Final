@@ -27,7 +27,7 @@ public class KafkaConsumerService<T> where T : class
             return;
         }
 
-        var bootstrapServers = _configuration["Kafka:BootstrapServers"] ?? "localhost:19092";
+        var bootstrapServers = _configuration["Kafka:BootstrapServers"] ?? "localhost:9092";
         
         try
         {
@@ -50,7 +50,7 @@ public class KafkaConsumerService<T> where T : class
         IConsumer<int, T>? consumer = null;
         try
         {
-            var bootstrapServers = _configuration["Kafka:BootstrapServers"] ?? "localhost:19092";
+            var bootstrapServers = _configuration["Kafka:BootstrapServers"] ?? "localhost:9092";
             var groupId = _configuration["Kafka:GroupId"] ?? "PortfolioService";
             
             _logger?.LogInformation("Kafka consumer başlatılıyor: BootstrapServers={BootstrapServers}, Topic={Topic}, GroupId={GroupId}", 

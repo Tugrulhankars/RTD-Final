@@ -29,6 +29,7 @@ public class StockInfoController : ControllerBase
         CompanyProfileDto? profile = null;
         FinancialMetricsDto? metrics = null;
 
+
         try
         {
             quote = await _quoteService.GetQuoteAsync(ticker);

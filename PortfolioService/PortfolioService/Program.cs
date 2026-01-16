@@ -39,7 +39,7 @@ builder.Services.AddHttpClient("AccountService", client =>
 
 builder.Services.AddHostedService<PortfolioService.Services.UserCreatedEventConsumerService>();
 
-var kafkaBootstrapServers = builder.Configuration["Kafka:BootstrapServers"] ?? "localhost:19092";
+var kafkaBootstrapServers = builder.Configuration["Kafka:BootstrapServers"] ?? "localhost:9092";
 builder.Services.AddSingleton(new ProducerConfig 
 { 
     BootstrapServers = kafkaBootstrapServers,

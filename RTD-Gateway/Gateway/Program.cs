@@ -251,7 +251,9 @@ static string GetServiceNameFromPath(string path)
         return "Portfolio-Service";
     if (path.StartsWith("/api/account"))
         return "Account-Service";
-    if (path.StartsWith("/api/marketdata") || path.StartsWith("/api/strategy"))
+    if (path.StartsWith("/api/marketdata"))
+        return "MarketData-Service";
+    if (path.StartsWith("/api/strategy"))
         return "StrategyRule-Service";
     if (path.StartsWith("/api/v1/trade"))
         return "Trading-Service";

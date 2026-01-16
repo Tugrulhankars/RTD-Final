@@ -3,8 +3,48 @@
   "WorkspaceRootPath": "C:\\RTD-FinalProject\\StrategyRuleService\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\services\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\services\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\services\\strategyprocessinghostedservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\services\\strategyprocessinghostedservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\services\\istrategyeventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\services\\istrategyeventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\services\\istrategyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\services\\istrategyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\services\\nrulesservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\services\\nrulesservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\applicationserviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\applicationserviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|c:\\rtd-finalproject\\strategyruleservice\\infrastructure\\services\\grpc\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\grpc\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\features\\strategies\\rules\\buyrule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\features\\strategies\\rules\\buyrule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\features\\strategies\\rules\\timecheckrule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\features\\strategies\\rules\\timecheckrule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|c:\\rtd-finalproject\\strategyruleservice\\infrastructure\\services\\rabbitmq\\rabbitmqpublisher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\rabbitmq\\rabbitmqpublisher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|c:\\rtd-finalproject\\strategyruleservice\\infrastructure\\services\\grpc\\grpcserviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\grpc\\grpcserviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\features\\strategies\\rules\\sellrule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -17,10 +57,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\features\\strategies\\rules\\cancelrule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\features\\strategies\\rules\\cancelrule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\features\\strategies\\rules\\buyrule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\features\\strategies\\rules\\buyrule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\features\\strategies\\queries\\getstrategysteps\\getstrategystepsqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -39,14 +75,6 @@
       "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\features\\strategies\\handlers\\createstrategycommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\services\\nrulesservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\services\\nrulesservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\services\\istrategyeventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\services\\istrategyeventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\services\\flowchartlogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\services\\flowchartlogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -55,20 +83,12 @@
       "RelativeMoniker": "D:0:0:{543A1533-9154-417A-87FE-5BBB6B97A2E3}|Domain\\Domain.csproj|solutionrelative:domain\\events\\strategynotificationevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\services\\strategyprocessinghostedservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\services\\strategyprocessinghostedservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9C6D76E6-D78D-444E-98CC-A57F3B36F671}|Api\\Api.csproj|c:\\rtd-finalproject\\strategyruleservice\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9C6D76E6-D78D-444E-98CC-A57F3B36F671}|Api\\Api.csproj|solutionrelative:api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9C6D76E6-D78D-444E-98CC-A57F3B36F671}|Api\\Api.csproj|c:\\rtd-finalproject\\strategyruleservice\\api\\controllers\\strategycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9C6D76E6-D78D-444E-98CC-A57F3B36F671}|Api\\Api.csproj|solutionrelative:api\\controllers\\strategycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|c:\\rtd-finalproject\\strategyruleservice\\infrastructure\\services\\rabbitmq\\rabbitmqpublisher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\rabbitmq\\rabbitmqpublisher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\features\\strategies\\queries\\getstrategiesbyuserid\\getstrategiesbyuseridqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -85,10 +105,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\services\\inrulesservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\services\\inrulesservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\services\\istrategyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\services\\istrategyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\features\\strategies\\handlers\\stopstrategycommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -109,10 +125,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F8A2B3C4-D5E6-7890-ABCD-EF1234567890}|StrategyRuleService.Worker\\StrategyRuleService.Worker.csproj|c:\\rtd-finalproject\\strategyruleservice\\strategyruleservice.worker\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F8A2B3C4-D5E6-7890-ABCD-EF1234567890}|StrategyRuleService.Worker\\StrategyRuleService.Worker.csproj|solutionrelative:strategyruleservice.worker\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|c:\\rtd-finalproject\\strategyruleservice\\application\\applicationserviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA5B1840-4402-4CB2-B84B-02DCCF9CC34D}|Application\\Application.csproj|solutionrelative:application\\applicationserviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BD9720E7-71D7-40B9-9091-34274B7C30C6}|Persistance\\Persistance.csproj|c:\\rtd-finalproject\\strategyruleservice\\persistance\\persistanceserviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -147,14 +159,6 @@
       "RelativeMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\grpc\\protos\\account.proto||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|c:\\rtd-finalproject\\strategyruleservice\\infrastructure\\services\\grpc\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\grpc\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|c:\\rtd-finalproject\\strategyruleservice\\infrastructure\\services\\grpc\\grpcserviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\grpc\\grpcserviceregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|c:\\rtd-finalproject\\strategyruleservice\\infrastructure\\services\\grpc\\services\\iportfolioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C5EC3DF6-9D0F-4B73-8396-BA7971A12A8E}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\grpc\\services\\iportfolioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -170,7 +174,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -178,136 +182,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "GetStrategyStepsQueryHandler.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetStrategySteps\\GetStrategyStepsQueryHandler.cs",
-              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Queries\\GetStrategySteps\\GetStrategyStepsQueryHandler.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetStrategySteps\\GetStrategyStepsQueryHandler.cs",
-              "RelativeToolTip": "Application\\Features\\Strategies\\Queries\\GetStrategySteps\\GetStrategyStepsQueryHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAALAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Worker.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\Worker.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\Worker.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\Worker.cs",
+              "RelativeToolTip": "Application\\Services\\Worker.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-13T15:20:00.409Z",
+              "WhenOpened": "2026-01-16T12:30:40.802Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ApplicationServiceRegistration.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\ApplicationServiceRegistration.cs",
+              "RelativeDocumentMoniker": "Application\\ApplicationServiceRegistration.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\ApplicationServiceRegistration.cs",
+              "RelativeToolTip": "Application\\ApplicationServiceRegistration.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABQAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T20:45:30.857Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "BuyRule.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\BuyRule.cs",
-              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Rules\\BuyRule.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\BuyRule.cs",
-              "RelativeToolTip": "Application\\Features\\Strategies\\Rules\\BuyRule.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAqwL4AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-09T20:47:31.022Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CancelRule.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\CancelRule.cs",
-              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Rules\\CancelRule.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\CancelRule.cs",
-              "RelativeToolTip": "Application\\Features\\Strategies\\Rules\\CancelRule.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T20:47:56.399Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PortfolioCheckRule.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\PortfolioCheckRule.cs",
-              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Rules\\PortfolioCheckRule.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\PortfolioCheckRule.cs",
-              "RelativeToolTip": "Application\\Features\\Strategies\\Rules\\PortfolioCheckRule.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAF0AAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-25T12:27:51.623Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SellRule.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\SellRule.cs",
-              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Rules\\SellRule.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\SellRule.cs",
-              "RelativeToolTip": "Application\\Features\\Strategies\\Rules\\SellRule.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAAABsAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T23:33:43.449Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TimeCheckRule.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\TimeCheckRule.cs",
-              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Rules\\TimeCheckRule.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\TimeCheckRule.cs",
-              "RelativeToolTip": "Application\\Features\\Strategies\\Rules\\TimeCheckRule.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAmwBgAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-09T20:49:17.232Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "GetCompletedStrategiesQueryHandler.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetCompletedStrategies\\GetCompletedStrategiesQueryHandler.cs",
-              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Queries\\GetCompletedStrategies\\GetCompletedStrategiesQueryHandler.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetCompletedStrategies\\GetCompletedStrategiesQueryHandler.cs",
-              "RelativeToolTip": "Application\\Features\\Strategies\\Queries\\GetCompletedStrategies\\GetCompletedStrategiesQueryHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-13T14:43:37.494Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "CreateStrategyCommandHandler.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Handlers\\CreateStrategyCommandHandler.cs",
-              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Handlers\\CreateStrategyCommandHandler.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Handlers\\CreateStrategyCommandHandler.cs",
-              "RelativeToolTip": "Application\\Features\\Strategies\\Handlers\\CreateStrategyCommandHandler.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAuwBwAAAB4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-01T21:41:38.535Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
               "Title": "NRulesService.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\NRulesService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\NRulesService.cs",
               "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\NRulesService.cs",
               "RelativeToolTip": "Application\\Services\\NRulesService.cs",
-              "ViewState": "AgIAAD0CAAAAAAAAAAAAwNUBAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKgEAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T21:06:10.789Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "GetStrategyDetailQueryHandler.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetStrategyDetail\\GetStrategyDetailQueryHandler.cs",
-              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Queries\\GetStrategyDetail\\GetStrategyDetailQueryHandler.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetStrategyDetail\\GetStrategyDetailQueryHandler.cs",
-              "RelativeToolTip": "Application\\Features\\Strategies\\Queries\\GetStrategyDetail\\GetStrategyDetailQueryHandler.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAqwFwAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-24T16:49:32.628Z",
+              "WhenOpened": "2025-11-23T21:06:10.789Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 3,
+              "Title": "IStrategyRepository.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\IStrategyRepository.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\IStrategyRepository.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\IStrategyRepository.cs",
+              "RelativeToolTip": "Application\\Services\\IStrategyRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-25T22:04:28.963Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "IStrategyEventRepository.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\IStrategyEventRepository.cs",
               "RelativeDocumentMoniker": "Application\\Services\\IStrategyEventRepository.cs",
@@ -315,11 +242,174 @@
               "RelativeToolTip": "Application\\Services\\IStrategyEventRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-25T22:11:33.092Z"
+              "WhenOpened": "2025-11-25T22:11:33.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "StrategyProcessingHostedService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\StrategyProcessingHostedService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\StrategyProcessingHostedService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\StrategyProcessingHostedService.cs",
+              "RelativeToolTip": "Application\\Services\\StrategyProcessingHostedService.cs",
+              "ViewState": "AgIAAPkAAAAAAAAAAAAAAH4AAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-25T12:27:35.789Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AccountService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\Services\\AccountService.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Services\\Grpc\\Services\\AccountService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\Services\\AccountService.cs",
+              "RelativeToolTip": "Infrastructure\\Services\\Grpc\\Services\\AccountService.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAawBsAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-27T21:46:16.669Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "CreateStrategyCommandHandler.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Handlers\\CreateStrategyCommandHandler.cs",
+              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Handlers\\CreateStrategyCommandHandler.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Handlers\\CreateStrategyCommandHandler.cs",
+              "RelativeToolTip": "Application\\Features\\Strategies\\Handlers\\CreateStrategyCommandHandler.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAuwBwAAAB4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-01T21:41:38.535Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "TimeCheckRule.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\TimeCheckRule.cs",
+              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Rules\\TimeCheckRule.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\TimeCheckRule.cs",
+              "RelativeToolTip": "Application\\Features\\Strategies\\Rules\\TimeCheckRule.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-09T20:49:17.232Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "SellRule.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\SellRule.cs",
+              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Rules\\SellRule.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\SellRule.cs",
+              "RelativeToolTip": "Application\\Features\\Strategies\\Rules\\SellRule.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAABsAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T23:33:43.449Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BuyRule.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\BuyRule.cs",
+              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Rules\\BuyRule.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\BuyRule.cs",
+              "RelativeToolTip": "Application\\Features\\Strategies\\Rules\\BuyRule.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-09T20:47:31.022Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "GrpcServiceRegistration.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\GrpcServiceRegistration.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Services\\Grpc\\GrpcServiceRegistration.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\GrpcServiceRegistration.cs",
+              "RelativeToolTip": "Infrastructure\\Services\\Grpc\\GrpcServiceRegistration.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAH4AAABnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-27T21:57:32.775Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "GetCompletedStrategiesQueryHandler.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetCompletedStrategies\\GetCompletedStrategiesQueryHandler.cs",
+              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Queries\\GetCompletedStrategies\\GetCompletedStrategiesQueryHandler.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetCompletedStrategies\\GetCompletedStrategiesQueryHandler.cs",
+              "RelativeToolTip": "Application\\Features\\Strategies\\Queries\\GetCompletedStrategies\\GetCompletedStrategiesQueryHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-13T14:43:37.494Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "RabbitMQPublisher.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\RabbitMQ\\RabbitMQPublisher.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Services\\RabbitMQ\\RabbitMQPublisher.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\RabbitMQ\\RabbitMQPublisher.cs",
+              "RelativeToolTip": "Infrastructure\\Services\\RabbitMQ\\RabbitMQPublisher.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAQwBoAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-25T21:47:56.107Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 12,
+              "Title": "PortfolioCheckRule.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\PortfolioCheckRule.cs",
+              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Rules\\PortfolioCheckRule.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\PortfolioCheckRule.cs",
+              "RelativeToolTip": "Application\\Features\\Strategies\\Rules\\PortfolioCheckRule.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAF0AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-25T12:27:51.623Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "GetStrategyStepsQueryHandler.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetStrategySteps\\GetStrategyStepsQueryHandler.cs",
+              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Queries\\GetStrategySteps\\GetStrategyStepsQueryHandler.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetStrategySteps\\GetStrategyStepsQueryHandler.cs",
+              "RelativeToolTip": "Application\\Features\\Strategies\\Queries\\GetStrategySteps\\GetStrategyStepsQueryHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-13T15:20:00.409Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CancelRule.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\CancelRule.cs",
+              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Rules\\CancelRule.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Rules\\CancelRule.cs",
+              "RelativeToolTip": "Application\\Features\\Strategies\\Rules\\CancelRule.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T20:47:56.399Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "GetStrategyDetailQueryHandler.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetStrategyDetail\\GetStrategyDetailQueryHandler.cs",
+              "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Queries\\GetStrategyDetail\\GetStrategyDetailQueryHandler.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetStrategyDetail\\GetStrategyDetailQueryHandler.cs",
+              "RelativeToolTip": "Application\\Features\\Strategies\\Queries\\GetStrategyDetail\\GetStrategyDetailQueryHandler.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAqwFwAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-24T16:49:32.628Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
               "Title": "StrategyNotificationEvent.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Domain\\Events\\StrategyNotificationEvent.cs",
               "RelativeDocumentMoniker": "Domain\\Events\\StrategyNotificationEvent.cs",
@@ -331,7 +421,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 18,
               "Title": "FlowchartLogger.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\FlowchartLogger.cs",
               "RelativeDocumentMoniker": "Application\\Services\\FlowchartLogger.cs",
@@ -343,19 +433,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "StrategyProcessingHostedService.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\StrategyProcessingHostedService.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\StrategyProcessingHostedService.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\StrategyProcessingHostedService.cs",
-              "RelativeToolTip": "Application\\Services\\StrategyProcessingHostedService.cs",
-              "ViewState": "AgIAAPkAAAAAAAAAAAAAAH4AAABAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-25T12:27:35.789Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 20,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Api\\Program.cs",
               "RelativeDocumentMoniker": "Api\\Program.cs",
@@ -367,7 +445,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 21,
               "Title": "StrategyController.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Api\\Controllers\\StrategyController.cs",
               "RelativeDocumentMoniker": "Api\\Controllers\\StrategyController.cs",
@@ -379,7 +457,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 22,
               "Title": "GetStrategiesByUserIdQueryHandler.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetStrategiesByUserId\\GetStrategiesByUserIdQueryHandler.cs",
               "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Queries\\GetStrategiesByUserId\\GetStrategiesByUserIdQueryHandler.cs",
@@ -391,19 +469,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "RabbitMQPublisher.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\RabbitMQ\\RabbitMQPublisher.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Services\\RabbitMQ\\RabbitMQPublisher.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\RabbitMQ\\RabbitMQPublisher.cs",
-              "RelativeToolTip": "Infrastructure\\Services\\RabbitMQ\\RabbitMQPublisher.cs",
-              "ViewState": "AgIAADoAAAAAAAAAAAAAAD0AAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-25T21:47:56.107Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 23,
               "Title": "GetIncompleteStrategiesQueryHandler.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Queries\\GetIncompleteStrategies\\GetIncompleteStrategiesQueryHandler.cs",
               "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Queries\\GetIncompleteStrategies\\GetIncompleteStrategiesQueryHandler.cs",
@@ -415,7 +481,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 24,
               "Title": "StrategyNotificationMessage.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Dtos\\StrategyNotificationMessage.cs",
               "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Dtos\\StrategyNotificationMessage.cs",
@@ -427,19 +493,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "IStrategyRepository.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\IStrategyRepository.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\IStrategyRepository.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\IStrategyRepository.cs",
-              "RelativeToolTip": "Application\\Services\\IStrategyRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-25T22:04:28.963Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 26,
               "Title": "StopStrategyCommandHandler.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Handlers\\StopStrategyCommandHandler.cs",
               "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Handlers\\StopStrategyCommandHandler.cs",
@@ -451,7 +505,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 25,
               "Title": "INRulesService.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Services\\INRulesService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\INRulesService.cs",
@@ -463,7 +517,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 27,
               "Title": "ContextFactory.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Persistance\\DatabaseContext\\ContextFactory.cs",
               "RelativeDocumentMoniker": "Persistance\\DatabaseContext\\ContextFactory.cs",
@@ -475,7 +529,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 28,
               "Title": "Context.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Persistance\\DatabaseContext\\Context.cs",
               "RelativeDocumentMoniker": "Persistance\\DatabaseContext\\Context.cs",
@@ -487,7 +541,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 30,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\StrategyRuleService.Worker\\Program.cs",
               "RelativeDocumentMoniker": "StrategyRuleService.Worker\\Program.cs",
@@ -499,19 +553,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "ApplicationServiceRegistration.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\ApplicationServiceRegistration.cs",
-              "RelativeDocumentMoniker": "Application\\ApplicationServiceRegistration.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\ApplicationServiceRegistration.cs",
-              "RelativeToolTip": "Application\\ApplicationServiceRegistration.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAAABcAAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T20:45:30.857Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 29,
               "Title": "StockWorkflow.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Application\\Features\\Strategies\\Dtos\\StockWorkflow.cs",
               "RelativeDocumentMoniker": "Application\\Features\\Strategies\\Dtos\\StockWorkflow.cs",
@@ -523,7 +565,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 31,
               "Title": "PersistanceServiceRegistration.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Persistance\\PersistanceServiceRegistration.cs",
               "RelativeDocumentMoniker": "Persistance\\PersistanceServiceRegistration.cs",
@@ -535,7 +577,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 40,
               "Title": "20251123211420_init.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Persistance\\Migrations\\20251123211420_init.cs",
               "RelativeDocumentMoniker": "Persistance\\Migrations\\20251123211420_init.cs",
@@ -547,7 +589,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 35,
               "Title": "InfrastructureServiceRegistration.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\InfrastructureServiceRegistration.cs",
               "RelativeDocumentMoniker": "Infrastructure\\InfrastructureServiceRegistration.cs",
@@ -559,7 +601,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 34,
               "Title": "TradeManager.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\Services\\TradeManager.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Services\\Grpc\\Services\\TradeManager.cs",
@@ -571,7 +613,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 33,
               "Title": "PortfolioManager.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\Services\\PortfolioManager.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Services\\Grpc\\Services\\PortfolioManager.cs",
@@ -583,7 +625,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 32,
               "Title": "MarketDataManager.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\Services\\MarketDataManager.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Services\\Grpc\\Services\\MarketDataManager.cs",
@@ -595,7 +637,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 37,
               "Title": "portfolio.proto",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\Protos\\portfolio.proto",
               "RelativeDocumentMoniker": "Infrastructure\\Services\\Grpc\\Protos\\portfolio.proto",
@@ -607,7 +649,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 38,
               "Title": "account.proto",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\Protos\\account.proto",
               "RelativeDocumentMoniker": "Infrastructure\\Services\\Grpc\\Protos\\account.proto",
@@ -619,7 +661,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 36,
               "Title": "trade.proto",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\Protos\\trade.proto",
               "RelativeDocumentMoniker": "Infrastructure\\Services\\Grpc\\Protos\\trade.proto",
@@ -631,31 +673,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
-              "Title": "AccountService.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\Services\\AccountService.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Services\\Grpc\\Services\\AccountService.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\Services\\AccountService.cs",
-              "RelativeToolTip": "Infrastructure\\Services\\Grpc\\Services\\AccountService.cs",
-              "ViewState": "AgIAAIIAAAAAAAAAAAA1wA8AAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-27T21:46:16.669Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 37,
-              "Title": "GrpcServiceRegistration.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\GrpcServiceRegistration.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Services\\Grpc\\GrpcServiceRegistration.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\GrpcServiceRegistration.cs",
-              "RelativeToolTip": "Infrastructure\\Services\\Grpc\\GrpcServiceRegistration.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAAwBUAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-27T21:57:32.775Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 39,
               "Title": "IPortfolioService.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\StrategyRuleService\\Infrastructure\\Services\\Grpc\\Services\\IPortfolioService.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Services\\Grpc\\Services\\IPortfolioService.cs",

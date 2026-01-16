@@ -7,6 +7,40 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 namespace Infrastructure.Services.RabbitMQ;
+
+// Custom DateTime converter - ISO 8601 formatında (timezone offset ile) serialize et
+public class DateTimeJsonConverter : System.Text.Json.Serialization.JsonConverter<DateTime>
+{
+    public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        return reader.GetDateTime();
+    }
+
+    public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+    {
+        // ISO 8601 formatında (timezone offset ile) serialize et
+        writer.WriteStringValue(value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ"));
+    }
+}
+
+// Nullable DateTime converter
+public class NullableDateTimeJsonConverter : System.Text.Json.Serialization.JsonConverter<DateTime?>
+{
+    public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType == JsonTokenType.Null)
+            return null;
+        return reader.GetDateTime();
+    }
+
+    public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
+    {
+        if (value == null)
+            writer.WriteNullValue();
+        else
+            writer.WriteStringValue(value.Value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ"));
+    }
+}
 public class RabbitMQPublisher : IRabbitMQPublisher
 {
     private readonly IConfiguration _configuration;
@@ -47,6 +81,11 @@ public class RabbitMQPublisher : IRabbitMQPublisher
                 WriteIndented = false,
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             };
+            
+            // DateTime'ı ISO 8601 formatında (timezone offset ile) serialize etmek için converter ekle
+            jsonOptions.Converters.Add(new JsonStringEnumConverter());
+            jsonOptions.Converters.Add(new DateTimeJsonConverter());
+            jsonOptions.Converters.Add(new NullableDateTimeJsonConverter());
             if (message is StrategyNotificationEvent strategyEvent)
             {
                 if (strategyEvent.StrategyId == 0)

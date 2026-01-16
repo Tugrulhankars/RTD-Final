@@ -5,6 +5,9 @@ using Infrastructure.Services.Grpc.Services;
 using Infrastructure.Services.RabbitMQ;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using Grpc.Core;
 using NRules;
 using NRules.Fluent;
 using StrategyRuleService.Protos;
@@ -77,26 +80,57 @@ namespace Application.Services
         {
             _logger.LogInformation("Strateji işleniyor: {StrategyName}", strategyName);
             await UpdateContextAsync(session);
+            
+            // Strateji durdurulmuş mu kontrol et
+            var workflow = session.Query<StockWorkflow>().FirstOrDefault();
+            if (workflow != null && workflow.Cancelled)
+            {
+                _logger.LogInformation("Strateji durdurulmuş, işlenmeyecek: {StrategyName}, StrategyId={StrategyId}", 
+                    strategyName, workflow.StrategyId);
+                return;
+            }
+            
             int maxIterations = 10;
             int iteration = 0;
             int previousFiredCount = 0;
             while (iteration < maxIterations)
             {
                 _logger.LogDebug("Kurallar tetikleniyor: {StrategyName}, Iteration: {Iteration}", strategyName, iteration + 1);
-                var factsBefore = session.Query<StockWorkflow>().ToList();
-                var currentStepBefore = factsBefore.FirstOrDefault()?.Step ?? 0;
-                var firedCount = session.Fire();
-                _logger.LogDebug("Fired rules count: {Count}", firedCount);
-                if (firedCount == 0)
+                
+                // Her iterasyonda strateji durdurulmuş mu kontrol et
+                workflow = session.Query<StockWorkflow>().FirstOrDefault();
+                if (workflow != null && workflow.Cancelled)
                 {
-                    _logger.LogDebug("Hiç kural tetiklenmedi, döngü sonlandı");
+                    _logger.LogInformation("Strateji durdurulmuş, döngü sonlandırılıyor: {StrategyName}, StrategyId={StrategyId}", 
+                        strategyName, workflow.StrategyId);
                     break;
                 }
-                var facts = session.Query<StockWorkflow>().ToList();
-                foreach (var fact in facts)
+                
+                var factsBefore = session.Query<StockWorkflow>().ToList();
+                var currentStepBefore = factsBefore.FirstOrDefault()?.Step ?? 0;
+                
+                // Fact'leri session'a Update et ki rule'lar değişiklikleri görebilsin
+                foreach (var fact in factsBefore)
                 {
                     session.Update(fact);
-                    _logger.LogDebug("Fact güncellendi: {Symbol}, Step={Step}", fact.Symbol, fact.Step);
+                }
+                
+                var firedCount = session.Fire();
+                _logger.LogInformation("🔥 İlk Fire() - Tetiklenen kural sayısı: {Count}, Step öncesi: {StepBefore}", firedCount, currentStepBefore);
+                
+                // Rule'lar çalıştıktan sonra fact'leri tekrar al ve Update et
+                var factsAfter = session.Query<StockWorkflow>().ToList();
+                var currentStepAfter = factsAfter.FirstOrDefault()?.Step ?? 0;
+                
+                _logger.LogInformation("📊 Step durumu - Önce: {StepBefore}, Sonra: {StepAfter}", currentStepBefore, currentStepAfter);
+                
+                // Fact'leri Update et - Step değişikliğini session'a bildir
+                foreach (var fact in factsAfter)
+                {
+                    session.Update(fact);
+                    _logger.LogInformation("🔄 Fact Update edildi: {Symbol}, Step={Step} (önceki Step={StepBefore})", 
+                        fact.Symbol, fact.Step, currentStepBefore);
+                    
                     var currentRule = GetCurrentRuleName(fact.Step, currentStepBefore);
                     var decision = GetDecision(fact, currentStepBefore);
                     var reason = GetReason(fact, currentRule);
@@ -110,6 +144,74 @@ namespace Application.Services
                     }
                     await UpdateStrategyCurrentStepAsync(fact.StrategyId, fact.Step);
                 }
+                
+                // Eğer Step değiştiyse, yeni rule'ları hemen tetiklemek için tekrar Fire et
+                if (currentStepAfter != currentStepBefore)
+                {
+                    _logger.LogWarning("⚠️⚠️⚠️ Step değişti ({StepBefore} -> {StepAfter}), BuyRule tetiklenmeli! Tekrar Fire ediliyor...", 
+                        currentStepBefore, currentStepAfter);
+                    
+                    // AGGRESIF YAKLAŞIM: Fact'leri Retract edip tekrar Insert et - NRules'ın değişikliği kesin algılaması için
+                    foreach (var fact in factsAfter)
+                    {
+                        _logger.LogInformation("🔄🔄🔄 Fact Retract ediliyor ve tekrar Insert ediliyor (Step değişikliği): {Symbol}, Step={Step}, Cancelled={Cancelled}", 
+                            fact.Symbol, fact.Step, fact.Cancelled);
+                        
+                        // Fact'i Retract et
+                        session.Retract(fact);
+                        
+                        // Fact'i tekrar Insert et - Bu, NRules'ın fact değişikliğini kesin algılamasını sağlar
+                        session.Insert(fact);
+                        
+                        _logger.LogInformation("✅ Fact Retract/Insert tamamlandı: {Symbol}, Step={Step}", fact.Symbol, fact.Step);
+                    }
+                    
+                    // İkinci Fire - BuyRule burada tetiklenmeli
+                    var additionalFiredCount = session.Fire();
+                    _logger.LogWarning("🔥🔥🔥 İkinci Fire() (Retract/Insert sonrası) - Ek rule'lar tetiklendi: {Count} (Step {StepBefore} -> {StepAfter})", 
+                        additionalFiredCount, currentStepBefore, currentStepAfter);
+                    
+                    if (additionalFiredCount == 0 && currentStepAfter == 3)
+                    {
+                        _logger.LogError("❌❌❌ HATA: Step 3'e geçildi ama BuyRule tetiklenmedi! Fact durumu kontrol ediliyor...");
+                        var factForDebug = factsAfter.FirstOrDefault();
+                        if (factForDebug != null)
+                        {
+                            _logger.LogError("🔍 Fact detayları: Step={Step}, Cancelled={Cancelled}, Symbol={Symbol}, AccountId={AccountId}, OpeningPrice={OpeningPrice}, CurrentPrice={CurrentPrice}",
+                                factForDebug.Step, factForDebug.Cancelled, factForDebug.Symbol, factForDebug.AccountId, 
+                                factForDebug.OpeningPrice, factForDebug.CurrentPrice);
+                        }
+                        
+                        // Son çare: Fact'i tekrar Update et ve Fire et
+                        _logger.LogWarning("🔄🔄🔄 Son çare: Fact Update ediliyor ve tekrar Fire ediliyor...");
+                        foreach (var fact in factsAfter)
+                        {
+                            session.Update(fact);
+                        }
+                        var lastFiredCount = session.Fire();
+                        _logger.LogWarning("🔥🔥🔥 Son Fire() - Tetiklenen kural sayısı: {Count}", lastFiredCount);
+                        firedCount += lastFiredCount;
+                    }
+                    else
+                    {
+                        firedCount += additionalFiredCount;
+                    }
+                    
+                    // İkinci Fire sonrası da fact'leri güncelle
+                    var factsAfterSecondFire = session.Query<StockWorkflow>().ToList();
+                    foreach (var fact in factsAfterSecondFire)
+                    {
+                        session.Update(fact);
+                        await UpdateStrategyCurrentStepAsync(fact.StrategyId, fact.Step);
+                    }
+                }
+                
+                if (firedCount == 0)
+                {
+                    _logger.LogDebug("Hiç kural tetiklenmedi, döngü sonlandı");
+                    break;
+                }
+                
                 if (firedCount == previousFiredCount && iteration > 0)
                 {
                     _logger.LogDebug("Kural tetiklenme sayısı değişmedi, döngü sonlandı");
@@ -159,6 +261,8 @@ namespace Application.Services
                 var session = _sessionFactory.CreateSession();
                 if (context is StockWorkflow workflow)
                 {
+                    // Strateji eklendiğinde Cancelled durumunu sıfırla
+                    workflow.Cancelled = false;
                     workflow.Symbol = workflow.Symbol.ToUpper().Trim();
                     workflow.TradeService = async (request) =>
                     {
@@ -174,35 +278,141 @@ namespace Application.Services
                     workflow.PortfolioService = async (portfolioId, symbol) =>
                     {
                         if (portfolioId <= 0 || string.IsNullOrWhiteSpace(symbol))
+                        {
+                            _logger.LogWarning("⚠️ PortfolioId veya Symbol geçersiz - PortfolioId={PortfolioId}, Symbol={Symbol}", portfolioId, symbol);
                             return false;
+                        }
                         using var scope = _scopeFactory.CreateScope();
                         var portfolioService = scope.ServiceProvider.GetService<IPortfolioService>();
                         if (portfolioService == null)
                         {
-                            _logger.LogWarning("PortfolioService çözümlenemedi. Symbol={Symbol}", symbol);
+                            _logger.LogError("❌ PortfolioService çözümlenemedi. Symbol={Symbol}, PortfolioId={PortfolioId}", symbol, portfolioId);
                             return false;
                         }
-                        return await portfolioService.IsInPortfolio(portfolioId, symbol);
+                        try
+                        {
+                            _logger.LogInformation("📦 PortfolioService.IsInPortfolio çağrılıyor - PortfolioId={PortfolioId}, Symbol={Symbol}", portfolioId, symbol);
+                            var result = await portfolioService.IsInPortfolio(portfolioId, symbol);
+                            _logger.LogWarning("📦📦📦 PortfolioService.IsInPortfolio sonucu - PortfolioId={PortfolioId}, Symbol={Symbol}, Result={Result}", portfolioId, symbol, result);
+                            return result;
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "❌❌❌ PortfolioService.IsInPortfolio hatası - PortfolioId={PortfolioId}, Symbol={Symbol}, Error={Error}", portfolioId, symbol, ex.Message);
+                            return false;
+                        }
                     };
                     workflow.AccountService = async (accountId) =>
                     {
-                        if (accountId <= 0)
+                        int actualAccountId = accountId;
+                        
+                        // Eğer AccountId 0 veya geçersizse, UserId'den AccountId'yi al
+                        if (accountId <= 0 && workflow.UserId > 0)
+                        {
+                            _logger.LogWarning("⚠️ AccountId geçersiz ({AccountId}), UserId'den AccountId alınmaya çalışılıyor - UserId={UserId}", accountId, workflow.UserId);
+                            Console.WriteLine($"[NRulesService] ⚠️ AccountId geçersiz ({accountId}), UserId'den AccountId alınmaya çalışılıyor - UserId={workflow.UserId}");
+                            
+                            try
+                            {
+                                using var httpScope = _scopeFactory.CreateScope();
+                                var configuration = httpScope.ServiceProvider.GetService<IConfiguration>();
+                                
+                                if (configuration != null)
+                                {
+                                    var accountServiceBaseUrl = configuration["AccountService:BaseUrl"] ?? "https://localhost:5001";
+                                    using var httpClient = new HttpClient();
+                                    httpClient.BaseAddress = new Uri(accountServiceBaseUrl);
+                                    
+                                    var response = await httpClient.GetAsync($"/api/account/getAccountByUser/{workflow.UserId}");
+                                    if (response.IsSuccessStatusCode)
+                                    {
+                                        var jsonContent = await response.Content.ReadAsStringAsync();
+                                        _logger.LogInformation("📥 AccountService HTTP response alındı - UserId={UserId}, Response={Response}", workflow.UserId, jsonContent);
+                                        Console.WriteLine($"[NRulesService] 📥 AccountService HTTP response alındı - UserId={workflow.UserId}, Response={jsonContent}");
+                                        
+                                        // JSON'dan AccountId'yi parse et
+                                        using var jsonDoc = System.Text.Json.JsonDocument.Parse(jsonContent);
+                                        var root = jsonDoc.RootElement;
+                                        
+                                        if (root.TryGetProperty("accountId", out var accountIdElement) || 
+                                            root.TryGetProperty("AccountId", out accountIdElement) ||
+                                            root.TryGetProperty("id", out accountIdElement) ||
+                                            root.TryGetProperty("Id", out accountIdElement))
+                                        {
+                                            if (accountIdElement.ValueKind == System.Text.Json.JsonValueKind.Number && 
+                                                accountIdElement.TryGetInt32(out var parsedAccountId))
+                                            {
+                                                actualAccountId = parsedAccountId;
+                                                _logger.LogInformation("✅✅✅ UserId'den AccountId alındı - UserId={UserId}, AccountId={AccountId}", workflow.UserId, actualAccountId);
+                                                Console.WriteLine($"[NRulesService] ✅✅✅ UserId'den AccountId alındı - UserId={workflow.UserId}, AccountId={actualAccountId}");
+                                                
+                                                // Workflow'a da set et
+                                                workflow.AccountId = actualAccountId;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        var errorContent = await response.Content.ReadAsStringAsync();
+                                        _logger.LogWarning("⚠️ UserId'den AccountId alınamadı - HTTP {StatusCode}: {ReasonPhrase}, Response={Response}", 
+                                            response.StatusCode, response.ReasonPhrase, errorContent);
+                                        Console.WriteLine($"[NRulesService] ⚠️ UserId'den AccountId alınamadı - HTTP {response.StatusCode}: {response.ReasonPhrase}, Response={errorContent}");
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogError(ex, "❌ UserId'den AccountId alınırken hata - UserId={UserId}, Error={Error}", workflow.UserId, ex.Message);
+                                Console.WriteLine($"[NRulesService] ❌ UserId'den AccountId alınırken hata - UserId={workflow.UserId}, Error={ex.Message}");
+                            }
+                        }
+                        
+                        if (actualAccountId <= 0)
+                        {
+                            _logger.LogWarning("⚠️ AccountId hala geçersiz: {AccountId}, UserId={UserId}", actualAccountId, workflow.UserId);
+                            Console.WriteLine($"[NRulesService] ⚠️ AccountId hala geçersiz: {actualAccountId}, UserId={workflow.UserId}");
                             return 0;
+                        }
+                        
                         using var scope = _scopeFactory.CreateScope();
                         var accountService = scope.ServiceProvider.GetService<IAccountService>();
                         if (accountService == null)
                         {
-                            _logger.LogWarning("AccountService çözümlenemedi. AccountId={AccountId}", accountId);
+                            _logger.LogError("❌ AccountService çözümlenemedi. AccountId={AccountId}", actualAccountId);
+                            Console.WriteLine($"[NRulesService] ❌ AccountService çözümlenemedi. AccountId={actualAccountId}");
                             return 0;
                         }
                         try
                         {
-                            var balance = await accountService.GetAccountBalanceAsync(accountId);
+                            _logger.LogInformation("💰💰💰 AccountService.GetAccountBalanceAsync çağrılıyor - AccountId={AccountId}, UserId={UserId}, AccountService Type={AccountServiceType}", 
+                                actualAccountId, workflow.UserId, accountService.GetType().Name);
+                            Console.WriteLine($"[NRulesService] AccountService.GetAccountBalanceAsync çağrılıyor - AccountId={actualAccountId}, UserId={workflow.UserId}, AccountService Type={accountService.GetType().Name}");
+                            
+                            var balance = await accountService.GetAccountBalanceAsync(actualAccountId);
+                            
+                            _logger.LogWarning("💰💰💰 BAKİYE ALINDI - AccountId={AccountId}, Balance={Balance} TL, UserId={UserId}", actualAccountId, balance, workflow.UserId);
+                            Console.WriteLine($"[NRulesService] ✅✅✅ BAKİYE ALINDI - AccountId={actualAccountId}, Balance={balance} TL, UserId={workflow.UserId}");
+                            
+                            if (balance <= 0)
+                            {
+                                _logger.LogWarning("⚠️⚠️⚠️ Bakiye 0 veya negatif! AccountId={AccountId}, Balance={Balance}, UserId={UserId}", actualAccountId, balance, workflow.UserId);
+                                Console.WriteLine($"[NRulesService] ⚠️⚠️⚠️ Bakiye 0 veya negatif! AccountId={actualAccountId}, Balance={balance}, UserId={workflow.UserId}");
+                            }
+                            
                             return (decimal)balance;
+                        }
+                        catch (Grpc.Core.RpcException rpcEx)
+                        {
+                            _logger.LogError(rpcEx, "❌❌❌ AccountService gRPC hatası. AccountId={AccountId}, UserId={UserId}, StatusCode={StatusCode}, Detail={Detail}, Error={Error}", 
+                                actualAccountId, workflow.UserId, rpcEx.StatusCode, rpcEx.Status.Detail, rpcEx.Message);
+                            Console.WriteLine($"[NRulesService] ❌❌❌ AccountService gRPC hatası - AccountId={actualAccountId}, UserId={workflow.UserId}, StatusCode={rpcEx.StatusCode}, Detail={rpcEx.Status.Detail}, Error={rpcEx.Message}");
+                            return 0;
                         }
                         catch (Exception ex)
                         {
-                            _logger.LogWarning(ex, "AccountService'den bakiye alınamadı. AccountId={AccountId}", accountId);
+                            _logger.LogError(ex, "❌❌❌ AccountService'den bakiye alınamadı. AccountId={AccountId}, UserId={UserId}, Error={Error}, InnerException={InnerException}, StackTrace={StackTrace}", 
+                                actualAccountId, workflow.UserId, ex.Message, ex.InnerException?.Message, ex.StackTrace);
+                            Console.WriteLine($"[NRulesService] ❌❌❌ AccountService'den bakiye alınamadı - AccountId={actualAccountId}, UserId={workflow.UserId}, Error={ex.Message}, InnerException={ex.InnerException?.Message}, StackTrace={ex.StackTrace}");
                             return 0;
                         }
                     };
@@ -238,6 +448,35 @@ namespace Application.Services
                         MaxLossLimitPercentage = workflow.MaxTotalLoss
                     };
                     workflow.UserPreference = userPreference;
+                    
+                    // Strateji tamamlandığında (alım/satım emri gönderildiğinde) çağrılacak callback
+                    workflow.OnStrategyCompleted = async () =>
+                    {
+                        try
+                        {
+                            using var scope = _scopeFactory.CreateScope();
+                            var strategyRepository = scope.ServiceProvider.GetRequiredService<IStrategyRepository>();
+                            var strategy = await strategyRepository.GetAsync(
+                                s => s.Id == workflow.StrategyId,
+                                cancellationToken: default);
+                            
+                            if (strategy != null)
+                            {
+                                strategy.IsActive = false;
+                                strategy.Status = StrategyStatus.Completed;
+                                strategy.FinishTime = DateTime.Now;
+                                await strategyRepository.UpdateAsync(strategy);
+                                _logger.LogInformation("✅ Strateji tamamlandı olarak işaretlendi: StrategyId={StrategyId}, Symbol={Symbol}", 
+                                    strategy.Id, workflow.Symbol);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Strateji tamamlandı olarak işaretlenirken hata: StrategyId={StrategyId}", 
+                                workflow.StrategyId);
+                        }
+                    };
+                    
                     session.Insert(workflow);
                     session.Insert(userPreference);
                 }
@@ -251,7 +490,30 @@ namespace Application.Services
                 }
                 else
                 {
-                    _logger.LogWarning("Strateji eklenemedi, zaten mevcut: {StrategyName}", strategyName);
+                    // Strateji zaten mevcut, mevcut session'daki workflow'u güncelle
+                    _logger.LogWarning("Strateji zaten mevcut, güncelleniyor: {StrategyName}", strategyName);
+                    if (_strategySessions.TryGetValue(strategyName, out var existingSession))
+                    {
+                        var existingWorkflow = existingSession.Query<StockWorkflow>().FirstOrDefault();
+                        if (existingWorkflow != null && context is StockWorkflow newWorkflow)
+                        {
+                            // Mevcut workflow'u yeni değerlerle güncelle
+                            existingWorkflow.Cancelled = false; // Cancelled durumunu sıfırla
+                            existingWorkflow.Symbol = newWorkflow.Symbol;
+                            existingWorkflow.StrategyId = newWorkflow.StrategyId;
+                            existingWorkflow.UserId = newWorkflow.UserId;
+                            existingWorkflow.AccountId = newWorkflow.AccountId;
+                            existingWorkflow.PortfolioId = newWorkflow.PortfolioId;
+                            existingWorkflow.TransactionAmount = newWorkflow.TransactionAmount;
+                            existingWorkflow.Step = newWorkflow.Step;
+                            existingWorkflow.StopLossPercent = newWorkflow.StopLossPercent;
+                            existingWorkflow.ProfitTargetPercent = newWorkflow.ProfitTargetPercent;
+                            existingWorkflow.EntryThresholdPercent = newWorkflow.EntryThresholdPercent;
+                            existingWorkflow.MaxTotalLoss = newWorkflow.MaxTotalLoss;
+                            existingSession.Update(existingWorkflow);
+                            _logger.LogInformation("Mevcut strateji güncellendi: {StrategyName}, Cancelled=false", strategyName);
+                        }
+                    }
                 }
             }
             catch (Exception ex)

@@ -3,6 +3,26 @@
   "WorkspaceRootPath": "C:\\RTD-FinalProject\\AccountService\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|c:\\rtd-finalproject\\accountservice\\accountservice\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|solutionrelative:accountservice\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|c:\\rtd-finalproject\\accountservice\\accountservice\\services\\rabbitmqservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|solutionrelative:accountservice\\services\\rabbitmqservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|c:\\rtd-finalproject\\accountservice\\accountservice\\services\\usercreatedeventconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|solutionrelative:accountservice\\services\\usercreatedeventconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|c:\\rtd-finalproject\\accountservice\\accountservice\\services\\paymentsuccesseventconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|solutionrelative:accountservice\\services\\paymentsuccesseventconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|c:\\rtd-finalproject\\accountservice\\accountservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|solutionrelative:accountservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|c:\\rtd-finalproject\\accountservice\\accountservice\\configuration\\kafkaconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|solutionrelative:accountservice\\configuration\\kafkaconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -31,16 +51,8 @@
       "RelativeMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|solutionrelative:accountservice\\services\\irabbitmqpublisher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|c:\\rtd-finalproject\\accountservice\\accountservice\\services\\rabbitmqservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|solutionrelative:accountservice\\services\\rabbitmqservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|c:\\rtd-finalproject\\accountservice\\accountservice\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|solutionrelative:accountservice\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|c:\\rtd-finalproject\\accountservice\\accountservice\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|solutionrelative:accountservice\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B05292F2-35BA-42A5-8A3A-87B7E2F61AF4}|AccountService\\AccountService.csproj|c:\\rtd-finalproject\\accountservice\\accountservice\\protos\\portfolio.proto||{3B902123-F8A7-4915-9F01-361F908088D0}",
@@ -70,7 +82,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -79,31 +91,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Program.cs",
-              "RelativeDocumentMoniker": "AccountService\\Program.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Program.cs",
-              "RelativeToolTip": "AccountService\\Program.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAawBIAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T20:44:31.126Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "KafkaConsumerService.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Configuration\\KafkaConsumerService.cs",
-              "RelativeDocumentMoniker": "AccountService\\Configuration\\KafkaConsumerService.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Configuration\\KafkaConsumerService.cs",
-              "RelativeToolTip": "AccountService\\Configuration\\KafkaConsumerService.cs",
-              "ViewState": "AgIAAL0AAAAAAAAAAAAuwNcAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T20:27:05.123Z",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\appsettings.json",
+              "RelativeDocumentMoniker": "AccountService\\appsettings.json",
+              "ToolTip": "C:\\RTD-FinalProject\\AccountService\\AccountService\\appsettings.json",
+              "RelativeToolTip": "AccountService\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-16T09:22:46.087Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "PaymentSuccessEventConsumerService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\PaymentSuccessEventConsumerService.cs",
+              "RelativeDocumentMoniker": "AccountService\\Services\\PaymentSuccessEventConsumerService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\PaymentSuccessEventConsumerService.cs",
+              "RelativeToolTip": "AccountService\\Services\\PaymentSuccessEventConsumerService.cs",
+              "ViewState": "AgIAANwAAAAAAAAAAAAAAJ4AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-16T08:38:25.897Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "AccountStatus.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Models\\AccountStatus.cs",
               "RelativeDocumentMoniker": "AccountService\\Models\\AccountStatus.cs",
@@ -115,7 +128,71 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 0,
+              "Title": "AccountService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\AccountService.cs",
+              "RelativeDocumentMoniker": "AccountService\\Services\\AccountService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\AccountService.cs",
+              "RelativeToolTip": "AccountService\\Services\\AccountService.cs",
+              "ViewState": "AgIAAN8BAAAAAAAAAAAAwFYAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T20:35:21.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserCreatedEventConsumerService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\UserCreatedEventConsumerService.cs",
+              "RelativeDocumentMoniker": "AccountService\\Services\\UserCreatedEventConsumerService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\UserCreatedEventConsumerService.cs",
+              "RelativeToolTip": "AccountService\\Services\\UserCreatedEventConsumerService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-16T09:23:30.008Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RabbitMqService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\RabbitMqService.cs",
+              "RelativeDocumentMoniker": "AccountService\\Services\\RabbitMqService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\RabbitMqService.cs",
+              "RelativeToolTip": "AccountService\\Services\\RabbitMqService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T20:42:43.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Program.cs",
+              "RelativeDocumentMoniker": "AccountService\\Program.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Program.cs",
+              "RelativeToolTip": "AccountService\\Program.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAawBIAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T20:44:31.126Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "KafkaConsumerService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Configuration\\KafkaConsumerService.cs",
+              "RelativeDocumentMoniker": "AccountService\\Configuration\\KafkaConsumerService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Configuration\\KafkaConsumerService.cs",
+              "RelativeToolTip": "AccountService\\Configuration\\KafkaConsumerService.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAFUAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T20:27:05.123Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "AccountBalanceUpdatedEvent.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Events\\AccountBalanceUpdatedEvent.cs",
               "RelativeDocumentMoniker": "AccountService\\Events\\AccountBalanceUpdatedEvent.cs",
@@ -127,7 +204,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "KeySerializer.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Configuration\\KeySerializer.cs",
               "RelativeDocumentMoniker": "AccountService\\Configuration\\KeySerializer.cs",
@@ -139,7 +216,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
               "Title": "IRabbitMQPublisher.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\IRabbitMQPublisher.cs",
               "RelativeDocumentMoniker": "AccountService\\Services\\IRabbitMQPublisher.cs",
@@ -151,7 +228,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "IAccountService.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\IAccountService.cs",
               "RelativeDocumentMoniker": "AccountService\\Services\\IAccountService.cs",
@@ -163,7 +240,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 12,
               "Title": "AccountController.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "AccountService\\Controllers\\AccountController.cs",
@@ -175,7 +252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "account.proto",
               "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Protos\\account.proto",
               "RelativeDocumentMoniker": "AccountService\\Protos\\account.proto",
@@ -187,19 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AccountService.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\AccountService.cs",
-              "RelativeDocumentMoniker": "AccountService\\Services\\AccountService.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\AccountService.cs",
-              "RelativeToolTip": "AccountService\\Services\\AccountService.cs",
-              "ViewState": "AgIAAEkAAAAAAAAAAAAqwFYAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T20:35:21.602Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "portfolio.proto",
               "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Protos\\portfolio.proto",
               "RelativeDocumentMoniker": "AccountService\\Protos\\portfolio.proto",
@@ -211,19 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "RabbitMqService.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\RabbitMqService.cs",
-              "RelativeDocumentMoniker": "AccountService\\Services\\RabbitMqService.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Services\\RabbitMqService.cs",
-              "RelativeToolTip": "AccountService\\Services\\RabbitMqService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T20:42:43.547Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "UserCreatedEvent.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Events\\UserCreatedEvent.cs",
               "RelativeDocumentMoniker": "AccountService\\Events\\UserCreatedEvent.cs",
@@ -235,7 +288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "AccountService.csproj",
               "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\AccountService.csproj",
               "RelativeDocumentMoniker": "AccountService\\AccountService.csproj",
@@ -247,7 +300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "ValueSerializer.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\AccountService\\AccountService\\Configuration\\ValueSerializer.cs",
               "RelativeDocumentMoniker": "AccountService\\Configuration\\ValueSerializer.cs",

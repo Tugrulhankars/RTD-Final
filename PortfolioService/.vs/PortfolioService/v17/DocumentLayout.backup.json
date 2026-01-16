@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\RTD-FinalProject\\PortfolioService\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|c:\\rtd-finalproject\\portfolioservice\\portfolioservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|solutionrelative:portfolioservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|c:\\rtd-finalproject\\portfolioservice\\portfolioservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|solutionrelative:portfolioservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|c:\\rtd-finalproject\\portfolioservice\\portfolioservice\\services\\kafkaproducerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|solutionrelative:portfolioservice\\services\\kafkaproducerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|c:\\rtd-finalproject\\portfolioservice\\portfolioservice\\configuration\\keyserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|solutionrelative:portfolioservice\\configuration\\keyserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -21,14 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|c:\\rtd-finalproject\\portfolioservice\\portfolioservice\\services\\abstracts\\iportfolioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|solutionrelative:portfolioservice\\services\\abstracts\\iportfolioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|c:\\rtd-finalproject\\portfolioservice\\portfolioservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|solutionrelative:portfolioservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|c:\\rtd-finalproject\\portfolioservice\\portfolioservice\\services\\kafkaproducerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|solutionrelative:portfolioservice\\services\\kafkaproducerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2BFA6F60-C838-4BDA-BBB7-AA2F1073F26B}|PortfolioService\\PortfolioService.csproj|c:\\rtd-finalproject\\portfolioservice\\portfolioservice\\repositories\\context\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -94,7 +98,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -102,67 +106,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PortfolioController.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Controllers\\PortfolioController.cs",
-              "RelativeDocumentMoniker": "PortfolioService\\Controllers\\PortfolioController.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Controllers\\PortfolioController.cs",
-              "RelativeToolTip": "PortfolioService\\Controllers\\PortfolioController.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAYwFUAAABXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T19:42:21.048Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "IPortfolioService.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\Abstracts\\IPortfolioService.cs",
-              "RelativeDocumentMoniker": "PortfolioService\\Services\\Abstracts\\IPortfolioService.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\Abstracts\\IPortfolioService.cs",
-              "RelativeToolTip": "PortfolioService\\Services\\Abstracts\\IPortfolioService.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAMwBIAAABAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T19:42:46.761Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PortfolioService.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\PortfolioService.cs",
-              "RelativeDocumentMoniker": "PortfolioService\\Services\\PortfolioService.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\PortfolioService.cs",
-              "RelativeToolTip": "PortfolioService\\Services\\PortfolioService.cs",
-              "ViewState": "AgIAAGoAAAAAAAAAAAAqwHAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T19:43:06.418Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserCreatedEventConsumerService.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\UserCreatedEventConsumerService.cs",
-              "RelativeDocumentMoniker": "PortfolioService\\Services\\UserCreatedEventConsumerService.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\UserCreatedEventConsumerService.cs",
-              "RelativeToolTip": "PortfolioService\\Services\\UserCreatedEventConsumerService.cs",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAewGEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T22:09:09.315Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "GetAllPortfolioResponse.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Dtos\\Response\\GetAllPortfolioResponse.cs",
-              "RelativeDocumentMoniker": "PortfolioService\\Dtos\\Response\\GetAllPortfolioResponse.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Dtos\\Response\\GetAllPortfolioResponse.cs",
-              "RelativeToolTip": "PortfolioService\\Dtos\\Response\\GetAllPortfolioResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T20:14:28.533Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\appsettings.json",
+              "RelativeDocumentMoniker": "PortfolioService\\appsettings.json",
+              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\appsettings.json",
+              "RelativeToolTip": "PortfolioService\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-16T09:22:24.188Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "KeySerializer.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Configuration\\KeySerializer.cs",
               "RelativeDocumentMoniker": "PortfolioService\\Configuration\\KeySerializer.cs",
@@ -175,7 +132,93 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserCreatedEventConsumerService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\UserCreatedEventConsumerService.cs",
+              "RelativeDocumentMoniker": "PortfolioService\\Services\\UserCreatedEventConsumerService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\UserCreatedEventConsumerService.cs",
+              "RelativeToolTip": "PortfolioService\\Services\\UserCreatedEventConsumerService.cs",
+              "ViewState": "AgIAAFgAAAAAAAAAAAAewGEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T22:09:09.315Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PortfolioController.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Controllers\\PortfolioController.cs",
+              "RelativeDocumentMoniker": "PortfolioService\\Controllers\\PortfolioController.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Controllers\\PortfolioController.cs",
+              "RelativeToolTip": "PortfolioService\\Controllers\\PortfolioController.cs",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAYwFUAAABXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T19:42:21.048Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "GetAllPortfolioResponse.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Dtos\\Response\\GetAllPortfolioResponse.cs",
+              "RelativeDocumentMoniker": "PortfolioService\\Dtos\\Response\\GetAllPortfolioResponse.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Dtos\\Response\\GetAllPortfolioResponse.cs",
+              "RelativeToolTip": "PortfolioService\\Dtos\\Response\\GetAllPortfolioResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T20:14:28.533Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "KafkaProducerService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\KafkaProducerService.cs",
+              "RelativeDocumentMoniker": "PortfolioService\\Services\\KafkaProducerService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\KafkaProducerService.cs",
+              "RelativeToolTip": "PortfolioService\\Services\\KafkaProducerService.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAqwAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T20:01:31.221Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Program.cs",
+              "RelativeDocumentMoniker": "PortfolioService\\Program.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Program.cs",
+              "RelativeToolTip": "PortfolioService\\Program.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAAACkAAABaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-18T08:02:07.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "IPortfolioService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\Abstracts\\IPortfolioService.cs",
+              "RelativeDocumentMoniker": "PortfolioService\\Services\\Abstracts\\IPortfolioService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\Abstracts\\IPortfolioService.cs",
+              "RelativeToolTip": "PortfolioService\\Services\\Abstracts\\IPortfolioService.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAMwBIAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T19:42:46.761Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PortfolioService.cs",
+              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\PortfolioService.cs",
+              "RelativeDocumentMoniker": "PortfolioService\\Services\\PortfolioService.cs",
+              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\PortfolioService.cs",
+              "RelativeToolTip": "PortfolioService\\Services\\PortfolioService.cs",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAqwHAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T19:43:06.418Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "DatabaseContext.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Repositories\\Context\\DatabaseContext.cs",
               "RelativeDocumentMoniker": "PortfolioService\\Repositories\\Context\\DatabaseContext.cs",
@@ -187,19 +230,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Program.cs",
-              "RelativeDocumentMoniker": "PortfolioService\\Program.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Program.cs",
-              "RelativeToolTip": "PortfolioService\\Program.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAAAADsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-18T08:02:07.538Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Portfolio.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Models\\Portfolio.cs",
               "RelativeDocumentMoniker": "PortfolioService\\Models\\Portfolio.cs",
@@ -211,19 +242,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "KafkaProducerService.cs",
-              "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\KafkaProducerService.cs",
-              "RelativeDocumentMoniker": "PortfolioService\\Services\\KafkaProducerService.cs",
-              "ToolTip": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Services\\KafkaProducerService.cs",
-              "RelativeToolTip": "PortfolioService\\Services\\KafkaProducerService.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T20:01:31.221Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "StockCertificate.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Models\\StockCertificate.cs",
               "RelativeDocumentMoniker": "PortfolioService\\Models\\StockCertificate.cs",
@@ -235,7 +254,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "portfolio.proto",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Protos\\portfolio.proto",
               "RelativeDocumentMoniker": "PortfolioService\\Protos\\portfolio.proto",
@@ -247,7 +266,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "CreatePortfolioRequest.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Dtos\\Request\\CreatePortfolioRequest.cs",
               "RelativeDocumentMoniker": "PortfolioService\\Dtos\\Request\\CreatePortfolioRequest.cs",
@@ -259,7 +278,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "PortfolioService.csproj",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\PortfolioService.csproj",
               "RelativeDocumentMoniker": "PortfolioService\\PortfolioService.csproj",
@@ -271,7 +290,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "ValueSerializer.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Configuration\\ValueSerializer.cs",
               "RelativeDocumentMoniker": "PortfolioService\\Configuration\\ValueSerializer.cs",
@@ -283,7 +302,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "IAsyncRepository.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Repositories\\Abstracts\\IAsyncRepository.cs",
               "RelativeDocumentMoniker": "PortfolioService\\Repositories\\Abstracts\\IAsyncRepository.cs",
@@ -295,7 +314,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "UserCreatedEvent.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Events\\UserCreatedEvent.cs",
               "RelativeDocumentMoniker": "PortfolioService\\Events\\UserCreatedEvent.cs",
@@ -307,7 +326,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "PortfolioRepository.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Repositories\\PortfolioRepository.cs",
               "RelativeDocumentMoniker": "PortfolioService\\Repositories\\PortfolioRepository.cs",
@@ -319,7 +338,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "StockCertificateRepository.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Repositories\\StockCertificateRepository.cs",
               "RelativeDocumentMoniker": "PortfolioService\\Repositories\\StockCertificateRepository.cs",
@@ -331,7 +350,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "IStockCertificateRepository.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Repositories\\Abstracts\\IStockCertificateRepository.cs",
               "RelativeDocumentMoniker": "PortfolioService\\Repositories\\Abstracts\\IStockCertificateRepository.cs",
@@ -343,7 +362,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "IPortfolioRepository.cs",
               "DocumentMoniker": "C:\\RTD-FinalProject\\PortfolioService\\PortfolioService\\Repositories\\Abstracts\\IPortfolioRepository.cs",
               "RelativeDocumentMoniker": "PortfolioService\\Repositories\\Abstracts\\IPortfolioRepository.cs",

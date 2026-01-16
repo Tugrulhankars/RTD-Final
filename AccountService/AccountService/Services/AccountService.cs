@@ -290,6 +290,48 @@ public class AccountService : AccountServiceBase,IAccountService
         }
     }
 
+    public override async Task<GetAccountBalanceResponse> GetAccountBalance(GetAccountBalanceRequest request, ServerCallContext context)
+    {
+        try
+        {
+            _logger?.LogInformation("[AccountService] gRPC GetAccountBalance called with AccountId={AccountId}", request.AccountId);
+            
+            Account account = await _accountRepository.GetAsync(a => a.Id == request.AccountId);
+            
+            if (account == null)
+            {
+                _logger?.LogWarning("[AccountService] Account NOT FOUND for AccountId={AccountId}", request.AccountId);
+                return new GetAccountBalanceResponse
+                {
+                    Success = false,
+                    Message = $"Hesap bulunamadı: AccountId={request.AccountId}",
+                    Balance = 0
+                };
+            }
+            
+            _logger?.LogInformation("[AccountService] Account FOUND for AccountId={AccountId}: Balance={Balance}", 
+                request.AccountId, account.Balance);
+            
+            return new GetAccountBalanceResponse
+            {
+                Success = true,
+                Message = "Bakiye başarıyla alındı.",
+                Balance = (double)account.Balance
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger?.LogError(ex, "[AccountService] GetAccountBalance EXCEPTION for AccountId={AccountId}: {ErrorMessage}", 
+                request.AccountId, ex.Message);
+            return new GetAccountBalanceResponse
+            {
+                Success = false,
+                Message = $"Bakiye alınırken hata oluştu: {ex.Message}",
+                Balance = 0
+            };
+        }
+    }
+
     public async Task<UpdateBalanceResponse> UpdateBalance(Dtos.Request.UpdateBalanceRequest request)
     {
         try

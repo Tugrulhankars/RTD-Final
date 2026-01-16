@@ -110,20 +110,48 @@ public class PortfolioService : PortfolioServiceBase,IPortfolioService
         return portfolio != null;
     }
 
+    // PortfolioId ile hisse senedi kontrolü için yeni metod
+    public async Task<bool> HasStockInPortfolioByPortfolioIdAsync(int portfolioId, string symbol)
+    {
+        try
+        {
+            // StockCertificate repository'den PortfolioId ve Symbol ile kontrol et
+            // IsSell = false olan (satılmamış) hisse senetlerini kontrol et
+            var stockCertificate = await _stockCertificateRepository.GetAsync(
+                sc => sc.PortfolioId == portfolioId && 
+                      sc.Symbol.ToUpper().Trim() == symbol.ToUpper().Trim() && 
+                      !sc.IsSell);
+            return stockCertificate != null;
+        }
+        catch (Exception ex)
+        {
+            // Hata durumunda false döndür
+            Console.WriteLine($"[PortfolioService] HasStockInPortfolioByPortfolioIdAsync hatası: PortfolioId={portfolioId}, Symbol={symbol}, Error={ex.Message}");
+            return false;
+        }
+    }
+
     public override async Task<HasStockInPortfolioResponse> HasStockInPortfolio(HasStockInPortfolioRequest request, ServerCallContext context)
     {
         HasStockInPortfolioResponse response = new();
-        bool hasStockInPortfolio =await HasStockInPortfolioAsync(request.PortfolioId,request.Symbol);
-        if (hasStockInPortfolio)
+        try
         {
-            response.Result= true;
+            Console.WriteLine($"[PortfolioService] gRPC HasStockInPortfolio çağrıldı - PortfolioId={request.PortfolioId}, Symbol={request.Symbol}");
+            
+            // PortfolioId ile kontrol et
+            bool hasStockInPortfolio = await HasStockInPortfolioByPortfolioIdAsync(request.PortfolioId, request.Symbol);
+            
+            Console.WriteLine($"[PortfolioService] HasStockInPortfolio sonucu - PortfolioId={request.PortfolioId}, Symbol={request.Symbol}, Result={hasStockInPortfolio}");
+            
+            response.Result = hasStockInPortfolio;
+            return response;
         }
-        else
+        catch (Exception ex)
         {
+            Console.WriteLine($"[PortfolioService] HasStockInPortfolio EXCEPTION - PortfolioId={request.PortfolioId}, Symbol={request.Symbol}, Error={ex.Message}");
             response.Result = false;
+            return response;
         }
-        
-        return response;
     }
 
     public async Task<List<GetAllPortfolioResponse>> GetPortfoliosWithActiveStockCertificates(int userId)

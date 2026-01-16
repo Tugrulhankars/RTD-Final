@@ -21,7 +21,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ErrorHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.time.OffsetDateTime;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,12 +40,20 @@ public class RabbitMqConfig {
     @Bean
     public Jackson2JsonMessageConverter jsonMessageConverter(){
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
+        
+        // Custom OffsetDateTime deserializer - timezone offset olmayan formatları da parse edebilir
+        SimpleModule customModule = new SimpleModule();
+        customModule.addDeserializer(OffsetDateTime.class, new CustomOffsetDateTimeDeserializer());
+        
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+        objectMapper.registerModule(javaTimeModule);
+        objectMapper.registerModule(customModule);
+        
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         // Allow unknown properties to be ignored
-        objectMapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         // Allow empty strings to be null
-        objectMapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+        objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
         // Use getters/setters instead of fields
         objectMapper.setVisibility(com.fasterxml.jackson.annotation.PropertyAccessor.FIELD, com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE);
         objectMapper.setVisibility(com.fasterxml.jackson.annotation.PropertyAccessor.GETTER, com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY);

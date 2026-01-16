@@ -101,7 +101,8 @@ public class StrategyProcessingHostedService : BackgroundService
                         TransactionAmount = strategy.TransactionAmount,
                         AccountId = strategy.AccountId ?? 0,
                         PortfolioId = strategy.PortfolioId ?? 0,
-                        Step = strategy.CurrentStep ?? 0
+                        Step = strategy.CurrentStep ?? 0,
+                        Cancelled = false // Strateji yüklendiğinde Cancelled durumunu sıfırla
                     };
                     var strategyKey = $"Strategy_{strategy.Id}";
                     await nRulesService.AddStrategyAsync(strategyKey, strategyContext);

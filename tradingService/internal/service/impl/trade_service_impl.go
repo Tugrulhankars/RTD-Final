@@ -20,7 +20,7 @@ import (
 
 type GrpcTradeServer struct {
 	pb.UnimplementedTradeServiceServer
-	tradeService service.TradeService
+	TradeService service.TradeService
 }
 
 type TradeService struct {
@@ -742,7 +742,9 @@ func sellStockFromPortfolio(userID, accountID int, symbol string, lot, pricePerS
 	return nil
 }
 
-func (s *GrpcTradeServer) CreateTradeGrpc(ctx context.Context, req *pb.CreateTradeRequest) (*pb.CreateTradeResponse, error) {
+func (s *GrpcTradeServer) CreateTrade(ctx context.Context, req *pb.CreateTradeRequest) (*pb.CreateTradeResponse, error) {
+	fmt.Printf("STEP 1: gRPC CreateTrade çağrıldı - AccountId=%d, Symbol=%s, Quantity=%.2f, Price=%.2f, Type=%d\n",
+		req.AccountId, req.Symbol, req.Quantity, req.Price, req.Type)
 
 	tradeRequest := request.CreateTradeRequest{
 		AccountID: int(req.AccountId),
@@ -753,10 +755,17 @@ func (s *GrpcTradeServer) CreateTradeGrpc(ctx context.Context, req *pb.CreateTra
 		Total:     float64(req.Price) * float64(req.Quantity),
 	}
 
-	tradeResponse, err := s.tradeService.CreateTrade(ctx, tradeRequest)
+	fmt.Printf("STEP 2: TradeService.CreateTrade çağrılıyor - AccountID=%d, Symbol=%s, Quantity=%.2f, Price=%.2f\n",
+		tradeRequest.AccountID, tradeRequest.Symbol, tradeRequest.Quantity, tradeRequest.Price)
+
+	tradeResponse, err := s.TradeService.CreateTrade(ctx, tradeRequest)
 	if err != nil {
+		fmt.Printf("STEP 3 ERROR: TradeService.CreateTrade hatası: %v\n", err)
 		return nil, err
 	}
+
+	fmt.Printf("STEP 3 SUCCESS: TradeService.CreateTrade başarılı - TradeId=%d, Message=%s\n",
+		tradeResponse.TradeId, tradeResponse.Message)
 
 	return &pb.CreateTradeResponse{
 		Message: tradeResponse.Message,
@@ -804,11 +813,12 @@ func (t TradeService) CreateTrade(ctx context.Context, request request.CreateTra
 		AccountID:  request.AccountID,
 		Type:       request.Type,
 	}
-	err = t.tradeRepository.Create(ctx, *trade)
+	err = t.tradeRepository.Create(ctx, trade)
 	if err != nil {
 		return response.CreateTradeResponse{}, err
 	}
 
+	// GORM Create işleminden sonra ID otomatik olarak set edilir
 	res.TradeId = int32(trade.ID)
 	res.Message = "Trade created successfully"
 

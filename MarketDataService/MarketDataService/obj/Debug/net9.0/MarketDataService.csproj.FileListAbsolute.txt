@@ -68,3 +68,4 @@ C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\refint\
 C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.pdb
 C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\MarketDataService.genruntimeconfig.cache
 C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\ref\MarketDataService.dll
+C:\RTD-FinalProject\MarketDataService\MarketDataService\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

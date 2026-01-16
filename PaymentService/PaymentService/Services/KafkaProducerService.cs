@@ -14,7 +14,7 @@ public class KafkaProducerService : IKafkaProducerService
     public KafkaProducerService(IConfiguration configuration, ILogger<KafkaProducerService> logger)
     {
         _logger = logger;
-        var bootstrapServers = configuration["Kafka:BootstrapServers"] ?? "localhost:19092";
+        var bootstrapServers = configuration["Kafka:BootstrapServers"] ?? "localhost:9092";
         _producerConfig = new ProducerConfig
         {
             BootstrapServers = bootstrapServers,
